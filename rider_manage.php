@@ -14,21 +14,22 @@ $con = $database->getConnection();
 $server = new restServer();
 $data = $server->initRest();
 
-if (!isset($_SESSION['user_id'])) {
-    $server->getHttpStatusMessage(401, "NO_USER_FOUND");
-    exit;
-}
+
 
 if (!isset($data['command'])) {
     $server->getHttpStatusMessage(400, "NO_COMMAND_FOUND");
     exit;
 } else {
     $command = $data['command'];
-    $RiderService = new RiderService($conn);
-    $user_id = $_SESSION['user_id'];
-    $admin = $RiderService->est_admin($user_id);
+    $RiderService = new RiderService($con);
     switch ($command) {
         case 'add':
+            if (!isset($_SESSION['user_id'])) {
+                $server->getHttpStatusMessage(401, "NO_USER_FOUND");
+                exit;
+            }
+            
+            $admin = $RiderService->est_admin($_SESSION['user_id']);
             if (!isset($data['rider'])) {
                 $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
                 exit;
@@ -95,9 +96,9 @@ if (!isset($data['command'])) {
                         exit;
                     } else {
                        $result = $RiderService->add_range($data['riders']);
-                       $s = new SaisonService($conn);
+                       $s = new SaisonService($con);
                         $season_id = $s->getActive();
-                        $is = new InscriptionSaisonService($conn);
+                        $is = new InscriptionSaisonService($con);
                         foreach ($result as $id) {
                             $is->add($season_id, $id);
                         }
@@ -105,6 +106,11 @@ if (!isset($data['command'])) {
                 }
                 break;
         case 'update':
+            if (!isset($_SESSION['user_id'])) {
+                $server->getHttpStatusMessage(401, "NO_USER_FOUND");
+                exit;
+            }
+            $admin = $RiderService->est_admin($_SESSION['user_id']);
             if (!isset($data['rider'])) {
                 $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
                 exit;
@@ -113,6 +119,11 @@ if (!isset($data['command'])) {
             }
             break;
         case 'update_passowrd':
+            if (!isset($_SESSION['user_id'])) {
+                $server->getHttpStatusMessage(401, "NO_USER_FOUND");
+                exit;
+            }
+            $admin = $RiderService->est_admin($_SESSION['user_id']);
             if ((!isset($data['id']) || (!isset($data['password'])))) {
                 $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
                 exit;
@@ -121,6 +132,11 @@ if (!isset($data['command'])) {
             }
             break;
         case 'get':
+            $admin = $RiderService->est_admin($_SESSION['user_id']);
+            if (!isset($_SESSION['user_id'])) {
+                $server->getHttpStatusMessage(401, "NO_USER_FOUND");
+                exit;
+            }
             if (!isset($data['id'])) {
                 $server->getHttpStatusMessage(401, "NO_ID_FOUND");
                 exit;
@@ -134,6 +150,11 @@ if (!isset($data['command'])) {
             break;
 
         case 'delete':
+            if (!isset($_SESSION['user_id'])) {
+                $server->getHttpStatusMessage(401, "NO_USER_FOUND");
+                exit;
+            }
+            $admin = $RiderService->est_admin($_SESSION['user_id']);
             if (!isset($data['id'])) {
                 $server->getHttpStatusMessage(401, "NO_ID_FOUND");
                 exit;

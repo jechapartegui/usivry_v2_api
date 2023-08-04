@@ -28,8 +28,8 @@ class SaisonService {
         $sql = "SELECT * FROM saison WHERE active = 1";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
-        $res = $stmt->fetch();
-        return $res->id;
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $res['id'];
     }
 
     public function getAll() {

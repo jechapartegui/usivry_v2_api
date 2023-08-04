@@ -12,6 +12,8 @@ class Rider {
     public $essai_restant;
     public $est_prof;
     public $est_admin;
+    public $compte;
+    public $adresse;
 }
 
 class Cours {
