@@ -84,6 +84,14 @@ class RiderService {
         return $liste_id;
     }
 
+    public function getSeances($id){
+
+    }
+    
+    public function getInscriptions($id){
+        
+    }
+
     public function exist($rider) {
         $sql = "SELECT id FROM riders WHERE prenom = ? AND nom = ? AND date_naissance = ?";
         $stmt = $this->db->prepare($sql);

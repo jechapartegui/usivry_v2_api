@@ -41,6 +41,10 @@ if (is_string($riders)){
     $server->getHttpStatusMessage(401,$riders);
     exit;
 }
+foreach ($riders as $rd) {
+	$rd['seances'] = $rider->getSeances($rd['id']);
+	$rd['seances'] = $rider->getInscriptions($rd['id']);
+}
 
 
 if ($riders && count($riders) > 0) {
