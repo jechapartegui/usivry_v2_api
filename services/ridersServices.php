@@ -1,6 +1,7 @@
 <?php
 include_once("config/params.php");
 include_once("class/class.php");
+include_once("class/utils.php");
 class RiderService {
     private $db;
 
@@ -156,7 +157,8 @@ class RiderService {
     public function getRidersbyid($id)  {
         $stmt = $this->db->prepare('select * from riders where compte=?');
         $stmt->execute([$id]);
-        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Rider');
+        $users = $stmt->fetchAll();
         return $users;
     }
     
@@ -171,6 +173,7 @@ class RiderService {
                 if ($this->verifyCurrentPassword($users['id'], $password) == 1) {
                     $stmt = $this->db->prepare('select * from riders where compte=?');
                     $stmt->execute([$users['id']]);
+                    $stmt->setFetchMode(PDO::FETCH_CLASS, 'Rider');
                     $riders = $stmt->fetchAll();
                     return ($riders);
                 } else {

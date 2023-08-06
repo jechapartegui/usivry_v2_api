@@ -4,6 +4,7 @@ class Rider {
     public $id;
     public $nom;
     public $prenom;
+    public $nomcomplet;
     public $date_naissance;
     public $sexe;
     public $niveau;
@@ -14,6 +15,23 @@ class Rider {
     public $est_admin;
     public $compte;
     public $adresse;
+
+    public function __construct() {
+        $utils=new utils();
+        $this->nomcomplet = $utils->convert_texte($this->nom . " " . $this->prenom);
+        $this->prenom = $utils->convert_texte($this->prenom);
+        $this->nom = $utils->convert_texte($this->nom);
+        if($this->est_admin==0){
+            $this->est_admin = false;
+        } else {
+            $this->est_admin = true;
+        }
+        if($this->est_prof==0){
+            $this->est_prof = false;
+        } else {
+            $this->est_prof = true;
+        }
+    }
 }
 
 class Cours {

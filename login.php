@@ -42,13 +42,13 @@ if (is_string($riders)){
     exit;
 }
 foreach ($riders as $rd) {
-	$rd['seances'] = $rider->getSeances($rd['id']);
-	$rd['seances'] = $rider->getInscriptions($rd['id']);
+	$rd->seances = $rider->getSeances($rd->id);
+	$rd->inscriptions = $rider->getInscriptions($rd->id);
 }
 
 
 if ($riders && count($riders) > 0) {
-    $_SESSION['user_id'] = $riders[0]['compte'];
+    $_SESSION['user_id'] = $riders[0]->compte;
 } else {
     $server->getHttpStatusMessage(401,"NO_ACCOUNT");
     exit;
@@ -58,7 +58,7 @@ if ($sli==1){
 	// Since we use hashed version of the hashed password if password is changed the cookie based login will fail until refreshed.
 	$passHash = hash("sha256",$psw);
 	// Cookie is valid for 30 days...
-	setcookie('login_key',$riders[0]['compte'] . ";" . $passHash,time()+3600*24*30);	
+	setcookie('login_key',$riders[0]->compte . ";" . $passHash,time()+3600*24*30);	
 	if (isset($_SESSION['language'])){
 		setcookie('language',$_SESSION['language'],time()+3600*24*30);
 	}
