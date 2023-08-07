@@ -51,11 +51,12 @@ class SeanceService {
         $startDate = date('Y-m-d', strtotime("-5 days", strtotime($referenceDate)));
         $endDate = date('Y-m-d', strtotime("+30 days", strtotime($referenceDate)));
     
-        $sql = "SELECT * FROM seance WHERE date_seance >= ? AND date_seance <= ?";
+        $sql = "SELECT s.id as id, c.id as cours, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, c.age_requis as age_requis, c.niveau_requis as niveau_requis
+        FROM seance s inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE s.date_seance >= ? AND s.date_seance <= ? ";
         $stmt = $this->db->prepare($sql);
-    
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
         $stmt->execute([$startDate, $endDate]);
-        return $stmt->fetchAll();
+        $seances = $stmt->fetchAll();
     }
     
 }

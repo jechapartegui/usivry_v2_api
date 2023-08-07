@@ -51,11 +51,15 @@ class Cours {
 class Seance {
     public $id;
     public $cours;
+    public $libelle;
     public $date_seance;
     public $heure_debut;
     public $duree_cours;
     public $lieu_id;
+    public $lieu;
     public $statut;
+    public $age_requis;
+    public $niveau_requis;
     public $professeurs;
 }
 
@@ -76,4 +80,10 @@ class Saison{
     public $id;
     public $nom;
     public $active;
+}
+
+class KeyValuePair{
+    public $key;
+    public $value;
+
 }

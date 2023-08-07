@@ -42,8 +42,8 @@ if (is_string($riders)){
     exit;
 }
 foreach ($riders as $rd) {
-	$rd->seances = $rider->getSeances($rd->id);
 	$rd->inscriptions = $rider->getInscriptions($rd->id);
+	$rd->seances = $rider->getSeances($rd, true);
 }
 
 
