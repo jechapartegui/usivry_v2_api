@@ -102,18 +102,22 @@ class RiderService {
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
         $stmt->execute([$startDate, $endDate, $age,$inClause]);
-        $seances = $stmt->fetchAll();
+        $seances = $stmt->fetchAll();        
+        if($remove_inscription){
+            
+            $seances = array_filter($seances, function($seance) use ($rider) {
+                return !$this->filtreInscription($seance, $rider->inscription);
+            });
+        }
         foreach ($seances as $ss) {
             //get prof
-
-            //remove insc
-            if($remove_inscription){
-            
-            }
+                     
         }
-     
         return $seances;
     }    
+    function filtreInscription($seance, $inscription) {
+        return !in_array($seance->id, $inscription);
+    }
     public function getInscriptions($id){
         
     }
