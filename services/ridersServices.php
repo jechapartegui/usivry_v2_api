@@ -96,9 +96,9 @@ class RiderService {
         $endDate = date('Y-m-d', strtotime("+30 days", strtotime($referenceDate)));    
         $sql = "SELECT s.id as id, c.id as cours, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, c.age_requis as age_requis, c.niveau_requis as niveau_requis
         FROM seance s 
-        inner join cours c on s.cours = c.id 
+        inner join cours c on s.cours_id = c.id 
         inner join lieu l on s.lieu_id = l.id 
-        WHERE date_seance >= ? AND date_seance <= ? and c.age_requis <= ? and c.niveau_requis";
+        WHERE date_seance >= ? AND date_seance <= ? and c.age_requis <= ? and c.niveau_requis in (?)";
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
         $stmt->execute([$startDate, $endDate, $age,$inClause]);
@@ -161,7 +161,24 @@ class RiderService {
         $sql = "SELECT est_admin FROM riders WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
-        return $stmt->fetch();
+        $res = $stmt->fetch();
+        if($res==1){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function est_admin_compte($id) {
+        $sql = "SELECT * FROM riders WHERE compte = ? and est_admin =1";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$id]);
+        $stmt->fetchAll();
+        $rowCount = $stmt->rowCount();
+        if($rowCount > 0 ){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function getAll() {
@@ -187,6 +204,14 @@ class RiderService {
         $stmt = $this->db->prepare('select * from riders where compte=?');
         $stmt->execute([$id]);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Rider');
+        $users = $stmt->fetchAll();
+        return $users;
+    }
+
+    public function get_prof_light(){
+        $stmt = $this->db->prepare("select id as 'key', concat(prenom,' ', nom) as 'value' from riders where est_prof=1;");
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'KeyValuePair');
         $users = $stmt->fetchAll();
         return $users;
     }

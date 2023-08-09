@@ -29,7 +29,7 @@ if (!isset($data['command'])) {
                 exit;
             }
             
-            $admin = $RiderService->est_admin($_SESSION['user_id']);
+            $admin = $RiderService->est_admin_compte($_SESSION['user_id']);
             if (!isset($data['rider'])) {
                 $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
                 exit;
@@ -82,6 +82,11 @@ if (!isset($data['command'])) {
                 }
                 break;
             case 'add_range':
+                $admin = $RiderService->est_admin($_SESSION['user_id']);
+                if(!$admin){
+                    $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+                    exit;
+                } 
                 if (!isset($data['riders'])) {
                     $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
                     exit;
@@ -110,7 +115,6 @@ if (!isset($data['command'])) {
                 $server->getHttpStatusMessage(401, "NO_USER_FOUND");
                 exit;
             }
-            $admin = $RiderService->est_admin($_SESSION['user_id']);
             if (!isset($data['rider'])) {
                 $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
                 exit;
@@ -123,7 +127,7 @@ if (!isset($data['command'])) {
                 $server->getHttpStatusMessage(401, "NO_USER_FOUND");
                 exit;
             }
-            $admin = $RiderService->est_admin($_SESSION['user_id']);
+            
             if ((!isset($data['id']) || (!isset($data['password'])))) {
                 $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
                 exit;
@@ -148,13 +152,25 @@ if (!isset($data['command'])) {
                 $result = $RiderService->get($data['id']);
             }
             break;
-
+            case 'get_prof_light':
+                $admin = $RiderService->est_admin_compte($_SESSION['user_id']);
+                if (!isset($_SESSION['user_id'])) {
+                    $server->getHttpStatusMessage(401, "NO_USER_FOUND");
+                    exit;
+                }
+                if(!$admin){
+                    $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+                    exit;
+                } else {
+                $result = $RiderService->get_prof_light();
+                }
+                break;
         case 'delete':
             if (!isset($_SESSION['user_id'])) {
                 $server->getHttpStatusMessage(401, "NO_USER_FOUND");
                 exit;
             }
-            $admin = $RiderService->est_admin($_SESSION['user_id']);
+            $admin = $RiderService->est_admin_compte($_SESSION['user_id']);
             if (!isset($data['id'])) {
                 $server->getHttpStatusMessage(401, "NO_ID_FOUND");
                 exit;

@@ -57,6 +57,7 @@ class SeanceService {
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
         $stmt->execute([$startDate, $endDate]);
         $seances = $stmt->fetchAll();
+        return $seances;
     }
     
 }

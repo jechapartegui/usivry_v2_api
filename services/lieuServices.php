@@ -12,10 +12,10 @@
         return $this->db->lastInsertId();
     }
 
-    public function update($id, $lieu) {
+    public function update($lieu) {
         $sql = "UPDATE lieu SET nom=?, adresse=? WHERE id=?";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$lieu->nom, $lieu->adresse, $id]);
+        return $stmt->execute([$lieu->nom, $lieu->adresse, $lieu->id]);
     }
 
     public function delete($id) {
@@ -34,6 +34,16 @@
     public function getAll() {
         $sql = "SELECT * FROM lieu";
         $stmt = $this->db->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Lieu');
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    
+    public function getAllLight() {
+        $sql = "SELECT id as 'key', nom as 'value' FROM lieu";
+        $stmt = $this->db->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'KeyValuePair');
         $stmt->execute();
         return $stmt->fetchAll();
     }

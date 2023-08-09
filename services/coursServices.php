@@ -5,7 +5,23 @@
         $this->db = $db;
     }
 
-    public function add($cours) {
+    public function ToCours($data){
+        $cours = new Cours();
+        foreach ($data as $attribut => $valeur) {           
+                $cours->$attribut = $valeur;
+        }
+        
+
+        return $cours;
+    }
+
+
+    public function add($cours, $season_id) {
+        if(!isset($cours['saison_id']) || $cours['saison_id']==0){
+            $cours['saison_id'] = $season_id;
+        }
+        $cours = $this->ToCours($cours);
+        
         $sql = "INSERT INTO cours (nom, jour_semaine, heure, duree, prof_principal_id, lieu_id, age_requis, niveau_requis, saison_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$cours->nom, $cours->jour_semaine, $cours->heure, $cours->duree, $cours->prof_principal_id, $cours->lieu_id, $cours->age_requis, $cours->niveau_requis, $cours->saison_id]);
@@ -13,6 +29,7 @@
     }
 
     public function update($cours) {
+        $cours = $this->ToCours($cours);
         $sql = "UPDATE cours SET nom=?, jour_semaine=?, heure=?, duree=?, prof_principal_id=?, lieu_id=?, age_requis=?, niveau_requis=?, saison_id=? WHERE id=?";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$cours->nom, $cours->jour_semaine, $cours->heure, $cours->duree, $cours->prof_principal_id, $cours->lieu_id, $cours->age_requis, $cours->niveau_requis, $cours->saison_id, $cours->id]);
@@ -42,6 +59,7 @@
         $sql = "SELECT * FROM cours where saison_id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$saison_id]);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Cours');
         return $stmt->fetchAll();
     }
 }

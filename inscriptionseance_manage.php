@@ -24,7 +24,7 @@ if (!isset($data['command'])) {
     $command = $data['command'];
     $RiderService = new RiderService($conn);
     $user_id = $_SESSION['user_id'];
-    $admin = $RiderService->est_admin($user_id);
+    $admin = $RiderService->est_admin_compte($user_id);
     $inscriptionseanceServices = new InscriptionService($conn);
     switch ($command) {
         case 'add':

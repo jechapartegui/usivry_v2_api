@@ -3,9 +3,8 @@ include_once("config/session.php");
 include_once("config/restServer.php");
 include_once("config/database.php");
 require_once("class/class.php");
+require_once("services/lieuServices.php");
 require_once("services/ridersServices.php");
-require_once("services/saisonServices.php");
-require_once("services/coursServices.php");
 
 // Connect to database
 $database = new database();
@@ -13,25 +12,22 @@ $con = $database->getConnection();
 $server = new restServer();
 $data = $server->initRest();
 
-if (!isset($_SESSION['user_id'])) {
-    $server->getHttpStatusMessage(401, "NO_USER_FOUND");
-    exit;
-}
-
 if (!isset($data['command'])) {
     $server->getHttpStatusMessage(400, "NO_COMMAND_FOUND");
     exit;
 } else {
     $command = $data['command'];
-    $RiderService = new RiderService($con);
     $user_id = $_SESSION['user_id'];
-    $ss = new SaisonService($con);
-    $season_id = $ss->getActive();
+    $RiderService = new RiderService($con);
     $admin = $RiderService->est_admin_compte($user_id);
-    $coursServices = new CoursService($con);
+    $lieuservice = new LieuService($con);
     switch ($command) {
         case 'add':
-            if (!isset($data['cours'])) {
+            if (!isset($_SESSION['user_id'])) {
+                $server->getHttpStatusMessage(401, "NO_USER_FOUND");
+                exit;
+            }
+            if (!isset($data['lieu'])) {
                 $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
                 exit;
             } 
@@ -39,12 +35,16 @@ if (!isset($data['command'])) {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                 exit;
             } else {               
-                    $result = $coursServices->add($data['cours'],$season_id);
+                    $result = $lieuservice->add($data['lieu']);
               
             }
             break;       
         case 'update':
-            if (!isset($data['cours'])) {
+            if (!isset($_SESSION['user_id'])) {
+                $server->getHttpStatusMessage(401, "NO_USER_FOUND");
+                exit;
+            }
+            if (!isset($data['lieu'])) {
                 $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
                 exit;
             } 
@@ -52,7 +52,7 @@ if (!isset($data['command'])) {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                 exit;
             } else {
-                $result = $coursServices->update($data['cours']);
+                $result = $lieuservice->update($data['lieu']);
             }
             break;
        
@@ -65,21 +65,10 @@ if (!isset($data['command'])) {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                 exit;
             } else {
-                $result = $coursServices->get($data['id']);
+                $result = $lieuservice->get($data['id']);
             }
             break;
         case 'get_all':
-            if(!$admin){
-                $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-                exit;
-            } else {
-            $result = $coursServices->getAll();
-            }
-            break;
-        case 'get_all_byseason':
-            if (isset($data['season_id'])) {
-                $season_id = $data['season_id'];
-            }
             if (!isset($data['password'])) {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                 exit;
@@ -89,11 +78,29 @@ if (!isset($data['command'])) {
                     $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                     exit;
                 } else {
-                        $result = $coursServices->getAll_bySaison($season_id);
+                        $result = $lieuservice->getAll();
+                }
+            }
+            break;
+        case 'get_all_light':            
+            if (!isset($data['password'])) {
+                $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+                exit;
+            } else {
+                $p =  new params();
+                if($data['password'] != $p->getPsw()){
+                    $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+                    exit;
+                } else {
+                        $result = $lieuservice->getAllLight();
                 }
             }
             break;
         case 'delete':
+            if (!isset($_SESSION['user_id'])) {
+                $server->getHttpStatusMessage(401, "NO_USER_FOUND");
+                exit;
+            }
             if (!isset($data['id'])) {
                 $server->getHttpStatusMessage(401, "NO_ID_FOUND");
                 exit;
@@ -102,7 +109,7 @@ if (!isset($data['command'])) {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                 exit;
             } else {
-                $result = $coursServices->delete($data['id']);
+                $result = $lieuservice->delete($data['id']);
             }
             break;
     }
