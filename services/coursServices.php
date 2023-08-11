@@ -62,4 +62,11 @@
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Cours');
         return $stmt->fetchAll();
     }
+    public function getAllLight_bySaison($saison_id) {
+        $sql = "SELECT id as 'key', nom as 'value' FROM cours where saison_id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$saison_id]);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'KeyValuePair');
+        return $stmt->fetchAll();
+    }
 }

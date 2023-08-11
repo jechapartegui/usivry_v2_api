@@ -93,6 +93,23 @@ if (!isset($data['command'])) {
                 }
             }
             break;
+        case 'get_all_light_byseason':
+            if (isset($data['season_id'])) {
+                $season_id = $data['season_id'];
+            }
+            if (!isset($data['password'])) {
+                $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+                exit;
+            } else {
+                $p =  new params();
+                if($data['password'] != $p->getPsw()){
+                    $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+                    exit;
+                } else {
+                        $result = $coursServices->getAllLight_bySaison($season_id);
+                }
+            }
+            break;
         case 'delete':
             if (!isset($data['id'])) {
                 $server->getHttpStatusMessage(401, "NO_ID_FOUND");

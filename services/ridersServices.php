@@ -81,7 +81,6 @@ class RiderService {
             array_push($liste_id,$rider_id);
         }
         
-        var_dump($liste_id);
         return $liste_id;
     }
 
@@ -89,25 +88,45 @@ class RiderService {
         $p = new params();
         //Age + niveau requis  + date
         $referenceDate = date('Y-m-d'); // Date de référence (jour J)
-        $niveaux = $p->getNiveaux($rider->niveau);
-        $inClause = implode(',', array_fill(0, count($niveaux), '?'));
+       // $niveaux = $p->getNiveaux($rider->niveau);
+       // $inClause = implode(',', array_fill(0, count($niveaux), '?'));
         $age = $p->calculerAge($rider->date_naissance);
         $startDate = date('Y-m-d', strtotime("-5 days", strtotime($referenceDate)));
-        $endDate = date('Y-m-d', strtotime("+30 days", strtotime($referenceDate)));    
-        $sql = "SELECT s.id as id, c.id as cours, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, c.age_requis as age_requis, c.niveau_requis as niveau_requis
+        $endDate = date('Y-m-d', strtotime("+30 days", strtotime($referenceDate)));  
+
+      $niveaux = $p->getNiveaux($rider->niveau);
+$inClause = implode(',', array_fill(0, count($niveaux), '?'));
+
+// Entourer chaque niveau par des quotes
+$inClause = implode(',', array_map(function () {
+    return '?';
+}, $niveaux));
+
+$sql = "SELECT s.id as id, c.id as cours, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, c.age_requis as age_requis, c.niveau_requis as niveau_requis
         FROM seance s 
-        inner join cours c on s.cours_id = c.id 
-        inner join lieu l on s.lieu_id = l.id 
-        WHERE date_seance >= ? AND date_seance <= ? and c.age_requis <= ? and c.niveau_requis in (?)";
-        $stmt = $this->db->prepare($sql);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
-        $stmt->execute([$startDate, $endDate, $age,$inClause]);
-        $seances = $stmt->fetchAll();        
+        INNER JOIN cours c ON s.cours = c.id 
+        INNER JOIN lieu l ON s.lieu_id = l.id 
+        WHERE date_seance >= ? AND date_seance <= ? AND c.age_requis <= ? AND c.niveau_requis IN ($inClause)";
+
+$stmt = $this->db->prepare($sql);
+$stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
+$bindValueArray = [$startDate, $endDate, $age];
+$bindValueArray = array_merge($bindValueArray, $niveaux); // Ajoute les niveaux requis à la liste des valeurs à binder
+$stmt->execute($bindValueArray);
+        $seances = $stmt->fetchAll();   
+      //  var_dump($seances);     
+      //  $finalQuery = str_replace('?', "'%s'", $sql);
+      // $finalQuery = vsprintf($finalQuery, [$startDate, $endDate, $age, implode(',', $niveaux)]);
+    // echo "Requête SQL exécutée : " . $finalQuery;
         if($remove_inscription){
-            
+            if(isset($rider->inscriptions)){
+                $inscriptionIds = array_map(function ($inscription) {
+                    return $inscription->id;
+                }, $rider->inscriptions);
+                var_dump($inscriptionIds);
             $seances = array_filter($seances, function($seance) use ($rider) {
-                return !$this->filtreInscription($seance, $rider->inscription);
-            });
+                return !$this->filtreInscription($seance, $rider->inscriptions);
+            });}
         }
         foreach ($seances as $ss) {
             //get prof
@@ -119,7 +138,11 @@ class RiderService {
         return !in_array($seance->id, $inscription);
     }
     public function getInscriptions($id){
-        
+        $sql = "SELECT s.id as id, c.id as cours, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, i.statut as statut, s.age_requis as age_requis, s.niveau_requis as niveau_requis
+        FROM inscription i inner join seance s on i.seance_id = s.id inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE i.rider_id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$id]);
+        return $stmt->fetchAll();
     }
 
     public function exist($rider) {

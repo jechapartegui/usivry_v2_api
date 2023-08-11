@@ -4,7 +4,7 @@ include_once("config/restServer.php");
 include_once("config/database.php");
 require_once("class/class.php");
 require_once("services/ridersServices.php");
-require_once("services/inscriptionseanceServices.php");
+require_once("services/inscriptionServices.php");
 
 // Connect to database
 $database = new database();
@@ -22,10 +22,10 @@ if (!isset($data['command'])) {
     exit;
 } else {
     $command = $data['command'];
-    $RiderService = new RiderService($conn);
+    $RiderService = new RiderService($con);
     $user_id = $_SESSION['user_id'];
     $admin = $RiderService->est_admin_compte($user_id);
-    $inscriptionseanceServices = new InscriptionService($conn);
+    $inscriptionseanceServices = new InscriptionService($con);
     switch ($command) {
         case 'add':
             if (!isset($data['inscription'])) {

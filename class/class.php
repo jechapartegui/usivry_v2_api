@@ -15,6 +15,8 @@ class Rider {
     public $est_admin;
     public $compte;
     public $adresse;
+    public $seances;
+    public $inscriptions;
 
     public function __construct() {
         $utils=new utils();

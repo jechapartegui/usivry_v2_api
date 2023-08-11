@@ -5,6 +5,7 @@ include_once("config/database.php");
 require_once("class/class.php");
 require_once("services/ridersServices.php");
 require_once("services/seanceServices.php");
+require_once("services/saisonServices.php");
 
 // Connect to database
 $database = new database();
@@ -22,10 +23,10 @@ if (!isset($data['command'])) {
     exit;
 } else {
     $command = $data['command'];
-    $RiderService = new RiderService($conn);
+    $RiderService = new RiderService($con);
     $user_id = $_SESSION['user_id'];
     $admin = $RiderService->est_admin_compte($user_id);
-    $seanceServices = new SeanceService($conn);
+    $seanceServices = new SeanceService($con);
     switch ($command) {
         case 'add':
             if (!isset($data['seance'])) {
@@ -66,12 +67,24 @@ if (!isset($data['command'])) {
             }
             break;
         case 'get_all':
-            if(!$admin){
+            if (isset($data['season_id'])) {
+                $season_id = $data['season_id'];
+            } else {
+                $s = new SaisonService($con);
+                $season_id = $s->getActive();
+            }
+            if (!isset($data['password'])) {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                 exit;
             } else {
-            $result = $seanceServices->getAll();
-            }
+                $p =  new params();
+                if($data['password'] != $p->getPsw()){
+                    $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+                    exit;
+                } else {
+                    $result = $seanceServices->getAll($season_id);
+                }
+            }           
             break;
         case 'get_seanceprevue':           
             if (!isset($data['password'])) {
