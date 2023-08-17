@@ -102,7 +102,7 @@ $inClause = implode(',', array_map(function () {
     return '?';
 }, $niveaux));
 
-$sql = "SELECT s.id as id, c.id as cours, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, c.age_requis as age_requis, c.niveau_requis as niveau_requis
+$sql = "SELECT s.id as id, c.id as cours, c.nom as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, c.age_requis as age_requis, c.niveau_requis as niveau_requis
         FROM seance s 
         INNER JOIN cours c ON s.cours = c.id 
         INNER JOIN lieu l ON s.lieu_id = l.id 
@@ -113,34 +113,26 @@ $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
 $bindValueArray = [$startDate, $endDate, $age];
 $bindValueArray = array_merge($bindValueArray, $niveaux); // Ajoute les niveaux requis à la liste des valeurs à binder
 $stmt->execute($bindValueArray);
-        $seances = $stmt->fetchAll();   
-      //  var_dump($seances);     
-      //  $finalQuery = str_replace('?', "'%s'", $sql);
-      // $finalQuery = vsprintf($finalQuery, [$startDate, $endDate, $age, implode(',', $niveaux)]);
-    // echo "Requête SQL exécutée : " . $finalQuery;
-        if($remove_inscription){
-            if(isset($rider->inscriptions)){
-                $inscriptionIds = array_map(function ($inscription) {
-                    return $inscription->id;
-                }, $rider->inscriptions);
-                var_dump($inscriptionIds);
-            $seances = array_filter($seances, function($seance) use ($rider) {
-                return !$this->filtreInscription($seance, $rider->inscriptions);
-            });}
+$seances = $stmt->fetchAll();   
+$inscriptions =   $rider->inscriptions; 
+$seances = array_filter($seances, function($seanceA) use ($inscriptions) {
+    foreach ($inscriptions as $seanceB) {
+        if ($seanceA->id === $seanceB->id) {
+            return false; // Exclure l'élément de la liste A
         }
-        foreach ($seances as $ss) {
-            //get prof
-                     
-        }
+    }
+    return true; // Conserver l'élément dans la liste A
+});        
         return $seances;
     }    
     function filtreInscription($seance, $inscription) {
         return !in_array($seance->id, $inscription);
     }
     public function getInscriptions($id){
-        $sql = "SELECT s.id as id, c.id as cours, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, i.statut as statut, s.age_requis as age_requis, s.niveau_requis as niveau_requis
+        $sql = "SELECT s.id as id, c.id as cours, c.nom as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, i.statut as statut, s.age_requis as age_requis, s.niveau_requis as niveau_requis
         FROM inscription i inner join seance s on i.seance_id = s.id inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE i.rider_id = ?";
         $stmt = $this->db->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
         $stmt->execute([$id]);
         return $stmt->fetchAll();
     }
