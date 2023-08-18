@@ -136,7 +136,6 @@ if (!isset($data['command'])) {
             }
             break;
         case 'get':
-            $admin = $RiderService->est_admin($_SESSION['user_id']);
             if (!isset($_SESSION['user_id'])) {
                 $server->getHttpStatusMessage(401, "NO_USER_FOUND");
                 exit;
@@ -145,11 +144,13 @@ if (!isset($data['command'])) {
                 $server->getHttpStatusMessage(401, "NO_ID_FOUND");
                 exit;
             }  
-            if(!$admin){
-                $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-                exit;
-            } else {
-                $result = $RiderService->get($data['id']);
+            $result = $RiderService->get($data['id']);
+            foreach ($result as $rd) {
+                $rd->inscriptions = $RiderService->getInscriptions($rd->id);
+                $rd->seances = $RiderService->getSeances($rd, true);
+                if($rd->est_prof){
+                    $rd->seances_prof = $RiderService->getSeancesProf($rd->id);
+                }
             }
             break;
             case 'get_prof_light':

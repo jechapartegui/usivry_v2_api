@@ -39,7 +39,16 @@ if (!isset($data['command'])) {
                     $result = $inscriptionseanceServices->add($data['inscription']);
               
             }
-            break;           
+            break;         
+        case 'update':
+            if (!isset($data['inscription'])) {
+                $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
+                exit;
+            } else {               
+                    $result = $inscriptionseanceServices->update($data['inscription']);
+                
+            }
+            break;            
         case 'get':
             if (!isset($data['id'])) {
                 $server->getHttpStatusMessage(401, "NO_ID_FOUND");

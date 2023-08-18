@@ -44,6 +44,9 @@ if (is_string($riders)){
 foreach ($riders as $rd) {
 	$rd->inscriptions = $rider->getInscriptions($rd->id);
 	$rd->seances = $rider->getSeances($rd, true);
+	if($rd->est_prof){
+		$rd->seances_prof = $rider->getSeancesProf($rd->id);
+	}
 }
 
 

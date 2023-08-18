@@ -16,6 +16,7 @@ class Rider {
     public $compte;
     public $adresse;
     public $seances;
+    public $seances_prof;
     public $inscriptions;
 
     public function __construct() {
@@ -52,6 +53,7 @@ class Cours {
 
 class Seance {
     public $id;
+    public $seance_id;
     public $cours;
     public $libelle;
     public $date_seance;
@@ -63,6 +65,10 @@ class Seance {
     public $age_requis;
     public $niveau_requis;
     public $professeurs;
+
+    public function __construct() {
+        $this->professeurs = array();
+    }
 }
 
 class Lieu{
@@ -76,6 +82,8 @@ class Inscription {
     public $rider_id;
     public $seance_id;
     public $date_inscription;
+    public $statut;
+    public $professeurs;
 }
 
 class Saison{
