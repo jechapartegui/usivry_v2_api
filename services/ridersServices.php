@@ -76,6 +76,30 @@ class RiderService
         return $id;
     }
 
+    public function search($search, $season_id, $all){
+        if($all==true){
+            $sql = "SELECT r.*, c.login as email FROM riders r inner join compte c on c.id = r.compte WHERE `nom` LIKE '%". $search ."%' or prenom like '%". $search ."%' order by r.nom asc";
+        } else {
+            $sql = "SELECT r.*, c.login as email FROM riders r inner join compte c on c.id = r.compte inner join inscription_saison i on i.rider_id = r.id WHERE (r.`nom` LIKE '%". $search ."%' or prenom like '%". $search ."%') and i.saison_id = ". $season_id . " order by r.nom asc";
+        }
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Rider');
+        return $stmt->fetchAll();
+    }
+    public function get_all($season_id, $all){
+        if($all==true){
+            $sql = "SELECT r.*, c.login as email FROM riders r inner join compte c on c.id = r.compte order by r.nom asc";
+        } else {
+            $sql = "SELECT r.*, c.login as email FROM riders r inner join compte c on c.id = r.compte inner join inscription_saison i on i.rider_id = r.id WHERE  i.saison_id = ". $season_id ." order by r.nom asc";
+        }
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Rider');
+        return $stmt->fetchAll();
+    }
+
+
     public function add_range($riders)
     {
         $liste_id = array();
@@ -212,7 +236,7 @@ class RiderService
 
     public function get($id)
     {
-        $sql = "SELECT * FROM riders WHERE compte = ?";
+        $sql = "SELECT r.*, c.login as email FROM riders r inner join compte c on c.id = r.compte WHERE compte = ? order by r.nom asc";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Rider');
@@ -247,7 +271,7 @@ class RiderService
 
     public function getAll()
     {
-        $sql = "SELECT * FROM riders";
+        $sql = "SELECT r.*, c.login as email FROM riders r inner join compte c on c.id = r.compte";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
@@ -269,7 +293,7 @@ class RiderService
 
     public function getRidersbyid($id)
     {
-        $stmt = $this->db->prepare('select * from riders where compte=?');
+        $stmt = $this->db->prepare('SELECT r.*, c.login as email FROM riders r inner join compte c on c.id = r.compte WHERE compte=? order by r.nom asc');
         $stmt->execute([$id]);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Rider');
         $users = $stmt->fetchAll();
