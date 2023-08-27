@@ -16,6 +16,9 @@ class Rider {
     public $compte;
     public $adresse;
     public $seances;
+    public $telephone;
+    public $personne_prevenir;
+    public $telephone_personne_prevenir;
     public $seances_prof;
     public $inscriptions;
 
@@ -24,6 +27,11 @@ class Rider {
         $this->nomcomplet = $utils->convert_texte($this->nom . " " . $this->prenom);
         $this->prenom = $utils->convert_texte($this->prenom);
         $this->nom = $utils->convert_texte($this->nom);
+        if($this->sexe==0){
+            $this->sexe = false;
+        } else {
+            $this->sexe = true;
+        }
         if($this->est_admin==0){
             $this->est_admin = false;
         } else {

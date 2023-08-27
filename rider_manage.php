@@ -120,17 +120,47 @@ if (!isset($data['command'])) {
                 $result = $RiderService->update($data['rider']);
             }
             break;
-        case 'update_passowrd':
+        case 'update_mail':
+                if (!isset($_SESSION['user_id'])) {
+                    $server->getHttpStatusMessage(401, "NO_USER_FOUND");
+                    exit;
+                }
+                if (!isset($data['compte'])) {
+                    $server->getHttpStatusMessage(401, "NO_ACCOUNT_FOUND");
+                    exit;
+                } else  if (!isset($data['password'])) {
+                    $server->getHttpStatusMessage(401, "NO_PASSWORD_FOUND");
+                    exit;
+                } else if (!isset($data['mail'])) {
+                    $server->getHttpStatusMessage(401, "NO_MAIL_FOUND");
+                    exit;
+                } else{
+                    $previousmail = $RiderService->get_login($data['compte']);
+                    $riders = $RiderService->getUserByLogin($previousmail,$data['password']);
+                    if (is_string($riders)){
+                        $server->getHttpStatusMessage(401,$riders);
+                        exit;
+                    } else {
+                        $result = $RiderService->update_mail($data['compte'],$data['mail']);
+                    }
+                }
+                break;    
+        case 'update_password':
             if (!isset($_SESSION['user_id'])) {
                 $server->getHttpStatusMessage(401, "NO_USER_FOUND");
                 exit;
             }
-
-            if ((!isset($data['id']) || (!isset($data['password'])))) {
+            if ((!isset($data['email']) || (!isset($data['mdp_actuel'])) || (!isset($data['new_mdp'])))) {
                 $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
                 exit;
             } else {
-                $result = $RiderService->update_psw($data['id'], $data['password']);
+                $riders = $RiderService->getUserByLogin($data['email'],$data['mdp_actuel']);
+                if (is_string($riders)){
+                    $server->getHttpStatusMessage(401,$riders);
+                    exit;
+                } else {
+                    $result = $RiderService->update_psw($data['compte'],$data['new_mdp']);
+                }
             }
             break;
         case 'get':

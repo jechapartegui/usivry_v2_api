@@ -66,13 +66,13 @@ class RiderService
 
     public function add_withpsw($rider)
     {
-
+        $compte = $this->checkAndInsertAccount($rider->email, $rider->mot_de_passe);
         //sans update du mot de passe
-        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau, email, essai_restant, est_prof, est_admin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau, compte, essai_restant, est_prof, est_admin, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$rider->nom, $rider->prenom, $rider->dateNaissance, $rider->sexe, $rider->niveau,  $rider->email, $rider->essaiRestant, $rider->estProf, $rider->estAdmin]);
+        $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau,  $compte, $rider->essai_restant, $rider->est_prof, $rider->est_admin, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
         $id = $this->db->lastInsertId();
-        $this->update_psw($id, $rider->motDePasse);
+        $this->update_psw($id, $rider->mot_de_passe);
         return $id;
     }
 
@@ -211,12 +211,35 @@ class RiderService
         $stmt->execute([$rider->prenom, $rider->nom, $rider->date_naissance]);
         $rowCount = $stmt->rowCount();
         if ($rowCount > 0) {
-            $rider = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Rider');    
             return $rider['id'];
         } else {
             return 0;
         }
     }
+
+
+    public function get_login($id){
+        $sql = "SELECT login FROM compte WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$id]);
+        return $stmt->fetch();
+    }
+
+    public function update_mail($_id, $mail)
+    {
+      
+        $stmt = $this->db->prepare('UPDATE compte set 
+            login = ?
+            where id = ?
+        ');
+        $stmt->execute([
+            $mail,
+            $_id
+        ]);
+        return true;
+    }
+
     public function update_psw($_id, $_psw)
     {
         $classparam = new params();
@@ -279,9 +302,10 @@ class RiderService
 
     public function update($rider)
     {
-        $sql = "UPDATE riders SET nom=?, prenom=?, date_naissance=?, sexe=?, niveau=?, email=?, essai_restant=?, est_prof=?, est_admin=? WHERE id=?";
+        $rider = $this->ToRider($rider);
+        $sql = "UPDATE riders SET nom=?, prenom=?, date_naissance=?, sexe=?, niveau=?, adresse=?, essai_restant=?, est_prof=?, est_admin=?, telephone=?, personne_prevenir=?, telephone_personne_prevenir=? WHERE id=?";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$rider->nom, $rider->prenom, $rider->dateNaissance, $rider->sexe, $rider->niveau, $rider->mot_de_passe, $rider->email, $rider->essaiRestant, $rider->estProf, $rider->estAdmin, $rider->id]);
+        return $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau, $rider->adresse, $rider->essai_restant, $rider->est_prof, $rider->est_admin, $rider->personne_prevenir, $rider->personne_prevenir, $rider->telephone_personne_prevenir, $rider->id]);
     }
 
     public function delete($id)
@@ -318,7 +342,7 @@ class RiderService
             $users = $stmt->fetch();
             if ($users) {
                 if ($this->verifyCurrentPassword($users['id'], $password) == 1) {
-                    $stmt = $this->db->prepare('select * from riders where compte=?');
+                    $stmt = $this->db->prepare('SELECT r.*, c.login as email FROM riders r inner join compte c on c.id = r.compte WHERE compte=? order by r.nom asc');
                     $stmt->execute([$users['id']]);
                     $stmt->setFetchMode(PDO::FETCH_CLASS, 'Rider');
                     $riders = $stmt->fetchAll();
