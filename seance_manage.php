@@ -13,19 +13,21 @@ $con = $database->getConnection();
 $server = new restServer();
 $data = $server->initRest();
 
-if (!isset($_SESSION['user_id'])) {
-    $server->getHttpStatusMessage(401, "NO_USER_FOUND");
-    exit;
-}
-
 if (!isset($data['command'])) {
-    $server->getHttpStatusMessage(400, "NO_COMMAND_FOUND");
+    $server->getHttpStatusMessage(401, "NO_COMMAND_FOUND");
     exit;
 } else {
     $command = $data['command'];
+}
+if (!isset($_SESSION['user_id']) && $command !=  "get_seance_plagedate") {
+    $server->getHttpStatusMessage(401, "NO_USER_FOUND");
+    exit;
+} else {
     $RiderService = new RiderService($con);
-    $user_id = $_SESSION['user_id'];
-    $admin = $RiderService->est_admin_compte($user_id);
+    if ($command != "get_seance_plagedate") {
+        $user_id = $_SESSION['user_id'];
+        $admin = $RiderService->est_admin_compte($user_id);
+    }
     $seanceServices = new SeanceService($con);
     switch ($command) {
         case 'add':

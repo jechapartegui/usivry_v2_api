@@ -12,56 +12,56 @@ $database = new database();
 $con = $database->getConnection();
 $server = new restServer();
 $data = $server->initRest();
-
-if (!isset($_SESSION['user_id'])) {
-    $server->getHttpStatusMessage(401, "NO_USER_FOUND");
-    exit;
-}
-
 if (!isset($data['command'])) {
-    $server->getHttpStatusMessage(400, "NO_COMMAND_FOUND");
+    $server->getHttpStatusMessage(401, "NO_COMMAND_FOUND");
     exit;
 } else {
     $command = $data['command'];
+}
+if (!isset($_SESSION['user_id']) && $command !=  "get_all_byseason") {
+    $server->getHttpStatusMessage(401, "NO_USER_FOUND");
+    exit;
+} else {
     $RiderService = new RiderService($con);
-    $user_id = $_SESSION['user_id'];
+    if ($command != "get_all_byseason") {
+        $user_id = $_SESSION['user_id'];
+        $admin = $RiderService->est_admin_compte($user_id);
+    }
     $ss = new SaisonService($con);
     $season_id = $ss->getActive();
-    $admin = $RiderService->est_admin_compte($user_id);
     $coursServices = new CoursService($con);
     switch ($command) {
         case 'add':
             if (!isset($data['cours'])) {
                 $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
                 exit;
-            } 
-            if(!$admin){
+            }
+            if (!$admin) {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                 exit;
-            } else {               
-                    $result = $coursServices->add($data['cours'],$season_id);
-              
+            } else {
+                $result = $coursServices->add($data['cours'], $season_id);
             }
-            break;       
+            break;
         case 'update':
             if (!isset($data['cours'])) {
                 $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
                 exit;
-            } 
-            if(!$admin){
+            }
+            if (!$admin) {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                 exit;
             } else {
                 $result = $coursServices->update($data['cours']);
             }
             break;
-       
+
         case 'get':
             if (!isset($data['id'])) {
                 $server->getHttpStatusMessage(401, "NO_ID_FOUND");
                 exit;
-            }  
-            if(!$admin){
+            }
+            if (!$admin) {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                 exit;
             } else {
@@ -69,13 +69,14 @@ if (!isset($data['command'])) {
             }
             break;
         case 'get_all':
-            if(!$admin){
+            if (!$admin) {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                 exit;
             } else {
-            $result = $coursServices->getAll();
+                $result = $coursServices->getAll();
             }
             break;
+
         case 'get_all_byseason':
             if (isset($data['season_id'])) {
                 $season_id = $data['season_id'];
@@ -85,11 +86,11 @@ if (!isset($data['command'])) {
                 exit;
             } else {
                 $p =  new params();
-                if($data['password'] != $p->getPsw()){
+                if ($data['password'] != $p->getPsw()) {
                     $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                     exit;
                 } else {
-                        $result = $coursServices->getAll_bySaison($season_id);
+                    $result = $coursServices->getAll_bySaison($season_id);
                 }
             }
             break;
@@ -102,11 +103,11 @@ if (!isset($data['command'])) {
                 exit;
             } else {
                 $p =  new params();
-                if($data['password'] != $p->getPsw()){
+                if ($data['password'] != $p->getPsw()) {
                     $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                     exit;
                 } else {
-                        $result = $coursServices->getAllLight_bySaison($season_id);
+                    $result = $coursServices->getAllLight_bySaison($season_id);
                 }
             }
             break;
@@ -114,8 +115,8 @@ if (!isset($data['command'])) {
             if (!isset($data['id'])) {
                 $server->getHttpStatusMessage(401, "NO_ID_FOUND");
                 exit;
-            }             
-            if(!$admin){
+            }
+            if (!$admin) {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                 exit;
             } else {

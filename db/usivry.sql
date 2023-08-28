@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 07 août 2023 à 07:12
--- Version du serveur : 8.0.27
--- Version de PHP : 7.4.26
+-- Généré le : lun. 28 août 2023 à 11:48
+-- Version du serveur : 8.0.31
+-- Version de PHP : 8.0.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -15,7 +15,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Base de données : `usivry`
@@ -185,7 +185,15 @@ CREATE TABLE IF NOT EXISTS `cours` (
   `saison_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `prof_principal_id` (`prof_principal_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Déchargement des données de la table `cours`
+--
+
+INSERT INTO `cours` (`id`, `nom`, `jour_semaine`, `heure`, `duree`, `prof_principal_id`, `lieu_id`, `age_requis`, `niveau_requis`, `saison_id`) VALUES
+(1, 'Roller Soccer Adultes', 'mercredi', '15:34', 90, 31, 2, 14, 'intermédiaire', 1),
+(3, 'Cours Enfant', 'dimanche', '15:50', 75, 31, 1, 4, 'débutant', 1);
 
 -- --------------------------------------------------------
 
@@ -203,7 +211,15 @@ CREATE TABLE IF NOT EXISTS `inscription` (
   PRIMARY KEY (`id`),
   KEY `personne_id` (`rider_id`),
   KEY `seance_id` (`seance_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Déchargement des données de la table `inscription`
+--
+
+INSERT INTO `inscription` (`id`, `rider_id`, `seance_id`, `date_inscription`, `statut`) VALUES
+(2, 30, 4, '2023-08-18', 'présent'),
+(4, 31, 3, '2023-08-18', 'présent');
 
 -- --------------------------------------------------------
 
@@ -215,7 +231,7 @@ DROP TABLE IF EXISTS `inscription_saison`;
 CREATE TABLE IF NOT EXISTS `inscription_saison` (
   `rider_id` int NOT NULL,
   `saison_id` int NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Déchargement des données de la table `inscription_saison`
@@ -383,7 +399,7 @@ CREATE TABLE IF NOT EXISTS `lieu` (
   `nom` varchar(255) NOT NULL,
   `adresse` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Déchargement des données de la table `lieu`
@@ -407,7 +423,7 @@ CREATE TABLE IF NOT EXISTS `riders` (
   `date_naissance` date NOT NULL,
   `sexe` varchar(10) NOT NULL,
   `niveau` enum('débutant','intermédiaire','avancé') NOT NULL,
-  `adresse` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `adresse` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `compte` int NOT NULL,
   `essai_restant` int DEFAULT '0',
   `est_prof` tinyint(1) DEFAULT '0',
@@ -416,7 +432,7 @@ CREATE TABLE IF NOT EXISTS `riders` (
   `personne_prevenir` varchar(100) NOT NULL,
   `telephone_personne_prevenir` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=149 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=149 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Déchargement des données de la table `riders`
@@ -445,7 +461,7 @@ INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`,
 (20, 'BRIER', 'Maud', '2001-07-11', '0', 'débutant', '35 avenue des Gobelins 75013 Paris', 19, 0, 0, 0, '0750806929', 'Brier Camille', '0649726661  '),
 (21, 'Desindes ', 'Alice', '1977-10-28', '0', 'débutant', '36 rue de Lancry 60200 Compiègne', 20, 0, 0, 0, '0619730234', 'Dronchon David', '0687567831  '),
 (22, 'Billard', 'Jessica', '1996-11-01', '0', 'débutant', '5 avenue pierre brasseur 95490 Vauréal', 21, 0, 0, 0, '0658589893', 'Billard Charles', '+33 7 64 17 55 08  '),
-(23, 'Weibel', 'Elka', '1995-12-12', '0', 'débutant', '34 rue Emile Zola 94140 Alfortville', 22, 0, 0, 0, '0631851682', 'Rossignole Julien', '0681792731  '),
+(23, 'Weibel', 'Elka', '1995-12-12', '0', 'intermédiaire', '34 rue Emile Zola 94140 Alfortville', 22, 0, 0, 0, '0631851682', 'Rossignole Julien', '0681792731  '),
 (24, 'Laporte', 'Laurie', '1997-02-27', '0', 'débutant', '16 esplanade des frères lumière 95220 Herblay', 23, 0, 0, 0, '0640113220', 'LAPORTE Pascal (père)', '0621980048  '),
 (25, 'Elmkhanter', 'Marie', '1995-05-20', '0', 'débutant', '24 rue de l\'aubrac 75012 Paris', 24, 0, 0, 0, '+33608743283', 'Elmkhanter Nadine', '0614730489  '),
 (26, 'lixon', 'sophie', '1977-08-02', '0', 'débutant', '10 RUE LOUIS FABLET 94200 IVRY SUR SEINE', 25, 0, 0, 0, '0603673174', 'tournaire arnaud', '0663036216  '),
@@ -453,7 +469,7 @@ INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`,
 (28, 'tournaire', 'sasha', '2012-06-26', '0', 'débutant', '10 RUE LOUIS FABLETS 94200 IVRY SUR SEINE', 25, 0, 0, 0, '0603673174', 'tournaire arnaud', '0663036216 0603673174'),
 (29, 'Zakki', 'Samy', '1998-10-14', '0', 'débutant', '1, allée des morelles 91360 Epinay sur orge', 26, 0, 0, 0, '0633782236', 'Zakki Nour-eddine', '0673868940 0619519511'),
 (30, 'Chapartegui', 'Clémentine', '2017-11-21', '0', 'débutant', '21, rue Pasteur 94200 Ivry-sur-Seine', 27, 0, 0, 0, '0669403738', 'NGUYEN PHUC Cécile', '0652699085  '),
-(31, 'Chapartegui', 'Jean-Emmanuel', '1986-06-25', '0', 'débutant', '21, rue Pasteur 94200 Ivry-sur-Seine', 27, 0, 1, 1, '0669403738', 'NGUYEN PHUC Huy Duyen', '0652699085  '),
+(31, 'Chapartegui', 'Jean-Emmanuel', '1986-06-25', '0', 'avancé', '21, rue Pasteur 94200 Ivry-sur-Seine', 27, 0, 1, 1, '0669403738', 'NGUYEN PHUC Huy Duyen', '0652699085  '),
 (32, 'DJEDDA', 'Fares', '2015-02-17', '0', 'débutant', '179 boulevard de stalingrad 94200 IVRY SUR SEINE', 28, 0, 0, 0, '0782592780', 'DJEDDA Mourad DJEDDA Nora', '0618295822 0782592780'),
 (33, 'Fiel', 'Antoine', '1990-08-28', '0', 'débutant', '20 Rue Bénard 75014 PARIS 14', 29, 0, 0, 0, '+33612621523', 'Fiel Viviane', '0685192988  '),
 (34, 'Julienne', 'Charlène', '1986-07-28', '0', 'débutant', '5 avenue de Longjumeau 91360 Villemoisson sur orge', 30, 0, 0, 0, '0682876704', 'Delon Christophe', '0679964872  '),
@@ -464,7 +480,7 @@ INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`,
 (39, 'BEN ICHOU - LEPRINCE', 'ISMAEL', '2013-07-31', '0', 'débutant', '43 RUE DES FRERES BLAIS 94200 IVRY SUR SEINE', 34, 0, 0, 0, '0626454992', 'CHLOE LEPRINCE MATHIEU BEN ICHOU', '0665523836 0626454992'),
 (40, 'Soubielle-Fourie', 'Charline', '1998-11-15', '0', 'débutant', '16 rue Guyton de Morveau 75013 Paris', 35, 0, 0, 0, '0629172773', 'Soubielle-Fourie Charline', '0617060860 0609103737'),
 (41, 'Mouliney', 'Maxime', '1991-11-04', '0', 'débutant', '12A rue des dorés 91360 Épinay-sur-Orge', 36, 0, 0, 0, '0629748314', 'Eyang Élodie', '06 08 47 14 50  '),
-(42, 'Kamtchueng', 'Toko', '1987-01-14', '0', 'débutant', '14 rue Manin 75019 Paris', 37, 0, 0, 0, '0642010973', 'Kamtchueng Toko', '0642010973  '),
+(42, 'Kamtchueng', 'Toko', '1987-01-14', '0', 'débutant', '14 rue Manin 75019 Paris', 37, 0, 1, 0, '0642010973', 'Kamtchueng Toko', '0642010973  '),
 (43, 'Bounleng', 'David', '1985-06-30', '0', 'débutant', '2 avenue saint-maurice du Valais 94410 Saint-maurice', 38, 0, 0, 0, '0612165244', 'Bounleng Joël', '0612870497  '),
 (44, 'AUSSET', 'Margot', '2012-06-27', '0', 'débutant', '23 rue Jean-Jacques ROUSSEAU 94200 Ivry sur seine', 39, 0, 0, 0, '0769839694', 'BENARD Yvon', '0685563266  '),
 (45, 'Hernando', 'Malik', '2010-04-25', '0', 'débutant', '56 rue du Fort 94400 Vitry sur seine', 40, 0, 0, 0, '0649825469', 'Bennani / Hernando Dounia / Jessy', '0649825469 0623114903'),
@@ -584,7 +600,7 @@ CREATE TABLE IF NOT EXISTS `saison` (
   `nom` varchar(10) NOT NULL,
   `active` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Déchargement des données de la table `saison`
@@ -601,16 +617,55 @@ INSERT INTO `saison` (`id`, `nom`, `active`) VALUES
 
 DROP TABLE IF EXISTS `seance`;
 CREATE TABLE IF NOT EXISTS `seance` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `cours_id` int NOT NULL,
+  `seance_id` int NOT NULL AUTO_INCREMENT,
+  `cours` int NOT NULL,
   `date_seance` date NOT NULL,
   `heure_debut` varchar(10) NOT NULL,
   `duree_cours` int NOT NULL,
   `lieu_id` int NOT NULL,
   `statut` enum('prévue','réalisée','annulée') NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `cours_id` (`cours_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `age_requis` int NOT NULL,
+  `niveau_requis` enum('débutant','intermédiaire','avancé') NOT NULL,
+  PRIMARY KEY (`seance_id`),
+  KEY `cours_id` (`cours`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Déchargement des données de la table `seance`
+--
+
+INSERT INTO `seance` (`seance_id`, `cours`, `date_seance`, `heure_debut`, `duree_cours`, `lieu_id`, `statut`, `age_requis`, `niveau_requis`) VALUES
+(1, 1, '2023-08-12', '15:34', 90, 1, 'prévue', 0, 'débutant'),
+(2, 1, '2023-08-12', '14:39', 90, 2, 'prévue', 0, 'débutant'),
+(3, 1, '2023-08-25', '15:34', 90, 2, 'prévue', 14, 'intermédiaire'),
+(4, 3, '2023-08-17', '15:50', 75, 1, 'prévue', 4, 'débutant'),
+(5, 3, '2023-08-25', '15:50', 75, 1, 'prévue', 4, 'débutant');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `seance_professeur`
+--
+
+DROP TABLE IF EXISTS `seance_professeur`;
+CREATE TABLE IF NOT EXISTS `seance_professeur` (
+  `seance_id` int NOT NULL,
+  `professeur_id` int NOT NULL,
+  `statut` enum('présent','présent confirmé','absent','absent confirmé') NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
+
+--
+-- Déchargement des données de la table `seance_professeur`
+--
+
+INSERT INTO `seance_professeur` (`seance_id`, `professeur_id`, `statut`) VALUES
+(1, 31, 'présent'),
+(1, 42, 'présent'),
+(2, 42, 'présent'),
+(3, 42, 'présent'),
+(4, 31, 'présent'),
+(4, 42, 'présent'),
+(5, 31, 'présent');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
