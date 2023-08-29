@@ -111,6 +111,14 @@ if (!isset($_SESSION['user_id']) && $command !=  "get_all_byseason") {
                 }
             }
             break;
+        case 'get_seasons_light':
+            if (!$admin) {
+                $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+                exit;
+            } else {
+                $result = $ss->getAllLight();
+            }
+            break;
         case 'delete':
             if (!isset($data['id'])) {
                 $server->getHttpStatusMessage(401, "NO_ID_FOUND");

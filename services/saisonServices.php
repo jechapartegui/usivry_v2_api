@@ -38,6 +38,13 @@ class SaisonService {
         $stmt->execute();
         return $stmt->fetchAll();
     }
+    public function getAllLight() {
+        $sql = "SELECT id as 'key' ,nom as 'value' FROM saison order by id desc";
+        $stmt = $this->db->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'KeyValuePair');
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 
     public function update($saison) {
         $sql = "UPDATE saison SET nom=?, active=?  WHERE id=?";

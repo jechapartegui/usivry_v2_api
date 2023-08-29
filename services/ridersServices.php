@@ -29,18 +29,59 @@ class RiderService
         return $rider;
     }
 
-    public function add($rider)
+    public function addrider_new_account($rider)
     {
-
-        //sans update du mot de passe
+        $rider = $this->ToRider($rider);
         $compte = $this->checkAndInsertAccount($rider->email, $rider->mot_de_passe);
-        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau,  essai_restant, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?, ?,  ?, ?, ?, ?, ?, ?)";
+        if(is_string($compte)){
+            return $compte;
+        }
+        //sans update du mot de passe
+        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau,  essai_restant, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?, ?,  ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau,   $rider->essai_restant, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
         return $this->db->lastInsertId();
     }
+    public function addrider_existingaccount($rider)
+    {
+
+        $rider = $this->ToRider($rider);
+        $compte = $this->CheckLogin($rider->email, $rider->mot_de_passe);
+        if(is_string($compte)){
+            return $compte;
+        }
+        //sans update du mot de passe
+        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau, compte, essai_restant, est_prof, est_admin, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau,  $compte, $rider->essai_restant, $rider->est_prof, $rider->est_admin, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
+        $id = $this->db->lastInsertId();
+        return $id;
+    }
 
     function checkAndInsertAccount($login, $password)
+    {
+        // Vérifier si le compte existe déjà avec le login donné
+        $sql = "SELECT id FROM compte WHERE login = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$login]);
+        $account = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($account) {
+            // Le compte existe déjà, renvoyer l'ID du compte existant
+            return "LOGIN EXISTS ALREADY";
+        } else {
+            // Le compte n'existe pas, l'ajouter à la table compte
+            $classparam = new params();
+            $pepper = $classparam->getMagicWord();
+            $pwd_peppered = hash_hmac("sha256", $password, $pepper);
+            $stmt = $this->db->prepare('INSERT INTO compte (login, password, registration_date) VALUES (?, ?, NOW())');
+            $stmt->execute([$login, $pwd_peppered]);
+
+            // Récupérer l'ID du compte nouvellement inséré
+            return $this->db->lastInsertId();
+        }
+    }
+    function ReturnOrInsertAccount($login, $password)
     {
         // Vérifier si le compte existe déjà avec le login donné
         $sql = "SELECT id FROM compte WHERE login = ?";
@@ -64,34 +105,54 @@ class RiderService
         }
     }
 
-    public function add_withpsw($rider)
-    {
-        $compte = $this->checkAndInsertAccount($rider->email, $rider->mot_de_passe);
-        //sans update du mot de passe
-        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau, compte, essai_restant, est_prof, est_admin, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau,  $compte, $rider->essai_restant, $rider->est_prof, $rider->est_admin, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
-        $id = $this->db->lastInsertId();
-        $this->update_psw($id, $rider->mot_de_passe);
-        return $id;
-    }
 
-    public function search($search, $season_id, $all){
+
+    public function search($search, $season_id, $all, $this_season){
         if($all==true){
-            $sql = "SELECT r.*, c.login as email FROM riders r inner join compte c on c.id = r.compte WHERE `nom` LIKE '%". $search ."%' or prenom like '%". $search ."%' order by r.nom asc";
+            $sql = "SELECT r.*, c.login as email,  
+             CASE 
+                WHEN i1.rider_id IS NOT NULL THEN true 
+                ELSE false 
+            END as est_inscrit
+            FROM riders r inner join compte c on c.id = r.compte             
+            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = ". $this_season ."
+            WHERE `nom` LIKE '%". $search ."%' or prenom like '%". $search ."%' order by r.nom asc";
         } else {
-            $sql = "SELECT r.*, c.login as email FROM riders r inner join compte c on c.id = r.compte inner join inscription_saison i on i.rider_id = r.id WHERE (r.`nom` LIKE '%". $search ."%' or prenom like '%". $search ."%') and i.saison_id = ". $season_id . " order by r.nom asc";
+            $sql = "SELECT r.*, c.login as email,  
+            CASE 
+               WHEN i1.rider_id IS NOT NULL THEN true 
+               ELSE false 
+            END as est_inscrit
+            FROM riders r inner join compte c on c.id = r.compte 
+            inner join inscription_saison i on i.rider_id = r.id 
+            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = ". $this_season ."
+            WHERE (r.`nom` LIKE '%". $search ."%' or prenom like '%". $search ."%') and i.saison_id = ". $season_id . " order by r.nom asc";
         }
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Rider');
         return $stmt->fetchAll();
     }
-    public function get_all($season_id, $all){
+    public function get_all($season_id, $all, $this_season){
         if($all==true){
-            $sql = "SELECT r.*, c.login as email FROM riders r inner join compte c on c.id = r.compte order by r.nom asc";
+            $sql = "SELECT r.*, c.login as email,  
+            CASE 
+               WHEN i1.rider_id IS NOT NULL THEN true 
+               ELSE false 
+           END as est_inscrit
+           FROM riders r inner join compte c on c.id = r.compte 
+            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id =". $this_season ."
+           order by r.nom asc";
         } else {
-            $sql = "SELECT r.*, c.login as email FROM riders r inner join compte c on c.id = r.compte inner join inscription_saison i on i.rider_id = r.id WHERE  i.saison_id = ". $season_id ." order by r.nom asc";
+            $sql = "SELECT r.*, true as 'est_inscrit', c.login as email,  
+            CASE 
+               WHEN i1.rider_id IS NOT NULL THEN true 
+               ELSE false 
+           END as est_inscrit
+           FROM riders r inner join compte c on c.id = r.compte 
+           inner join inscription_saison i on i.rider_id = r.id 
+            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = ". $this_season ."
+           WHERE  i.saison_id = ". $season_id ." order by r.nom asc";
         }
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
@@ -107,7 +168,12 @@ class RiderService
             $rider = $this->ToRider($rider__);
             $rider_id  = $this->exist($rider);
             if ($rider_id == 0) {
-                $rider_id = $this->add($rider);
+                $compte = $this->ReturnOrInsertAccount($rider->email, $rider->mot_de_passe);             
+                //sans update du mot de passe
+                $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau,  essai_restant, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?, ?,  ?, ?, ?, ?, ?, ?)";
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau,   $rider->essai_restant, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
+                $rider_id =  $this->db->lastInsertId();
             }
             array_push($liste_id, $rider_id);
         }
@@ -333,7 +399,7 @@ class RiderService
         return $users;
     }
 
-    public function getUserByLogin($login, $password)
+    public function CheckLogin($login, $password)
     {
         // function to check login/pwd
         if (!empty($login) && !empty($password)) {
@@ -342,7 +408,37 @@ class RiderService
             $users = $stmt->fetch();
             if ($users) {
                 if ($this->verifyCurrentPassword($users['id'], $password) == 1) {
-                    $stmt = $this->db->prepare('SELECT r.*, c.login as email FROM riders r inner join compte c on c.id = r.compte WHERE compte=? order by r.nom asc');
+                   return true;
+                } else {
+                    return "INCORRECT_PASSWORD";
+                }
+            } else {
+
+                return "INCORRECT_LOGIN";
+            }
+        } else {
+            return "NO_VALUE_SET";
+        }
+    }
+    public function getUserByLogin($login, $password,$saison_id)
+    {
+        // function to check login/pwd
+        if (!empty($login) && !empty($password)) {
+            $stmt = $this->db->prepare('select * from compte where login=?');
+            $stmt->execute([$login]);
+            $users = $stmt->fetch();
+            if ($users) {
+                if ($this->verifyCurrentPassword($users['id'], $password) == 1) {
+                    $sql = "SELECT r.*, c.login as email,  
+                    CASE 
+                       WHEN i1.rider_id IS NOT NULL THEN true 
+                       ELSE false 
+                   END as est_inscrit
+                   FROM riders r inner join compte c on c.id = r.compte 
+                    LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = ". $saison_id ."
+                   
+                    WHERE r.compte=? order by r.nom asc";
+                    $stmt = $this->db->prepare($sql);
                     $stmt->execute([$users['id']]);
                     $stmt->setFetchMode(PDO::FETCH_CLASS, 'Rider');
                     $riders = $stmt->fetchAll();
