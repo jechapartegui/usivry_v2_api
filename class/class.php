@@ -97,6 +97,10 @@ class Inscription {
     public $seance_id;
     public $date_inscription;
     public $statut;
+    public $statut_seance;
+
+    public $rider_libelle;
+    public $contact_urgence;
     public $professeurs;
 }
 

@@ -5,11 +5,7 @@
  * Date: 11-06-19
  * Time: 14:21
  */
-
-if ($_SERVER['SERVER_NAME']=='visu.floorball.fr'){
-	// Longer session timeout for visu...
-	ini_set( "session.gc_maxlifetime", 7200 );
-}
+ini_set( "session.gc_maxlifetime", 7200 );
 
 session_start();
 

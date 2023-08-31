@@ -6,6 +6,7 @@ require_once("class/class.php");
 require_once("services/ridersServices.php");
 require_once("services/seanceServices.php");
 require_once("services/saisonServices.php");
+require_once("services/inscriptionServices.php");
 
 // Connect to database
 $database = new database();
@@ -19,17 +20,44 @@ if (!isset($data['command'])) {
 } else {
     $command = $data['command'];
 }
-if (!isset($_SESSION['user_id']) && $command !=  "get_seance_plagedate") {
-    $server->getHttpStatusMessage(401, "NO_USER_FOUND");
-    exit;
-} else {
-    $RiderService = new RiderService($con);
-    if ($command != "get_seance_plagedate") {
-        $user_id = $_SESSION['user_id'];
-        $admin = $RiderService->est_admin_compte($user_id);
-        $prof = $RiderService->est_prof_compte($user_id);
+
+$season_id = 1;
+$user_id = -1;
+$est_admin = false;
+$est_prof = false;
+
+foreach (getallheaders() as $name => $value) {
+    if ($name == "password") {
+        $password = $value;
     }
-    $seanceServices = new SeanceService($con);
+    if ($name == "date_ref") {
+        $date_ref = $value;
+    }
+    if ($name == "user_id") {
+        $user_id = $value;
+    }
+}
+$concat = $user_id . $date_ref;
+$p = new params();
+$pepper = $p->getPsw();
+$pwd_peppered = hash_hmac("sha256", $concat, $pepper);
+
+if ($pwd_peppered != $password) {
+    $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+    exit;
+}
+$RiderService = new RiderService($con);
+$seanceServices = new SeanceService($con);
+$s = new SaisonService($con);
+if ($user_id > 0) {
+    $logged = true;
+    $admin = $RiderService->est_admin_compte($user_id);
+    $prof = $RiderService->est_prof_compte($user_id);
+} else {
+    $logged = false;
+}
+$season_id = $s->getActive();
+
     switch ($command) {
         case 'add':
             if (!isset($data['seance'])) {
@@ -52,7 +80,8 @@ if (!isset($_SESSION['user_id']) && $command !=  "get_seance_plagedate") {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                 exit;
             } else {
-                $result = $seanceServices->load_seance($data['id']);
+                $inscriptionseanceServices = new InscriptionService($con);
+                $result = $inscriptionseanceServices->load_seance($data['id'], $season_id);
             }
             break;
         case 'update_inscription_seance':
@@ -64,7 +93,8 @@ if (!isset($_SESSION['user_id']) && $command !=  "get_seance_plagedate") {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                 exit;
             } else {
-                $result = $seanceServices->update_inscription_seance($data['inscription']);
+                $inscriptionseanceServices = new InscriptionService($con);
+                $result = $inscriptionseanceServices->update_inscription_seance($data['inscription']);
             }
             break;
         case 'update':
@@ -72,12 +102,9 @@ if (!isset($_SESSION['user_id']) && $command !=  "get_seance_plagedate") {
                 $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
                 exit;
             }
-            if (!$admin) {
-                $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-                exit;
-            } else {
+           
                 $result = $seanceServices->update($data['seance']);
-            }
+           
             break;
 
         case 'get':
@@ -95,50 +122,14 @@ if (!isset($_SESSION['user_id']) && $command !=  "get_seance_plagedate") {
         case 'get_all':
             if (isset($data['season_id'])) {
                 $season_id = $data['season_id'];
-            } else {
-                $s = new SaisonService($con);
-                $season_id = $s->getActive();
             }
-            if (!isset($data['password'])) {
-                $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-                exit;
-            } else {
-                $p =  new params();
-                if ($data['password'] != $p->getPsw()) {
-                    $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-                    exit;
-                } else {
-                    $result = $seanceServices->getAll($season_id);
-                }
-            }
+            $result = $seanceServices->getAll($season_id);
             break;
         case 'get_seanceprevue':
-            if (!isset($data['password'])) {
-                $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-                exit;
-            } else {
-                $p =  new params();
-                if ($data['password'] != $p->getPsw()) {
-                    $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-                    exit;
-                } else {
-                    $result = $seanceServices->get_seanceprevue();
-                }
-            }
+            $result = $seanceServices->get_seanceprevue();
             break;
-        case 'get_seance_plagedate':
-            if (!isset($data['password'])) {
-                $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-                exit;
-            } else {
-                $p =  new params();
-                if ($data['password'] != $p->getPsw()) {
-                    $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-                    exit;
-                } else {
-                    $result = $seanceServices->get_seance_plagedate();
-                }
-            }
+        case 'get_seance_plagedate':           
+            $result = $seanceServices->get_seance_plagedate();
             break;
         case 'delete':
             if (!isset($data['id'])) {
@@ -155,4 +146,3 @@ if (!isset($_SESSION['user_id']) && $command !=  "get_seance_plagedate") {
     }
 
     print json_encode($result);
-}
