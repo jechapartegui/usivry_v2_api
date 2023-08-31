@@ -291,6 +291,19 @@ class RiderService
             return false;
         }
     }
+    public function est_prof_compte($id)
+    {
+        $sql = "SELECT * FROM riders WHERE compte = ? and est_admin =1";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$id]);
+        $stmt->fetchAll();
+        $rowCount = $stmt->rowCount();
+        if ($rowCount > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public function getAll()
     {
