@@ -13,6 +13,7 @@ class Rider {
     public $essai_restant;
     public $est_prof;
     public $est_admin;
+    public $est_inscrit;
     public $compte;
     public $adresse;
     public $seances;
@@ -41,6 +42,11 @@ class Rider {
             $this->est_prof = false;
         } else {
             $this->est_prof = true;
+        }
+        if($this->est_inscrit==0){
+            $this->est_inscrit = false;
+        } else {
+            $this->est_inscrit = true;
         }
     }
 }

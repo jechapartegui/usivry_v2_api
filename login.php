@@ -3,12 +3,15 @@ include_once ("config/session.php");
 include_once("config/restServer.php");
 include_once("config/database.php");
 include_once("services/ridersServices.php");
+include_once("services/saisonServices.php");
 
 // Connect to database
 $database=new database();
 $con = $database->getConnection();
 $server = new restServer();
 $data = $server->initRest();
+$ss = new SaisonService($con);
+    $season_id = $ss->getActive();
 
 if (!isset($data['username'])){
     $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
@@ -36,7 +39,7 @@ if ( !$con ) {
 }
 
 $rider=new RiderService($con);
-$riders = $rider->getUserByLogin($login,$psw);
+$riders = $rider->getUserByLogin($login,$psw,$season_id );
 if (is_string($riders)){
     $server->getHttpStatusMessage(401,$riders);
     exit;

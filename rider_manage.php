@@ -22,6 +22,8 @@ if (!isset($data['command'])) {
 } else {
     $command = $data['command'];
     $RiderService = new RiderService($con);
+    $s = new SaisonService($con);
+    $season_id = $s->getActive();
     switch ($command) {
         case 'add':
             if (!isset($_SESSION['user_id'])) {
@@ -39,13 +41,15 @@ if (!isset($data['command'])) {
                 exit;
             } else {
                 if (isset($data['with_psw'])) {
-                    $result = $RiderService->add_withpsw($data['rider']);
+                    $result = $RiderService->addrider_new_account($data['rider']);
                 } else {
-                    $result = $RiderService->add($data['rider']);
+                    $result = $RiderService->addrider_existingaccount($data['rider']);
+                }
+                if(is_nan($result)){
+                    $server->getHttpStatusMessage(401, $result);
+                    exit;
                 }
                 if (isset($data['inscription_saison_encours'])) {
-                    $s = new SaisonService($conn);
-                    $season_id = $s->getActive();
                     $is = new InscriptionSaisonService($conn);
                     $is->add($season_id, $result);
                 }
@@ -66,13 +70,15 @@ if (!isset($data['command'])) {
                     exit;
                 } else {
                     if (isset($data['with_psw'])) {
-                        $result = $RiderService->add_withpsw($data['rider']);
+                        $result = $RiderService->addrider_new_account($data['rider']);
                     } else {
-                        $result = $RiderService->add($data['rider']);
+                        $result = $RiderService->addrider_existingaccount($data['rider']);
+                    }
+                    if(is_nan($result)){
+                        $server->getHttpStatusMessage(401, $result);
+                        exit;
                     }
                     if (isset($data['inscription_saison_encours'])) {
-                        $s = new SaisonService($conn);
-                        $season_id = $s->getActive();
                         $is = new InscriptionSaisonService($conn);
                         $is->add($season_id, $result);
                     }
@@ -99,8 +105,6 @@ if (!isset($data['command'])) {
                     exit;
                 } else {
                     $result = $RiderService->add_range($data['riders']);
-                    $s = new SaisonService($con);
-                    $season_id = $s->getActive();
                     $is = new InscriptionSaisonService($con);
                     foreach ($result as $id) {
                         $is->add($season_id, $id);
@@ -121,30 +125,30 @@ if (!isset($data['command'])) {
             }
             break;
         case 'update_mail':
-                if (!isset($_SESSION['user_id'])) {
-                    $server->getHttpStatusMessage(401, "NO_USER_FOUND");
+            if (!isset($_SESSION['user_id'])) {
+                $server->getHttpStatusMessage(401, "NO_USER_FOUND");
+                exit;
+            }
+            if (!isset($data['compte'])) {
+                $server->getHttpStatusMessage(401, "NO_ACCOUNT_FOUND");
+                exit;
+            } else  if (!isset($data['password'])) {
+                $server->getHttpStatusMessage(401, "NO_PASSWORD_FOUND");
+                exit;
+            } else if (!isset($data['mail'])) {
+                $server->getHttpStatusMessage(401, "NO_MAIL_FOUND");
+                exit;
+            } else {
+                $previousmail = $RiderService->get_login($data['compte']);
+                $riders = $RiderService->getUserByLogin($previousmail, $data['password'], $season_id);
+                if (is_string($riders)) {
+                    $server->getHttpStatusMessage(401, $riders);
                     exit;
+                } else {
+                    $result = $RiderService->update_mail($data['compte'], $data['mail']);
                 }
-                if (!isset($data['compte'])) {
-                    $server->getHttpStatusMessage(401, "NO_ACCOUNT_FOUND");
-                    exit;
-                } else  if (!isset($data['password'])) {
-                    $server->getHttpStatusMessage(401, "NO_PASSWORD_FOUND");
-                    exit;
-                } else if (!isset($data['mail'])) {
-                    $server->getHttpStatusMessage(401, "NO_MAIL_FOUND");
-                    exit;
-                } else{
-                    $previousmail = $RiderService->get_login($data['compte']);
-                    $riders = $RiderService->getUserByLogin($previousmail,$data['password']);
-                    if (is_string($riders)){
-                        $server->getHttpStatusMessage(401,$riders);
-                        exit;
-                    } else {
-                        $result = $RiderService->update_mail($data['compte'],$data['mail']);
-                    }
-                }
-                break;    
+            }
+            break;
         case 'update_password':
             if (!isset($_SESSION['user_id'])) {
                 $server->getHttpStatusMessage(401, "NO_USER_FOUND");
@@ -154,12 +158,12 @@ if (!isset($data['command'])) {
                 $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
                 exit;
             } else {
-                $riders = $RiderService->getUserByLogin($data['email'],$data['mdp_actuel']);
-                if (is_string($riders)){
-                    $server->getHttpStatusMessage(401,$riders);
+                $riders = $RiderService->getUserByLogin($data['email'], $data['mdp_actuel'], $season_id);
+                if (is_string($riders)) {
+                    $server->getHttpStatusMessage(401, $riders);
                     exit;
                 } else {
-                    $result = $RiderService->update_psw($data['compte'],$data['new_mdp']);
+                    $result = $RiderService->update_psw($data['compte'], $data['new_mdp']);
                 }
             }
             break;
@@ -189,6 +193,7 @@ if (!isset($data['command'])) {
 
             $s = new SaisonService($con);
             $season_id = $s->getActive();
+            $this_season = $s->getActive();
             $all = false;
             if (isset($data['saison_id'])) {
                 $season_id = $data['saison_id'];
@@ -197,9 +202,9 @@ if (!isset($data['command'])) {
                 $all = true;
             }
             if (isset($data['search'])) {
-                $result = $RiderService->search($data['search'], $season_id, $all);
+                $result = $RiderService->search($data['search'], $season_id, $all, $this_season);
             } else {
-                $result = $RiderService->get_all($season_id, $all);
+                $result = $RiderService->get_all($season_id, $all, $this_season);
             }
 
             break;
@@ -214,6 +219,27 @@ if (!isset($data['command'])) {
                 exit;
             } else {
                 $result = $RiderService->get_prof_light();
+            }
+            break;
+        case 'register':
+            if (!isset($data['id'])) {
+                $server->getHttpStatusMessage(401, "NO_ID_FOUND");
+                exit;
+            }
+            if (!isset($_SESSION['user_id'])) {
+                $server->getHttpStatusMessage(401, "NO_USER_FOUND");
+                exit;
+            }
+            $admin = $RiderService->est_admin_compte($_SESSION['user_id']);
+
+            if (!$admin) {
+                $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+                exit;
+            } else {
+                $s = new SaisonService($conn);
+                $season_id = $s->getActive();
+                $is = new InscriptionSaisonService($conn);
+                $result = $is->add($season_id, $data['id']);
             }
             break;
         case 'delete':
