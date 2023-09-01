@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
--- Généré le : lun. 28 août 2023 à 11:48
--- Version du serveur : 8.0.31
--- Version de PHP : 8.0.26
+-- Host: xnydyfvjecha.mysql.db
+-- Generation Time: Sep 01, 2023 at 03:25 PM
+-- Server version: 5.7.42-log
+-- PHP Version: 8.1.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -15,29 +15,27 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `usivry`
+-- Database: `xnydyfvjecha`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `compte`
+-- Table structure for table `compte`
 --
 
-DROP TABLE IF EXISTS `compte`;
-CREATE TABLE IF NOT EXISTS `compte` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `compte` (
+  `id` int(11) NOT NULL,
   `login` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `registration_date` date NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=125 DEFAULT CHARSET=utf8mb3;
+  `registration_date` date NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `compte`
+-- Dumping data for table `compte`
 --
 
 INSERT INTO `compte` (`id`, `login`, `password`, `registration_date`) VALUES
@@ -168,7 +166,7 @@ INSERT INTO `compte` (`id`, `login`, `password`, `registration_date`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `cours`
+-- Table structure for table `cours`
 --
 
 CREATE TABLE `cours` (
@@ -222,21 +220,17 @@ INSERT INTO `inscription` (`id`, `rider_id`, `seance_id`, `date_inscription`, `s
 
 -- --------------------------------------------------------
 
-
--- --------------------------------------------------------
-
 --
--- Structure de la table `inscription_saison`
+-- Table structure for table `inscription_saison`
 --
 
-DROP TABLE IF EXISTS `inscription_saison`;
-CREATE TABLE IF NOT EXISTS `inscription_saison` (
-  `rider_id` int NOT NULL,
-  `saison_id` int NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+CREATE TABLE `inscription_saison` (
+  `rider_id` int(11) NOT NULL,
+  `saison_id` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `inscription_saison`
+-- Dumping data for table `inscription_saison`
 --
 
 INSERT INTO `inscription_saison` (`rider_id`, `saison_id`) VALUES
@@ -392,19 +386,17 @@ INSERT INTO `inscription_saison` (`rider_id`, `saison_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `lieu`
+-- Table structure for table `lieu`
 --
 
-DROP TABLE IF EXISTS `lieu`;
-CREATE TABLE IF NOT EXISTS `lieu` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `lieu` (
+  `id` int(11) NOT NULL,
   `nom` varchar(255) NOT NULL,
-  `adresse` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `adresse` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `lieu`
+-- Dumping data for table `lieu`
 --
 
 INSERT INTO `lieu` (`id`, `nom`, `adresse`) VALUES
@@ -414,30 +406,28 @@ INSERT INTO `lieu` (`id`, `nom`, `adresse`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `riders`
+-- Table structure for table `riders`
 --
 
-DROP TABLE IF EXISTS `riders`;
-CREATE TABLE IF NOT EXISTS `riders` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `riders` (
+  `id` int(11) NOT NULL,
   `nom` varchar(255) NOT NULL,
   `prenom` varchar(255) NOT NULL,
   `date_naissance` date NOT NULL,
   `sexe` varchar(10) NOT NULL,
   `niveau` enum('débutant','intermédiaire','avancé') NOT NULL,
-  `adresse` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `compte` int NOT NULL,
-  `essai_restant` int DEFAULT '0',
+  `adresse` varchar(255) NOT NULL,
+  `compte` int(11) NOT NULL,
+  `essai_restant` int(11) DEFAULT '0',
   `est_prof` tinyint(1) DEFAULT '0',
   `est_admin` tinyint(1) DEFAULT '0',
   `telephone` varchar(50) NOT NULL,
   `personne_prevenir` varchar(100) NOT NULL,
-  `telephone_personne_prevenir` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=149 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `telephone_personne_prevenir` varchar(100) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `riders`
+-- Dumping data for table `riders`
 --
 
 INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`, `adresse`, `compte`, `essai_restant`, `est_prof`, `est_admin`, `telephone`, `personne_prevenir`, `telephone_personne_prevenir`) VALUES
@@ -593,19 +583,17 @@ INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`,
 -- --------------------------------------------------------
 
 --
--- Structure de la table `saison`
+-- Table structure for table `saison`
 --
 
-DROP TABLE IF EXISTS `saison`;
-CREATE TABLE IF NOT EXISTS `saison` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `saison` (
+  `id` int(11) NOT NULL,
   `nom` varchar(10) NOT NULL,
-  `active` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `active` tinyint(1) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `saison`
+-- Dumping data for table `saison`
 --
 
 INSERT INTO `saison` (`id`, `nom`, `active`) VALUES
@@ -614,26 +602,23 @@ INSERT INTO `saison` (`id`, `nom`, `active`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `seance`
+-- Table structure for table `seance`
 --
 
-DROP TABLE IF EXISTS `seance`;
-CREATE TABLE IF NOT EXISTS `seance` (
-  `seance_id` int NOT NULL AUTO_INCREMENT,
-  `cours` int NOT NULL,
+CREATE TABLE `seance` (
+  `seance_id` int(11) NOT NULL,
+  `cours` int(11) NOT NULL,
   `date_seance` date NOT NULL,
   `heure_debut` varchar(10) NOT NULL,
-  `duree_cours` int NOT NULL,
-  `lieu_id` int NOT NULL,
+  `duree_cours` int(11) NOT NULL,
+  `lieu_id` int(11) NOT NULL,
   `statut` enum('prévue','réalisée','annulée') NOT NULL,
-  `age_requis` int NOT NULL,
-  `niveau_requis` enum('débutant','intermédiaire','avancé') NOT NULL,
-  PRIMARY KEY (`seance_id`),
-  KEY `cours_id` (`cours`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `age_requis` int(11) NOT NULL,
+  `niveau_requis` enum('débutant','intermédiaire','avancé') NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `seance`
+-- Dumping data for table `seance`
 --
 
 INSERT INTO `seance` (`seance_id`, `cours`, `date_seance`, `heure_debut`, `duree_cours`, `lieu_id`, `statut`, `age_requis`, `niveau_requis`) VALUES
@@ -646,18 +631,17 @@ INSERT INTO `seance` (`seance_id`, `cours`, `date_seance`, `heure_debut`, `duree
 -- --------------------------------------------------------
 
 --
--- Structure de la table `seance_professeur`
+-- Table structure for table `seance_professeur`
 --
 
-DROP TABLE IF EXISTS `seance_professeur`;
-CREATE TABLE IF NOT EXISTS `seance_professeur` (
-  `seance_id` int NOT NULL,
-  `professeur_id` int NOT NULL,
+CREATE TABLE `seance_professeur` (
+  `seance_id` int(11) NOT NULL,
+  `professeur_id` int(11) NOT NULL,
   `statut` enum('présent','présent confirmé','absent','absent confirmé') NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `seance_professeur`
+-- Dumping data for table `seance_professeur`
 --
 
 INSERT INTO `seance_professeur` (`seance_id`, `professeur_id`, `statut`) VALUES
@@ -668,6 +652,102 @@ INSERT INTO `seance_professeur` (`seance_id`, `professeur_id`, `statut`) VALUES
 (4, 31, 'présent'),
 (4, 42, 'présent'),
 (5, 31, 'présent');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `compte`
+--
+ALTER TABLE `compte`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cours`
+--
+ALTER TABLE `cours`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `prof_principal_id` (`prof_principal_id`);
+
+--
+-- Indexes for table `inscription`
+--
+ALTER TABLE `inscription`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `personne_id` (`rider_id`),
+  ADD KEY `seance_id` (`seance_id`);
+
+--
+-- Indexes for table `lieu`
+--
+ALTER TABLE `lieu`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `riders`
+--
+ALTER TABLE `riders`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `saison`
+--
+ALTER TABLE `saison`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `seance`
+--
+ALTER TABLE `seance`
+  ADD PRIMARY KEY (`seance_id`),
+  ADD KEY `cours_id` (`cours`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `compte`
+--
+ALTER TABLE `compte`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
+
+--
+-- AUTO_INCREMENT for table `cours`
+--
+ALTER TABLE `cours`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `inscription`
+--
+ALTER TABLE `inscription`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `lieu`
+--
+ALTER TABLE `lieu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `riders`
+--
+ALTER TABLE `riders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
+
+--
+-- AUTO_INCREMENT for table `saison`
+--
+ALTER TABLE `saison`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `seance`
+--
+ALTER TABLE `seance`
+  MODIFY `seance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
