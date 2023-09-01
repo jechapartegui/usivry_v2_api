@@ -62,13 +62,13 @@ class SeanceService {
 
     public function update($seance) {
         $seance = $this->ToSeance($seance);
-        $sql = "UPDATE seance SET cours=?, date_seance=?, heure_debut=?, duree_cours=?, lieu_id=?, statut=?, niveau_requis= ?, age_requis =? WHERE id=?";
+        $sql = "UPDATE seance SET cours=?, date_seance=?, heure_debut=?, duree_cours=?, lieu_id=?, statut=?, niveau_requis= ?, age_requis =? WHERE seance_id=?";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$seance->cours->id, $seance->date_seance, $seance->heure_debut, $seance->duree_cours, $seance->lieu_id, $seance->statut, $seance->niveau_requis, $seance->age_requis, $seance->seance_id]);
     }
 
     public function delete($id) {
-        $sql = "DELETE FROM seance WHERE id=?";
+        $sql = "DELETE FROM seance WHERE seance_id=?";
         $stmt = $this->db->prepare($sql);
         $this->delete_prof($id);
         return $stmt->execute([$id]);
@@ -76,7 +76,7 @@ class SeanceService {
     }
 
     public function get($id) {
-        $sql = "SELECT * FROM seance WHERE id=?";
+        $sql = "SELECT * FROM seance WHERE seance_id=?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
         $seance = $stmt->fetch();

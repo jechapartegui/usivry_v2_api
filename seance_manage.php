@@ -2,10 +2,11 @@
 include_once("config/session.php");
 include_once("config/restServer.php");
 include_once("config/database.php");
+include_once("config/params.php");
 require_once("class/class.php");
 require_once("services/ridersServices.php");
-require_once("services/seanceServices.php");
 require_once("services/saisonServices.php");
+require_once("services/seanceServices.php");
 require_once("services/inscriptionServices.php");
 
 // Connect to database
@@ -25,15 +26,14 @@ $season_id = 1;
 $user_id = -1;
 $est_admin = false;
 $est_prof = false;
-
 foreach (getallheaders() as $name => $value) {
-    if ($name == "password") {
+    if (strtolower($name) == "password") {
         $password = $value;
     }
-    if ($name == "date_ref") {
+    if (strtolower($name) == "dateref") {
         $date_ref = $value;
     }
-    if ($name == "user_id") {
+    if (strtolower($name) == "userid") {
         $user_id = $value;
     }
 }
