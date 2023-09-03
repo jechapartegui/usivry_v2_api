@@ -33,11 +33,11 @@ class RiderService
     {
         $rider = $this->ToRider($rider);
         $compte = $this->checkAndInsertAccount($rider->email, $rider->mot_de_passe);
-        if(is_string($compte)){
+        if(!is_numeric($compte)){
             return $compte;
         }
         //sans update du mot de passe
-        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau,  essai_restant, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?, ?,  ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau,  essai_restant, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau,   $rider->essai_restant, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
         return $this->db->lastInsertId();
@@ -46,14 +46,14 @@ class RiderService
     {
 
         $rider = $this->ToRider($rider);
-        $compte = $this->CheckLogin($rider->email, $rider->mot_de_passe);
-        if(is_string($compte)){
+        $compte = $this->CheckLogin($rider->email, $rider->mot_de_passe);        
+        if(!is_numeric($compte)){
             return $compte;
         }
         //sans update du mot de passe
-        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau, compte, essai_restant, est_prof, est_admin, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau,  essai_restant, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau,  $compte, $rider->essai_restant, $rider->est_prof, $rider->est_admin, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
+        $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau,   $rider->essai_restant, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
         $id = $this->db->lastInsertId();
         return $id;
     }
@@ -68,7 +68,7 @@ class RiderService
 
         if ($account) {
             // Le compte existe déjà, renvoyer l'ID du compte existant
-            return "LOGIN EXISTS ALREADY";
+            return "LOGIN_ALREADY_EXISTS";
         } else {
             // Le compte n'existe pas, l'ajouter à la table compte
             $classparam = new params();
@@ -200,11 +200,11 @@ class RiderService
             return '?';
         }, $niveaux));
 
-        $sql = "SELECT  s.seance_id as seance_id, c.id as cours, c.nom as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, c.age_requis as age_requis, c.niveau_requis as niveau_requis
+        $sql = "SELECT  s.seance_id as seance_id, c.id as cours, c.nom as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis,  s.age_requis as age_maximum, s.niveau_requis as niveau_requis
         FROM seance s 
         INNER JOIN cours c ON s.cours = c.id 
         INNER JOIN lieu l ON s.lieu_id = l.id 
-        WHERE date_seance >= ? AND date_seance <= ? AND c.age_requis <= ? AND c.niveau_requis IN ($inClause)";
+        WHERE s.date_seance >= ? AND s.date_seance <= ? AND s.age_requis <= ? AND s.niveau_requis IN ($inClause)";
 
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
@@ -231,13 +231,13 @@ class RiderService
             $seances = $ss;
         }
         foreach ($seances as $seance) {
-            $seance->professeurs = $this->get_prof_seance($seance->id);
+            $seance->professeurs = $this->get_prof_seance($seance->seance_id);
         }
         return $seances;
     }
     public function getInscriptions($id)
     {
-        $sql = "SELECT i.id as id, s.seance_id as seance_id, c.id as cours, c.nom as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, i.statut as statut, s.age_requis as age_requis, s.niveau_requis as niveau_requis
+        $sql = "SELECT i.id as id, s.seance_id as seance_id, c.id as cours, c.nom as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, i.statut as statut, s.age_requis as age_requis, s.age_requis as age_maximum,  s.niveau_requis as niveau_requis
         FROM inscription i inner join seance s on i.seance_id = s.seance_id inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE i.rider_id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
@@ -249,7 +249,7 @@ class RiderService
         return $inscriptions;
     }
     public function get_prof_seance($seance_id){
-        $sql = "SELECT s.professeur_id as 'key', concat(r.prenom,' ', r.nom) as 'value' from seance_professeur s inner join riders r on r.id = s.professeur_id where seance_id=?";
+        $sql = "SELECT s.professeur_id as 'key', concat(r.prenom,' ', r.nom) as 'value' from seance_professeur s inner join riders r on r.id = s.professeur_id where s.seance_id=?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$seance_id]);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'KeyValuePair');
@@ -257,7 +257,7 @@ class RiderService
     }
 
     public function getSeancesProf($rider_id){
-        $sql = "SELECT  s.seance_id as seance_id, c.id as cours, c.nom as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, c.age_requis as age_requis, c.niveau_requis as niveau_requis
+        $sql = "SELECT  s.seance_id as seance_id, c.id as cours, c.nom as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis, s.age_requis as age_maximum, s.niveau_requis as niveau_requis
         FROM seance s 
         inner join seance_professeur sp on sp.seance_id = s.seance_id
         INNER JOIN cours c ON s.cours = c.id 
@@ -267,7 +267,11 @@ class RiderService
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');      
         $stmt->execute([$rider_id]);
-        return $stmt->fetchAll();
+        $seances = $stmt->fetchAll();
+        foreach ($seances as $seance) {
+            $seance->professeurs = $this->get_prof_seance($seance->seance_id);
+        }
+        return $seances;
     }
 
     public function exist($rider)
@@ -359,7 +363,7 @@ class RiderService
     }
     public function est_prof_compte($id)
     {
-        $sql = "SELECT * FROM riders WHERE compte = ? and est_admin =1";
+        $sql = "SELECT * FROM riders WHERE compte = ? and est_prof =1";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
         $stmt->fetchAll();
@@ -421,7 +425,7 @@ class RiderService
             $users = $stmt->fetch();
             if ($users) {
                 if ($this->verifyCurrentPassword($users['id'], $password) == 1) {
-                   return true;
+                   return $users['id'];
                 } else {
                     return "INCORRECT_PASSWORD";
                 }

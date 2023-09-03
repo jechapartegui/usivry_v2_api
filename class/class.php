@@ -58,7 +58,9 @@ class Cours {
     public $heure;
     public $duree;
     public $prof_principal_id;
+    public $prof_principal_nom;
     public $lieu_id;
+    public $lieu_nom;
     public $age_requis;
     public $niveau_requis;
     public $saison_id;
@@ -77,6 +79,7 @@ class Seance {
     public $lieu;
     public $statut;
     public $age_requis;
+    public $age_maximum;
     public $niveau_requis;
     public $professeurs;
 

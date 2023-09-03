@@ -26,10 +26,13 @@ class SeanceService {
         if($prof == 0){
             $sql = "DELETE FROM seance_professeur WHERE seance_id=?";
             $stmt = $this->db->prepare($sql);
+            $stmt->execute([$seance_id]);
         } else {
             $sql = "DELETE FROM seance_professeur WHERE seance_id=? and professeur_id = ?";
             $stmt = $this->db->prepare($sql);
+            $stmt->execute([$seance_id, $prof]);
         }
+        return true;
     }
     public function update_prof($seance_id,$prof,$presence){
         $sql = "UPDATE seance_professeur SET  statut=? WHERE seance_id=? and professeur_id = ?";
@@ -49,9 +52,9 @@ class SeanceService {
 
     public function add($seance) {
         $seance = $this->ToSeance($seance);
-        $sql = "INSERT INTO seance (cours, date_seance, heure_debut, duree_cours, lieu_id, statut, niveau_requis, age_requis) VALUES (?, ?, ?, ?, ?, ?,?,?)";
+        $sql = "INSERT INTO seance (cours, date_seance, heure_debut, duree_cours, lieu_id, statut, niveau_requis, age_requis, age_maximum) VALUES (?, ?, ?, ?, ?, ?,?,?, ?)";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$seance->cours, $seance->date_seance, $seance->heure_debut, $seance->duree_cours, $seance->lieu_id, $seance->statut, $seance->niveau_requis, $seance->age_requis]);
+        $stmt->execute([$seance->cours, $seance->date_seance, $seance->heure_debut, $seance->duree_cours, $seance->lieu_id, $seance->statut, $seance->niveau_requis, $seance->age_requis, $seance->age_maximum]);
         $seance_id = $this->db->lastInsertId();
         foreach ($seance->professeurs as $prof) {
            $this->add_prof($seance_id, $prof);
@@ -59,12 +62,46 @@ class SeanceService {
         return $seance_id;
 
     }
-
+    public function update_prof_list($seance_id, $professeur){
+        $sql = "SELECT professeur_id from seance_professeur where seance_id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$seance_id]);
+        $list= $stmt->fetchAll();
+        foreach ($list as $item) {
+            $remove = true;
+            foreach($professeur as $kvp){
+                if($item['professeur_id'] == $kvp){
+                    $remove = false;
+                }
+            } 
+            if($remove == true){
+                $this->delete_prof($seance_id,$item['professeur_id']);
+            }
+        }
+        foreach ($professeur as $kvp) {
+            $add = true;
+            foreach($list as $item){
+                if($item['professeur_id'] == $kvp){
+                    $add = false;
+                }
+            }    
+            if($add == true){
+                $this->add_prof($seance_id,$kvp);
+            }
+        }
+        return true;
+        
+    }
     public function update($seance) {
         $seance = $this->ToSeance($seance);
-        $sql = "UPDATE seance SET cours=?, date_seance=?, heure_debut=?, duree_cours=?, lieu_id=?, statut=?, niveau_requis= ?, age_requis =? WHERE seance_id=?";
+        $sql = "UPDATE seance SET cours=?, date_seance=?, heure_debut=?, duree_cours=?, lieu_id=?, statut=?, niveau_requis= ?, age_requis =?, age_maximum = ? WHERE seance_id=?";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$seance->cours->id, $seance->date_seance, $seance->heure_debut, $seance->duree_cours, $seance->lieu_id, $seance->statut, $seance->niveau_requis, $seance->age_requis, $seance->seance_id]);
+        $retour =  $stmt->execute([$seance->cours, $seance->date_seance, $seance->heure_debut, $seance->duree_cours, $seance->lieu_id, $seance->statut, $seance->niveau_requis, $seance->age_requis, $seance->age_maximum,$seance->seance_id]);
+        if($retour==true){
+            $retour = $this->update_prof_list($seance->seance_id, $seance->professeurs);
+                    
+        }
+        return $retour;
     }
 
     public function delete($id) {
@@ -85,26 +122,26 @@ class SeanceService {
     }
 
     public function getAll($season_id) {
-        $sql = "SELECT s.seance_id as seance_id, c.id as cours, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis, s.niveau_requis as niveau_requis
+        $sql = "SELECT s.seance_id as seance_id, c.id as cours, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis, s.age_requis as age_maximum, s.niveau_requis as niveau_requis
         FROM seance s inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE c.saison_id = ? order by s.date_seance desc";
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
         $stmt->execute([$season_id]);
         $seances = $stmt->fetchAll();
         foreach ($seances as $seance) {
-            $seance->professeurs = $this->get_prof_seance($seance->id);
+            $seance->professeurs = $this->get_prof_seance($seance->seance_id);
         }
         return $seances;
     }
     public function get_seanceprevue() {
-        $sql = "SELECT s.seance_id as seance_id, c.id as cours, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, c.age_requis as age_requis, s.niveau_requis as niveau_requis
+        $sql = "SELECT s.seance_id as seance_id, c.id as cours, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, c.age_requis as age_requis, s.age_requis as age_maximum,  s.niveau_requis as niveau_requis
         FROM seance s inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE statut = 'prévue' order by s.date_seance desc";
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
         $stmt->execute();
         $seances = $stmt->fetchAll();
         foreach ($seances as $seance) {
-            $seance->professeurs = $this->get_prof_seance($seance->id);
+            $seance->professeurs = $this->get_prof_seance($seance->seance_id);
         }
         return $seances;
     }
@@ -115,7 +152,7 @@ class SeanceService {
         $startDate = date('Y-m-d', strtotime("-5 days", strtotime($referenceDate)));
         $endDate = date('Y-m-d', strtotime("+30 days", strtotime($referenceDate)));
     
-        $sql = "SELECT s.seance_id as seance_id, c.id as id, c.nom as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis, c.niveau_requis as niveau_requis
+        $sql = "SELECT s.seance_id as seance_id, c.id as id, c.nom as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis, s.age_requis as age_maximum,  c.niveau_requis as niveau_requis
         FROM seance s inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE s.date_seance >= ? AND s.date_seance <= ? order by s.date_seance desc";
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');

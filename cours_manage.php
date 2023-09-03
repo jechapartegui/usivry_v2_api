@@ -117,7 +117,7 @@ switch ($command) {
             $result = $coursServices->getAllLight_bySaison($season_id);
             break;
         case 'get_seasons_light':
-            if (!$admin) {
+            if (!$admin && !$prof) {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                 exit;
             } else {

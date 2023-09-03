@@ -62,10 +62,7 @@ switch ($command) {
         if (!isset($data['inscription'])) {
             $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
             exit;
-        }
-        if (!$admin) {
-            $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-            exit;
+     
         } else {
             $result = $inscriptionseanceServices->add($data['inscription']);
         }

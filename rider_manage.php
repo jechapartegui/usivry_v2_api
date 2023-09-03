@@ -71,7 +71,7 @@ switch ($command) {
             } else {
                 $result = $RiderService->addrider_existingaccount($data['rider']);
             }
-            if (is_nan($result)) {
+            if (!is_numeric($result)) {
                 $server->getHttpStatusMessage(401, $result);
                 exit;
             }
@@ -92,7 +92,7 @@ switch ($command) {
         } else {
             $result = $RiderService->addrider_existingaccount($data['rider']);
         }
-        if (is_nan($result)) {
+        if (!is_numeric($result)) {
             $server->getHttpStatusMessage(401, $result);
             exit;
         }
@@ -190,8 +190,8 @@ switch ($command) {
         }
 
         break;
-    case 'get_prof_light':        
-        if (!$admin) {
+    case 'get_prof_light': 
+        if (!$admin && !$prof) {
             $server->getHttpStatusMessage(401, "UNAUTHORIZED");
             exit;
         } else {
@@ -207,7 +207,7 @@ switch ($command) {
             $server->getHttpStatusMessage(401, "UNAUTHORIZED");
             exit;
         } else {
-            $is = new InscriptionSaisonService($conn);
+            $is = new InscriptionSaisonService($con);
             $result = $is->add($season_id, $data['id']);
         }
         break;
