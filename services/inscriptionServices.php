@@ -113,11 +113,31 @@ class InscriptionService
         $inscrits = $this->getAll_BySeance($id);
         foreach ($inscrits as $inscrit) {
             $rider_id = $inscrit->rider_id;
+            $est_list = false;
             foreach($list_rider as $rr){
                 if ($rr->rider_id == $rider_id) {
                     $rr->statut = $inscrit->statut;
+                    $rr->hors_liste = false;
+                    $est_list = true;
                     $rr->statut_seance = $inscrit->statut_seance;
                 }
+            }
+            if(!$est_list){
+                 $sql = "SELECT
+                r.id as rider_id,
+                CONCAT(r.prenom, ' ', r.nom) as rider_libelle,
+                CONCAT(r.personne_prevenir, ' ', r.telephone_personne_prevenir) as contact_urgence
+            FROM
+                riders r
+                WHERE r.id = ? ";
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute([$rider_id]);
+                $stmt->setFetchMode(PDO::FETCH_CLASS, 'Inscription');
+                $rider = $stmt->fetch();
+                $rider->statut = 'présent';
+                $rider->hors_liste = true;
+                $rider->statut_seance = null;
+                array_push($list_rider, $rider);
             }
            
         }

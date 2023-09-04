@@ -191,7 +191,9 @@ class RiderService
         $age = $p->calculerAge($rider->date_naissance);
         $startDate = date('Y-m-d', strtotime("-5 days", strtotime($referenceDate)));
         $endDate = date('Y-m-d', strtotime("+30 days", strtotime($referenceDate)));
-
+        if($rider->est_inscrit == false){
+            $rider->niveau = 'avancé';
+        }
         $niveaux = $p->getNiveaux($rider->niveau);
         $inClause = implode(',', array_fill(0, count($niveaux), '?'));
 
@@ -199,7 +201,7 @@ class RiderService
         $inClause = implode(',', array_map(function () {
             return '?';
         }, $niveaux));
-
+       
         $sql = "SELECT  s.seance_id as seance_id, c.id as cours, c.nom as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis,  s.age_requis as age_maximum, s.niveau_requis as niveau_requis
         FROM seance s 
         INNER JOIN cours c ON s.cours = c.id 
@@ -439,6 +441,7 @@ class RiderService
     }
     public function getUserByLogin($login, $password,$saison_id)
     {
+        
         // function to check login/pwd
         if (!empty($login) && !empty($password)) {
             $stmt = $this->db->prepare('select * from compte where login=?');

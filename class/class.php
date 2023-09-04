@@ -105,6 +105,7 @@ class Inscription {
     public $rider_libelle;
     public $contact_urgence;
     public $professeurs;
+    public $hors_liste;
 }
 
 class Saison{

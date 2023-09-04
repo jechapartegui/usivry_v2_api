@@ -113,10 +113,6 @@ switch ($command) {
         if (!isset($data['id'])) {
             $server->getHttpStatusMessage(401, "NO_ID_FOUND");
             exit;
-        }
-        if (!$admin) {
-            $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-            exit;
         } else {
             $result = $inscriptionseanceServices->delete($data['id']);
         }
