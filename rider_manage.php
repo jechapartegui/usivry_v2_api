@@ -165,7 +165,7 @@ switch ($command) {
             $server->getHttpStatusMessage(401, "NO_ID_FOUND");
             exit;
         }
-        $result = $RiderService->get($data['id']);
+        $result = $RiderService->get($data['id'], $season_id);
         foreach ($result as $rd) {
             $rd->inscriptions = $RiderService->getInscriptions($rd->id);
             $rd->seances = $RiderService->getSeances($rd, true);

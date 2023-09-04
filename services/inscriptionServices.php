@@ -147,7 +147,7 @@ class InscriptionService
 
     public function update_inscription_seance($inscription){
         $inscription = $this->ToInscription($inscription);
-        if($inscription->id = 0){
+        if($inscription->id == 0){
             $inscription->id = $this->add($inscription);
         } else {
             $this->update($inscription);

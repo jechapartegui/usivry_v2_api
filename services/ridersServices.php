@@ -329,9 +329,16 @@ class RiderService
         return true;
     }
 
-    public function get($id)
+    public function get($id, $this_season)
     {
-        $sql = "SELECT r.*, c.login as email FROM riders r inner join compte c on c.id = r.compte WHERE compte = ? order by r.nom asc";
+        $sql = "SELECT r.*, c.login as email,  CASE 
+        WHEN i1.rider_id IS NOT NULL THEN true 
+        ELSE false 
+        END as est_inscrit
+        FROM riders r 
+        inner join compte c on c.id = r.compte            
+        LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = ". $this_season ."
+        WHERE r.compte = ? order by r.nom asc";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Rider');
