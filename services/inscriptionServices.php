@@ -47,7 +47,7 @@ class InscriptionService
 
     public function getAll_BySeance($id_seance)
     {
-        $sql = "SELECT rider_id, statut FROM inscription where seance_id = ?";
+        $sql = "SELECT id,rider_id, statut,statut_seance FROM inscription where seance_id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id_seance]);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Inscription');
@@ -88,11 +88,11 @@ class InscriptionService
         $res =  $stmt->fetch();
         $jour = $res['age_requis'] * 365;
         if ($res['niveau_requis'] == 'avancé') {
-            $niveau = "('avancé', 'intermédiaire', 'débutant')";
+            $niveau = "('avancé')";
         } else if ($res['niveau_requis'] == 'intermédiaire') {
-            $niveau = "('intermédiaire', 'débutant')";
+            $niveau = "('intermédiaire', 'avancé')";
         } else {
-            $niveau = "('débutant')";
+            $niveau = "('avancé', 'intermédiaire', 'débutant')";
         }
         $sql = "SELECT
         r.id as rider_id,
@@ -107,6 +107,7 @@ class InscriptionService
     ORDER BY
         r.nom ASC;";
         $stmt = $this->db->prepare($sql);
+
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Inscription');
         $stmt->execute();
         $list_rider= $stmt->fetchAll();
@@ -118,6 +119,7 @@ class InscriptionService
                 if ($rr->rider_id == $rider_id) {
                     $rr->statut = $inscrit->statut;
                     $rr->hors_liste = false;
+                    $rr->id = $inscrit->id;
                     $est_list = true;
                     $rr->statut_seance = $inscrit->statut_seance;
                 }
@@ -134,9 +136,10 @@ class InscriptionService
                 $stmt->execute([$rider_id]);
                 $stmt->setFetchMode(PDO::FETCH_CLASS, 'Inscription');
                 $rider = $stmt->fetch();
-                $rider->statut = 'présent';
+                $rider->statut = $inscrit->statut;
                 $rider->hors_liste = true;
-                $rider->statut_seance = null;
+                $rider->id = $inscrit->id;
+                $rider->statut_seance = $inscrit->statut_seance;
                 array_push($list_rider, $rider);
             }
            

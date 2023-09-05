@@ -133,9 +133,9 @@ class SeanceService {
         }
         return $seances;
     }
-    public function get_seanceprevue() {
+    public function get_seanceprevue($this_season)  {
         $sql = "SELECT s.seance_id as seance_id, c.id as cours, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, c.age_requis as age_requis, s.age_requis as age_maximum,  s.niveau_requis as niveau_requis
-        FROM seance s inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE statut = 'prévue' order by s.date_seance desc";
+        FROM seance s inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE statut = 'prévue' AND c.saison_id = " . $this_season . "  order by s.date_seance desc";
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
         $stmt->execute();
@@ -146,20 +146,20 @@ class SeanceService {
         return $seances;
     }
 
-    public function get_seance_plagedate() {
+    public function get_seance_plagedate($this_season) {
         $referenceDate = date('Y-m-d'); // Date de référence (jour J)
     
         $startDate = date('Y-m-d', strtotime("-5 days", strtotime($referenceDate)));
         $endDate = date('Y-m-d', strtotime("+30 days", strtotime($referenceDate)));
     
         $sql = "SELECT s.seance_id as seance_id, c.id as id, c.nom as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis, s.age_requis as age_maximum,  c.niveau_requis as niveau_requis
-        FROM seance s inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE s.date_seance >= ? AND s.date_seance <= ? order by s.date_seance desc";
+        FROM seance s inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE s.date_seance >= ? AND s.date_seance <= ? AND c.saison_id = " . $this_season . " order by s.date_seance desc";
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
         $stmt->execute([$startDate, $endDate]);
         $seances = $stmt->fetchAll();
         foreach ($seances as $seance) {
-            $seance->professeurs = $this->get_prof_seance($seance->id);
+            $seance->professeurs = $this->get_prof_seance($seance->seance_id);
         }
         return $seances;
     }

@@ -45,10 +45,10 @@ if (is_string($riders)){
     exit;
 }
 foreach ($riders as $rd) {
-	$rd->inscriptions = $rider->getInscriptions($rd->id);
-	$rd->seances = $rider->getSeances($rd, true);
+	$rd->inscriptions = $rider->getInscriptions($rd->id,$season_id);
+	$rd->seances = $rider->getSeances($rd, true,$season_id);
 	if($rd->est_prof){
-		$rd->seances_prof = $rider->getSeancesProf($rd->id);
+		$rd->seances_prof = $rider->getSeancesProf($rd->id,$season_id);
 	}
 }
 

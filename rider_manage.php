@@ -136,7 +136,7 @@ switch ($command) {
             exit;
         } else {
             $previousmail = $RiderService->get_login($data['compte']);
-            $riders = $RiderService->getUserByLogin($previousmail, $data['password'], $season_id);
+            $riders = $RiderService->getUserByLogin($previousmail['login'], $data['password'], $season_id);
             if (is_string($riders)) {
                 $server->getHttpStatusMessage(401, $riders);
                 exit;
@@ -155,7 +155,7 @@ switch ($command) {
                 $server->getHttpStatusMessage(401, $riders);
                 exit;
             } else {
-                $result = $RiderService->update_psw($data['compte'], $data['new_mdp']);
+                $result = $RiderService->update_psw($riders[0]->compte, $data['new_mdp']);
             }
         }
         break;
@@ -167,10 +167,10 @@ switch ($command) {
         }
         $result = $RiderService->get($data['id'], $season_id);
         foreach ($result as $rd) {
-            $rd->inscriptions = $RiderService->getInscriptions($rd->id);
-            $rd->seances = $RiderService->getSeances($rd, true);
+            $rd->inscriptions = $RiderService->getInscriptions($rd->id,$season_id);
+            $rd->seances = $RiderService->getSeances($rd, true,$season_id);
             if ($rd->est_prof) {
-                $rd->seances_prof = $RiderService->getSeancesProf($rd->id);
+                $rd->seances_prof = $RiderService->getSeancesProf($rd->id,$season_id);
             }
         }
         break;

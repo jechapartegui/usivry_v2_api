@@ -126,10 +126,10 @@ $season_id = $s->getActive();
             $result = $seanceServices->getAll($season_id);
             break;
         case 'get_seanceprevue':
-            $result = $seanceServices->get_seanceprevue();
+            $result = $seanceServices->get_seanceprevue($season_id);
             break;
         case 'get_seance_plagedate':           
-            $result = $seanceServices->get_seance_plagedate();
+            $result = $seanceServices->get_seance_plagedate($season_id);
             break;
         case 'delete':
             if (!isset($data['id'])) {

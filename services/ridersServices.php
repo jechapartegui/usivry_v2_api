@@ -181,8 +181,7 @@ class RiderService
         return $liste_id;
     }
 
-    public function getSeances($rider, $remove_inscription)
-    {
+    public function getSeances($rider, $remove_inscription,$this_season)   {
         $p = new params();
         //Age + niveau requis  + date
         $referenceDate = date('Y-m-d'); // Date de référence (jour J)
@@ -206,7 +205,7 @@ class RiderService
         FROM seance s 
         INNER JOIN cours c ON s.cours = c.id 
         INNER JOIN lieu l ON s.lieu_id = l.id 
-        WHERE s.date_seance >= ? AND s.date_seance <= ? AND s.age_requis <= ? AND s.niveau_requis IN ($inClause)";
+        WHERE s.date_seance >= ? AND s.date_seance <= ? AND s.age_requis <= ? AND s.niveau_requis IN ($inClause) AND c.saison_id = " . $this_season;
 
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
@@ -237,16 +236,16 @@ class RiderService
         }
         return $seances;
     }
-    public function getInscriptions($id)
+    public function getInscriptions($id,$this_season)
     {
         $sql = "SELECT i.id as id, s.seance_id as seance_id, c.id as cours, c.nom as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, i.statut as statut, s.age_requis as age_requis, s.age_requis as age_maximum,  s.niveau_requis as niveau_requis
-        FROM inscription i inner join seance s on i.seance_id = s.seance_id inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE i.rider_id = ?";
+        FROM inscription i inner join seance s on i.seance_id = s.seance_id inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE i.rider_id = ? AND c.saison_id = " . $this_season;
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
         $stmt->execute([$id]);
         $inscriptions = $stmt->fetchAll();
         foreach ($inscriptions as $seance) {
-            $seance->professeurs = $this->get_prof_seance($seance->id);
+            $seance->professeurs = $this->get_prof_seance($seance->seance_id);
         }
         return $inscriptions;
     }
@@ -258,13 +257,13 @@ class RiderService
         return $stmt->fetchAll();
     }
 
-    public function getSeancesProf($rider_id){
+    public function getSeancesProf($rider_id,$this_season){
         $sql = "SELECT  s.seance_id as seance_id, c.id as cours, c.nom as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis, s.age_requis as age_maximum, s.niveau_requis as niveau_requis
         FROM seance s 
         inner join seance_professeur sp on sp.seance_id = s.seance_id
         INNER JOIN cours c ON s.cours = c.id 
         INNER JOIN lieu l ON s.lieu_id = l.id 
-        WHERE sp.professeur_id = ?";
+        WHERE sp.professeur_id = ? AND c.saison_id = " . $this_season . "  ";
 
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');      
@@ -317,7 +316,6 @@ class RiderService
         $classparam = new params();
         $pepper = $classparam->getMagicWord();
         $pwd_peppered = hash_hmac("sha256", $_psw, $pepper);
-
         $stmt = $this->db->prepare('UPDATE compte set 
             password = ?
             where id = ?
@@ -326,6 +324,7 @@ class RiderService
             $pwd_peppered,
             $_id
         ]);
+
         return true;
     }
 
