@@ -60,7 +60,7 @@
         CONCAT(r.prenom, ' ', r.nom) as prof_principal_nom, l.nom as lieu_nom FROM cours c 
         inner join riders r on r.id = c.prof_principal_id
         inner join lieu l on l.id = c.lieu_id
-         where saison_id = ?";
+         where saison_id = ? order by c.heure asc";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$saison_id]);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Cours');

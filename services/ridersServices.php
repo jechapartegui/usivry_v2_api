@@ -201,15 +201,15 @@ class RiderService
             return '?';
         }, $niveaux));
        
-        $sql = "SELECT  s.seance_id as seance_id, c.id as cours, c.nom as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis,  s.age_requis as age_maximum, s.niveau_requis as niveau_requis
+        $sql = "SELECT  s.seance_id as seance_id, c.id as cours, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis,  s.age_requis as age_maximum, s.niveau_requis as niveau_requis
         FROM seance s 
         INNER JOIN cours c ON s.cours = c.id 
         INNER JOIN lieu l ON s.lieu_id = l.id 
-        WHERE s.date_seance >= ? AND s.date_seance <= ? AND s.age_requis <= ? AND s.niveau_requis IN ($inClause) AND c.saison_id = " . $this_season;
+        WHERE s.date_seance >= ? AND s.date_seance <= ? AND s.age_requis <= ? AND s.age_maximum >= ? AND s.niveau_requis IN ($inClause) AND c.saison_id = " . $this_season;
 
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
-        $bindValueArray = [$startDate, $endDate, $age];
+        $bindValueArray = [$startDate, $endDate, $age, $age];
         $bindValueArray = array_merge($bindValueArray, $niveaux); // Ajoute les niveaux requis à la liste des valeurs à binder
         $stmt->execute($bindValueArray);
         $ss = $stmt->fetchAll();
@@ -238,7 +238,7 @@ class RiderService
     }
     public function getInscriptions($id,$this_season)
     {
-        $sql = "SELECT i.id as id, s.seance_id as seance_id, c.id as cours, c.nom as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, i.statut as statut, s.age_requis as age_requis, s.age_requis as age_maximum,  s.niveau_requis as niveau_requis
+        $sql = "SELECT i.id as id, s.seance_id as seance_id, c.id as cours, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, i.statut as statut, s.age_requis as age_requis, s.age_maximum as age_maximum,  s.niveau_requis as niveau_requis
         FROM inscription i inner join seance s on i.seance_id = s.seance_id inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE i.rider_id = ? AND i.statut IS NOT NULL AND c.saison_id = " . $this_season;
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
@@ -258,7 +258,7 @@ class RiderService
     }
 
     public function getSeancesProf($rider_id,$this_season){
-        $sql = "SELECT  s.seance_id as seance_id, c.id as cours, c.nom as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis, s.age_requis as age_maximum, s.niveau_requis as niveau_requis
+        $sql = "SELECT  s.seance_id as seance_id, c.id as cours, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis, s.age_maximum as age_maximum, s.niveau_requis as niveau_requis
         FROM seance s 
         inner join seance_professeur sp on sp.seance_id = s.seance_id
         INNER JOIN cours c ON s.cours = c.id 
@@ -323,6 +323,22 @@ class RiderService
         $stmt->execute([
             $pwd_peppered,
             $_id
+        ]);
+
+        return true;
+    }
+    public function update_psw_compte($login, $_psw)
+    {
+        $classparam = new params();
+        $pepper = $classparam->getMagicWord();
+        $pwd_peppered = hash_hmac("sha256", $_psw, $pepper);
+        $stmt = $this->db->prepare('UPDATE compte set 
+            password = ?
+            where login = ?
+        ');
+        $stmt->execute([
+            $pwd_peppered,
+            $login
         ]);
 
         return true;

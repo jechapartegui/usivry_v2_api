@@ -4,6 +4,7 @@ include_once("config/restServer.php");
 include_once("config/database.php");
 include_once("services/ridersServices.php");
 include_once("services/saisonServices.php");
+include_once("services/mailServices.php");
 
 // Connect to database
 $database=new database();
@@ -11,8 +12,23 @@ $con = $database->getConnection();
 $server = new restServer();
 $data = $server->initRest();
 $ss = new SaisonService($con);
-    $season_id = $ss->getActive();
-
+$season_id = $ss->getActive();
+$rider=new RiderService($con);
+if (isset($data['logout'])){
+	session_unset();
+	exit;
+}
+if (isset($data['renvoi_mdp']) && isset($data['login']) ){
+	$val = $rider->update_psw_compte($data['login'],'ivry');
+	if($val){
+		// à faire plus tard --> envoi email $send = SendMail($data['login']);
+		print json_encode($val);
+		exit;
+	} else {
+		$server->getHttpStatusMessage(401, "UNKNOWN_ERROR");
+		exit;
+	}
+}
 if (!isset($data['username'])){
     $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
     exit;
@@ -38,7 +54,6 @@ if ( !$con ) {
 	exit;
 }
 
-$rider=new RiderService($con);
 $riders = $rider->getUserByLogin($login,$psw,$season_id );
 if (is_string($riders)){
     $server->getHttpStatusMessage(401,$riders);
