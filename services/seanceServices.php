@@ -153,7 +153,7 @@ class SeanceService {
         $endDate = date('Y-m-d', strtotime("+30 days", strtotime($referenceDate)));
     
         $sql = "SELECT s.seance_id as seance_id, c.id as id, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis, s.age_maximum as age_maximum,  c.niveau_requis as niveau_requis
-        FROM seance s inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE s.date_seance >= ? AND s.date_seance <= ? AND c.saison_id = " . $this_season . " order by s.date_seance desc";
+        FROM seance s inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE s.date_seance >= ? AND s.date_seance <= ? AND c.saison_id = " . $this_season . " order by s.date_seance asc";
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
         $stmt->execute([$startDate, $endDate]);
