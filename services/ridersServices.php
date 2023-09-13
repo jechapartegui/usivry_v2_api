@@ -406,7 +406,12 @@ class RiderService
         $stmt->execute();
         return $stmt->fetchAll();
     }
-
+    public function update_level($niveau, $id)
+    {
+        $sql = "UPDATE riders SET niveau=? WHERE id=?";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$niveau, $id]);
+    }
     public function update($rider)
     {
         $rider = $this->ToRider($rider);

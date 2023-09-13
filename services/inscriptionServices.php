@@ -96,7 +96,7 @@ class InscriptionService
         }
         $sql = "SELECT
         r.id as rider_id,
-        CONCAT(r.prenom, ' ', r.nom) as rider_libelle,
+        CONCAT(r.prenom, ' ', r.nom) as rider_libelle, r.niveau as niveau,
         CONCAT(r.personne_prevenir, ' ', r.telephone_personne_prevenir) as contact_urgence
     FROM
         riders r

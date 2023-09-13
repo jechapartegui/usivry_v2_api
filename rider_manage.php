@@ -124,6 +124,14 @@ switch ($command) {
             $result = $RiderService->update($data['rider']);
         }
         break;
+    case 'update_level':      
+        if (!isset($data['id']) || !isset($data['niveau'])) {
+            $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
+            exit;
+        } else {
+            $result = $RiderService->update_level($data['niveau'], $data['id']);
+        }
+        break;
     case 'update_mail':        
         if (!isset($data['compte'])) {
             $server->getHttpStatusMessage(401, "NO_ACCOUNT_FOUND");
