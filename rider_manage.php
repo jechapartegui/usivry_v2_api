@@ -177,8 +177,8 @@ switch ($command) {
     case 'get_all':  
         $this_season = $season_id;     
         $all = false;
-        if (isset($data['saison_id'])) {
-            $season_id = $data['saison_id'];
+        if (isset($data['season_id'])) {
+            $season_id = $data['season_id'];
         }
         if (isset($data['all'])) {
             $all = true;
