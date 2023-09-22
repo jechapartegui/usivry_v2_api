@@ -22,17 +22,17 @@
         }
         $cours = $this->ToCours($cours);
         
-        $sql = "INSERT INTO cours (nom, jour_semaine, heure, duree, prof_principal_id, lieu_id, age_requis, niveau_requis, saison_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO cours (nom, jour_semaine, heure, duree, prof_principal_id, lieu_id, age_requis, niveau_requis, saison_id, place_maximum) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$cours->nom, $cours->jour_semaine, $cours->heure, $cours->duree, $cours->prof_principal_id, $cours->lieu_id, $cours->age_requis, $cours->niveau_requis, $cours->saison_id]);
+        $stmt->execute([$cours->nom, $cours->jour_semaine, $cours->heure, $cours->duree, $cours->prof_principal_id, $cours->lieu_id, $cours->age_requis, $cours->niveau_requis, $cours->saison_id, $cours->place_maximum]);
         return $this->db->lastInsertId();
     }
 
     public function update($cours) {
         $cours = $this->ToCours($cours);
-        $sql = "UPDATE cours SET nom=?, jour_semaine=?, heure=?, duree=?, prof_principal_id=?, lieu_id=?, age_requis=?, niveau_requis=?, saison_id=? WHERE id=?";
+        $sql = "UPDATE cours SET nom=?, jour_semaine=?, heure=?, duree=?, prof_principal_id=?, lieu_id=?, age_requis=?, niveau_requis=?, saison_id=?, place_maximum = ? WHERE id=?";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$cours->nom, $cours->jour_semaine, $cours->heure, $cours->duree, $cours->prof_principal_id, $cours->lieu_id, $cours->age_requis, $cours->niveau_requis, $cours->saison_id, $cours->id]);
+        return $stmt->execute([$cours->nom, $cours->jour_semaine, $cours->heure, $cours->duree, $cours->prof_principal_id, $cours->lieu_id, $cours->age_requis, $cours->niveau_requis, $cours->saison_id, $cours->place_maximum, $cours->id]);
     }
 
     public function delete($id) {
@@ -42,16 +42,22 @@
     }
 
     public function get($id) {
-        $sql = "SELECT * FROM cours WHERE id=?";
+        $sql = "SELECT *, CONCAT(r.prenom, ' ', r.nom) as prof_principal_nom, l.nom as lieu_nom FROM cours c 
+        inner join riders r on r.id = c.prof_principal_id
+        inner join lieu l on l.id = c.lieu_id WHERE id=?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Cours');
         return $stmt->fetch();
     }
 
     public function getAll() {
-        $sql = "SELECT * FROM cours";
+        $sql = "SELECT *, CONCAT(r.prenom, ' ', r.nom) as prof_principal_nom, l.nom as lieu_nom FROM cours c 
+        inner join riders r on r.id = c.prof_principal_id
+        inner join lieu l on l.id = c.lieu_id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Cours');
         return $stmt->fetchAll();
     }
 

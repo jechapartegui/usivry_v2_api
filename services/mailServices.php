@@ -1,15 +1,17 @@
 <?php
 // Destinataire
-
-function SendMail($login){
-    var_dump($login);
+class MailService{
+    public function __construct()
+    {
+    }
+function SendMailPassword($login, $password){
 $destinataire = "jechapartegui@gmail.com";
 
 // Sujet de l'e-mail
 $sujet = "Réinitialisation du mot de passe";
 
 // Message de l'e-mail
-$message = "Votre mot de passe a été réinitialisé avec la valeur 'ivry'.";
+$message = "Votre mot de passe a été réinitialisé avec la valeur ". $password;
 
 // En-têtes de l'e-mail
 $headers = "From: usivry.roller@gmail.com\r\n";
@@ -23,5 +25,6 @@ if (mail($destinataire, $sujet, $message, $headers)) {
     return false;
 }
     
+}
 }
 ?>

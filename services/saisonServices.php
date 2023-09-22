@@ -27,14 +27,16 @@ class SaisonService {
     public function getActive() {
         $sql = "SELECT * FROM saison WHERE active = 1";
         $stmt = $this->db->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Saison');
         $stmt->execute();
-        $res = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $res['id'];
+        $res = $stmt->fetch();
+        return $res->id;
     }
 
     public function getAll() {
         $sql = "SELECT * FROM saison";
         $stmt = $this->db->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Saison');
         $stmt->execute();
         return $stmt->fetchAll();
     }

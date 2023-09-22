@@ -63,7 +63,8 @@ class Cours {
     public $lieu_nom;
     public $age_requis;
     public $niveau_requis;
-    public $saison_id;
+    public $saison_id;    
+    public $place_maximum;
 }
 
 
@@ -82,6 +83,9 @@ class Seance {
     public $age_maximum;
     public $niveau_requis;
     public $professeurs;
+    public $place_maximum;
+    public $essai_possible;
+    public $notes;
 
     public function __construct() {
         $this->professeurs = array();
@@ -101,7 +105,6 @@ class Inscription {
     public $date_inscription;
     public $statut;
     public $statut_seance;
-
     public $rider_libelle;
     public $contact_urgence;
     public $professeurs;
@@ -117,5 +120,4 @@ class Saison{
 class KeyValuePair{
     public $key;
     public $value;
-
 }

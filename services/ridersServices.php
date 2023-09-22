@@ -160,6 +160,56 @@ class RiderService
         return $stmt->fetchAll();
     }
 
+    public function search_light($search, $season_id, $all, $this_season){
+        if($all==true){
+            $sql = "SELECT r.id as 'key', CONCAT(r.prenom, ' ',r.nom) as 'value'
+            FROM riders r inner join compte c on c.id = r.compte             
+            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = ". $this_season ."
+            WHERE `nom` LIKE '%". $search ."%' or prenom like '%". $search ."%' order by r.nom asc";
+        } else {
+            $sql = "SELECT r.id as 'key', CONCAT(r.prenom, ' ',r.nom) as 'value'
+            FROM riders r inner join compte c on c.id = r.compte 
+            inner join inscription_saison i on i.rider_id = r.id 
+            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = ". $this_season ."
+            WHERE (r.`nom` LIKE '%". $search ."%' or prenom like '%". $search ."%') and i.saison_id = ". $season_id . " order by r.nom asc";
+        }
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'KeyValuePair');
+        return $stmt->fetchAll();
+    }
+    public function get_all_light($season_id, $all, $this_season){
+        if($all==true){
+            $sql = "SELECT r.id as 'key', CONCAT(r.prenom, ' ',r.nom) as 'value'
+           FROM riders r inner join compte c on c.id = r.compte 
+            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id =". $this_season ."
+           order by r.nom asc";
+        } else {
+            $sql = "SELECT r.id as 'key', CONCAT(r.prenom, ' ',r.nom) as 'value'
+           FROM riders r inner join compte c on c.id = r.compte 
+           inner join inscription_saison i on i.rider_id = r.id 
+            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = ". $this_season ."
+           WHERE  i.saison_id = ". $season_id ." order by r.nom asc";
+        }
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'KeyValuePair');
+        return $stmt->fetchAll();
+    }
+
+    public function generateRandomString($length = 8) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!/,ùàéà';
+        $randomString = '';
+        $charLength = strlen($characters);
+    
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charLength - 1)];
+        }
+    
+        return $randomString;
+    }
+    
+
 
     public function add_range($riders)
     {
@@ -188,7 +238,7 @@ class RiderService
         // $niveaux = $p->getNiveaux($rider->niveau);
         // $inClause = implode(',', array_fill(0, count($niveaux), '?'));
         $age = $p->calculerAge($rider->date_naissance);
-        $startDate = date('Y-m-d', strtotime("-5 days", strtotime($referenceDate)));
+        $startDate = date('Y-m-d', strtotime($referenceDate));
         $endDate = date('Y-m-d', strtotime("+30 days", strtotime($referenceDate)));
         if($rider->est_inscrit == false){
             $rider->niveau = 'avancé';

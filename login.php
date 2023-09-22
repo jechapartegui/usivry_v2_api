@@ -14,14 +14,16 @@ $data = $server->initRest();
 $ss = new SaisonService($con);
 $season_id = $ss->getActive();
 $rider=new RiderService($con);
+$mail=new MailService();
 if (isset($data['logout'])){
 	session_unset();
 	exit;
 }
 if (isset($data['renvoi_mdp']) && isset($data['login']) ){
-	$val = $rider->update_psw_compte($data['login'],'ivry');
-	if($val){
-		// à faire plus tard --> envoi email $send = SendMail($data['login']);
+	$randomstring = $rider->generateRandomString(8);
+	$val = $rider->update_psw_compte($data['login'],$randomstring);
+	if($val){		
+		$send = $mail->SendMailPassword($data['login'],$randomstring);
 		print json_encode($val);
 		exit;
 	} else {

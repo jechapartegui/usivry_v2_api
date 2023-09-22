@@ -116,7 +116,7 @@ switch ($command) {
             $is->add($season_id, $id);
         }
         break;
-    case 'update':      
+    case 'update':
         if (!isset($data['rider'])) {
             $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
             exit;
@@ -124,7 +124,7 @@ switch ($command) {
             $result = $RiderService->update($data['rider']);
         }
         break;
-    case 'update_level':      
+    case 'update_level':
         if (!isset($data['id']) || !isset($data['niveau'])) {
             $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
             exit;
@@ -132,7 +132,7 @@ switch ($command) {
             $result = $RiderService->update_level($data['niveau'], $data['id']);
         }
         break;
-    case 'update_mail':        
+    case 'update_mail':
         if (!isset($data['compte'])) {
             $server->getHttpStatusMessage(401, "NO_ACCOUNT_FOUND");
             exit;
@@ -153,7 +153,7 @@ switch ($command) {
             }
         }
         break;
-    case 'update_password':     
+    case 'update_password':
         if ((!isset($data['email']) || (!isset($data['mdp_actuel'])) || (!isset($data['new_mdp'])))) {
             $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
             exit;
@@ -168,22 +168,22 @@ switch ($command) {
         }
         break;
     case 'get':
-       
+
         if (!isset($data['id'])) {
             $server->getHttpStatusMessage(401, "NO_ID_FOUND");
             exit;
         }
         $result = $RiderService->get($data['id'], $season_id);
         foreach ($result as $rd) {
-            $rd->inscriptions = $RiderService->getInscriptions($rd->id,$season_id);
-            $rd->seances = $RiderService->getSeances($rd, true,$season_id);
+            $rd->inscriptions = $RiderService->getInscriptions($rd->id, $season_id);
+            $rd->seances = $RiderService->getSeances($rd, true, $season_id);
             if ($rd->est_prof) {
-                $rd->seances_prof = $RiderService->getSeancesProf($rd->id,$season_id);
+                $rd->seances_prof = $RiderService->getSeancesProf($rd->id, $season_id);
             }
         }
         break;
-    case 'get_all':  
-        $this_season = $season_id;     
+    case 'get_all':
+        $this_season = $season_id;
         $all = false;
         if (isset($data['season_id'])) {
             $season_id = $data['season_id'];
@@ -198,7 +198,23 @@ switch ($command) {
         }
 
         break;
-    case 'get_prof_light': 
+    case 'get_all_light':
+        $this_season = $season_id;
+        $all = false;
+        if (isset($data['season_id'])) {
+            $season_id = $data['season_id'];
+        }
+        if (isset($data['all'])) {
+            $all = true;
+        }
+        if (isset($data['search'])) {
+            $result = $RiderService->search_light($data['search'], $season_id, $all, $this_season);
+        } else {
+            $result = $RiderService->get_all_light($season_id, $all, $this_season);
+        }
+
+        break;
+    case 'get_prof_light':
         if (!$admin && !$prof) {
             $server->getHttpStatusMessage(401, "UNAUTHORIZED");
             exit;
