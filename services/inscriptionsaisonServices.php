@@ -8,9 +8,16 @@ class InscriptionSaisonService {
     }
 
     public function add($saisonId, $riderId) {
-        $sql = "INSERT INTO inscription_saison (rider_id, saison_id) VALUES (?, ?)";
+        $sql = "SELECT * FROM inscription_saison where saison_id = ". $saisonId . " and rider_id = " .$riderId;
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$riderId, $saisonId]);
+        $stmt->execute();
+        $rowCount = $stmt->rowCount();
+        if($rowCount == 0){
+            $sql = "INSERT INTO inscription_saison (rider_id, saison_id) VALUES (?, ?)";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$riderId, $saisonId]);
+
+        }
         return true;
     }
 

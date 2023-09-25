@@ -216,16 +216,18 @@ class RiderService
         $liste_id = array();
         foreach ($riders as $rider__) {
             $rider = $this->ToRider($rider__);
-            $rider_id  = $this->exist($rider);
-            if ($rider_id == 0) {
+            $rider->id  = $this->exist($rider);
+            if ($rider->id == 0) {
                 $compte = $this->ReturnOrInsertAccount($rider->email, $rider->mot_de_passe);             
                 //sans update du mot de passe
                 $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau,  essai_restant, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?, ?,  ?, ?, ?, ?, ?, ?)";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau,   $rider->essai_restant, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
-                $rider_id =  $this->db->lastInsertId();
+                $rider->id =  $this->db->lastInsertId();
+            } else{
+                $this->update($rider);
             }
-            array_push($liste_id, $rider_id);
+            array_push($liste_id, $rider->id);
         }
 
         return $liste_id;
@@ -327,13 +329,13 @@ class RiderService
 
     public function exist($rider)
     {
-        $sql = "SELECT id FROM riders WHERE prenom = ? AND nom = ? AND date_naissance = ?";
+        $sql = "SELECT r.id FROM riders r inner join compte c on c.id =r.compte WHERE r.prenom like ? AND r.nom like ? AND c.login = ?";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$rider->prenom, $rider->nom, $rider->date_naissance]);
+        $stmt->execute([$rider->prenom, $rider->nom, $rider->email]);
         $rowCount = $stmt->rowCount();
         if ($rowCount > 0) {
-            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Rider');    
-            return $rider['id'];
+            $res = $stmt->fetch(); 
+            return $res['id'];
         } else {
             return 0;
         }
@@ -467,7 +469,7 @@ class RiderService
         $rider = $this->ToRider($rider);
         $sql = "UPDATE riders SET nom=?, prenom=?, date_naissance=?, sexe=?, niveau=?, adresse=?, essai_restant=?, est_prof=?, est_admin=?, telephone=?, personne_prevenir=?, telephone_personne_prevenir=? WHERE id=?";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau, $rider->adresse, $rider->essai_restant, $rider->est_prof, $rider->est_admin, $rider->personne_prevenir, $rider->personne_prevenir, $rider->telephone_personne_prevenir, $rider->id]);
+        return $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau, $rider->adresse, $rider->essai_restant, $rider->est_prof, $rider->est_admin, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir, $rider->id]);
     }
 
     public function delete($id)
