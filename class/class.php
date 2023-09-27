@@ -1,6 +1,7 @@
-<?php 
+<?php
 
-class Rider {
+class Rider
+{
     public $id;
     public $nom;
     public $prenom;
@@ -23,27 +24,28 @@ class Rider {
     public $seances_prof;
     public $inscriptions;
 
-    public function __construct() {
-        $utils=new utils();
+    public function __construct()
+    {
+        $utils = new utils();
         $this->nomcomplet = $utils->convert_texte($this->nom . " " . $this->prenom);
         $this->prenom = $utils->convert_texte($this->prenom);
         $this->nom = $utils->convert_texte($this->nom);
-        if($this->sexe==0){
+        if ($this->sexe == 0) {
             $this->sexe = false;
         } else {
             $this->sexe = true;
         }
-        if($this->est_admin==0){
+        if ($this->est_admin == 0) {
             $this->est_admin = false;
         } else {
             $this->est_admin = true;
         }
-        if($this->est_prof==0){
+        if ($this->est_prof == 0) {
             $this->est_prof = false;
         } else {
             $this->est_prof = true;
         }
-        if($this->est_inscrit==0){
+        if ($this->est_inscrit == 0) {
             $this->est_inscrit = false;
         } else {
             $this->est_inscrit = true;
@@ -51,7 +53,8 @@ class Rider {
     }
 }
 
-class Cours {
+class Cours
+{
     public $id;
     public $nom;
     public $jour_semaine;
@@ -63,12 +66,13 @@ class Cours {
     public $lieu_nom;
     public $age_requis;
     public $niveau_requis;
-    public $saison_id;    
+    public $saison_id;
     public $place_maximum;
 }
 
 
-class Seance {
+class Seance
+{
     public $id;
     public $seance_id;
     public $cours;
@@ -87,18 +91,27 @@ class Seance {
     public $essai_possible;
     public $notes;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->professeurs = array();
+        if ($this->essai_possible == 0) {
+            $this->essai_possible = false;
+        } else {
+            $this->essai_possible = true;
+        }
+        
     }
 }
 
-class Lieu{
+class Lieu
+{
     public $id;
     public $nom;
     public $adresse;
 }
 
-class Inscription {
+class Inscription
+{
     public $id;
     public $rider_id;
     public $seance_id;
@@ -111,13 +124,15 @@ class Inscription {
     public $hors_liste;
 }
 
-class Saison{
+class Saison
+{
     public $id;
     public $nom;
     public $active;
 }
 
-class KeyValuePair{
+class KeyValuePair
+{
     public $key;
     public $value;
 }

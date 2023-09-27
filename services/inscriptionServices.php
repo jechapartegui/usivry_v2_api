@@ -90,13 +90,12 @@ class InscriptionService
         $stmt->execute([$id]);
         $res =  $stmt->fetch();
         $jour = $res['age_requis'] * 365;
-        if ($res['niveau_requis'] == 'avancé') {
-            $niveau = "('avancé')";
-        } else if ($res['niveau_requis'] == 'intermédiaire') {
-            $niveau = "('intermédiaire', 'avancé')";
-        } else {
-            $niveau = "('avancé', 'intermédiaire', 'débutant')";
-        }
+        $elements = explode(",", $res['niveau_requis']); // Divise la chaîne en un tableau en utilisant la virgule comme séparateur
+        $quotedElements = array_map(function($element) {
+            return "'" . $element . "'";
+        }, $elements); // Ajoute des guillemets simples autour de chaque élément
+        
+        $niveau = "(" . implode(",", $quotedElements) . ")";
         $sql = "SELECT
         r.id as rider_id,
         CONCAT(r.prenom, ' ', r.nom) as rider_libelle, r.niveau as niveau,
@@ -110,7 +109,6 @@ class InscriptionService
     ORDER BY
         r.nom ASC;";
         $stmt = $this->db->prepare($sql);
-
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Inscription');
         $stmt->execute();
         $list_rider= $stmt->fetchAll();

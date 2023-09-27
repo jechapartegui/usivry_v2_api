@@ -291,7 +291,7 @@ class RiderService
     public function getInscriptions($id,$this_season)
     {
         $sql = "SELECT i.id as id, s.seance_id as seance_id, c.id as cours, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, i.statut as statut, s.age_requis as age_requis, s.age_maximum as age_maximum,  s.niveau_requis as niveau_requis
-        FROM inscription i inner join seance s on i.seance_id = s.seance_id inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE i.rider_id = ? AND i.statut IS NOT NULL AND c.saison_id = " . $this_season;
+        FROM inscription i inner join seance s on i.seance_id = s.seance_id inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE i.rider_id = ? AND i.statut IS NOT NULL AND s.date_seance > DATE_SUB(CURDATE(), INTERVAL 1 DAY) AND c.saison_id = " . $this_season;
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
         $stmt->execute([$id]);
