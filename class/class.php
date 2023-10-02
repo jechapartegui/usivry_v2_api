@@ -11,7 +11,6 @@ class Rider
     public $niveau;
     public $mot_de_passe;
     public $email;
-    public $essai_restant;
     public $est_prof;
     public $est_admin;
     public $est_inscrit;
@@ -90,6 +89,7 @@ class Seance
     public $place_maximum;
     public $essai_possible;
     public $notes;
+    public $info_seance;
 
     public function __construct()
     {

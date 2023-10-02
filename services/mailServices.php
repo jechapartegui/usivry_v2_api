@@ -11,7 +11,7 @@ $destinataire = "jechapartegui@gmail.com";
 $sujet = "Réinitialisation du mot de passe";
 
 // Message de l'e-mail
-$message = "Votre mot de passe a été réinitialisé avec la valeur ". $password;
+$message = "Votre mot de passe a été réinitialisé avec la valeur ". $password ." pour le login ". $login;
 
 // En-têtes de l'e-mail
 $headers = "From: usivry.roller@gmail.com\r\n";

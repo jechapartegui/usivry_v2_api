@@ -37,9 +37,9 @@ class RiderService
             return $compte;
         }
         //sans update du mot de passe
-        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau,  essai_restant, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau,   $rider->essai_restant, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
+        $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau,  $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
         return $this->db->lastInsertId();
     }
     public function addrider_existingaccount($rider)
@@ -51,9 +51,9 @@ class RiderService
             return $compte;
         }
         //sans update du mot de passe
-        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau,  essai_restant, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?,  ?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau,   $rider->essai_restant, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
+        $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
         $id = $this->db->lastInsertId();
         return $id;
     }
@@ -74,7 +74,7 @@ class RiderService
             $classparam = new params();
             $pepper = $classparam->getMagicWord();
             $pwd_peppered = hash_hmac("sha256", $password, $pepper);
-            $stmt = $this->db->prepare('INSERT INTO compte (login, password, registration_date) VALUES (?, ?, NOW())');
+            $stmt = $this->db->prepare('INSERT INTO compte (login, password, registration_date, mail_active) VALUES (?, ?, NOW(), 1)');
             $stmt->execute([$login, $pwd_peppered]);
 
             // Récupérer l'ID du compte nouvellement inséré
@@ -97,7 +97,7 @@ class RiderService
             $classparam = new params();
             $pepper = $classparam->getMagicWord();
             $pwd_peppered = hash_hmac("sha256", $password, $pepper);
-            $stmt = $this->db->prepare('INSERT INTO compte (login, password, registration_date) VALUES (?, ?, NOW())');
+            $stmt = $this->db->prepare('INSERT INTO compte (login, password, registration_date, mail_active) VALUES (?, ?, NOW(), 1)');
             $stmt->execute([$login, $pwd_peppered]);
 
             // Récupérer l'ID du compte nouvellement inséré
@@ -220,9 +220,9 @@ class RiderService
             if ($rider->id == 0) {
                 $compte = $this->ReturnOrInsertAccount($rider->email, $rider->mot_de_passe);             
                 //sans update du mot de passe
-                $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau,  essai_restant, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?, ?,  ?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?,   ?, ?, ?, ?, ?, ?)";
                 $stmt = $this->db->prepare($sql);
-                $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau,   $rider->essai_restant, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
+                $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
                 $rider->id =  $this->db->lastInsertId();
             } else{
                 $this->update($rider);
@@ -363,6 +363,28 @@ class RiderService
         return true;
     }
 
+    public function update_mail_active($_id, $mail_active)
+    {
+      
+        $stmt = $this->db->prepare('UPDATE compte set 
+            mail_active = ?
+            where id = ?
+        ');
+        $stmt->execute([
+            $mail_active,
+            $_id
+        ]);
+        return true;
+    }
+    public function get_account($_id)
+    {
+      
+        $stmt = $this->db->prepare('select login, mail_active from compte where id = ?');
+        $stmt->execute([$_id]);
+        $res = $stmt->fetch(); 
+        return $res;
+    }
+
     public function update_psw($_id, $_psw)
     {
         $classparam = new params();
@@ -467,9 +489,9 @@ class RiderService
     public function update($rider)
     {
         $rider = $this->ToRider($rider);
-        $sql = "UPDATE riders SET nom=?, prenom=?, date_naissance=?, sexe=?, niveau=?, adresse=?, essai_restant=?, est_prof=?, est_admin=?, telephone=?, personne_prevenir=?, telephone_personne_prevenir=? WHERE id=?";
+        $sql = "UPDATE riders SET nom=?, prenom=?, date_naissance=?, sexe=?, niveau=?, adresse=?, est_prof=?, est_admin=?, telephone=?, personne_prevenir=?, telephone_personne_prevenir=? WHERE id=?";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau, $rider->adresse, $rider->essai_restant, $rider->est_prof, $rider->est_admin, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir, $rider->id]);
+        return $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau, $rider->adresse,  $rider->est_prof, $rider->est_admin, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir, $rider->id]);
     }
 
     public function delete($id)
@@ -529,12 +551,9 @@ class RiderService
             if ($users) {
                 if ($this->verifyCurrentPassword($users['id'], $password) == 1) {
                     $sql = "SELECT r.*, c.login as email,  
-                    CASE 
-                       WHEN i1.rider_id IS NOT NULL THEN true 
-                       ELSE false 
-                   END as est_inscrit
+                    true as est_inscrit
                    FROM riders r inner join compte c on c.id = r.compte 
-                    LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = ". $saison_id ."
+                    inner JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = ". $saison_id ."
                    
                     WHERE r.compte=? order by r.nom asc";
                     $stmt = $this->db->prepare($sql);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: xnydyfvjecha.mysql.db
--- Generation Time: Sep 08, 2023 at 10:09 AM
+-- Generation Time: Sep 14, 2023 at 09:48 AM
 -- Server version: 5.7.42-log
 -- PHP Version: 8.1.22
 
@@ -167,7 +167,10 @@ INSERT INTO `compte` (`id`, `login`, `password`, `registration_date`) VALUES
 (125, 'zahirhanaizi@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-09-07'),
 (126, 'Priam-boulay@orange.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-09-07'),
 (127, 'yorosidibe@outlook.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-09-07'),
-(128, 'ellissondo@me.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-09-07');
+(128, 'ellissondo@me.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-09-07'),
+(129, 'michau.evelaure@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-09-08'),
+(130, 'h.robledogruel.15@eigsi.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-09-11'),
+(131, 'mlaillier@yahoo.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-09-11');
 
 -- --------------------------------------------------------
 
@@ -209,7 +212,7 @@ INSERT INTO `cours` (`id`, `nom`, `jour_semaine`, `heure`, `duree`, `prof_princi
 (14, 'Enfants - Roller Street', 'dimanche', '15:30', 90, 151, 1, 8, NULL, 'intermédiaire', 2),
 (15, 'Adultes - RollBall', 'mercredi', '20:30', 90, 24, 2, 14, NULL, 'intermédiaire', 2),
 (16, 'Adultes - Roller Derby - Lundi', 'lundi', '20:00', 150, 74, 2, 18, NULL, 'débutant', 2),
-(17, 'Adultes - Roller Derby - Lundi', 'jeudi', '20:00', 150, 74, 3, 18, NULL, 'intermédiaire', 2),
+(17, 'Adultes - Roller Derby - Jeudi', 'jeudi', '20:00', 150, 74, 3, 18, NULL, 'intermédiaire', 2),
 (18, 'Adultes - Roller Derby Samedi', 'samedi', '10:00', 120, 74, 3, 18, NULL, 'intermédiaire', 2);
 
 -- --------------------------------------------------------
@@ -239,7 +242,16 @@ INSERT INTO `inscription` (`id`, `rider_id`, `seance_id`, `date_inscription`, `s
 (7, 23, 7, '2023-09-07', 'présent', NULL),
 (8, 30, 12, '2023-09-07', 'présent', NULL),
 (9, 31, 9, '2023-09-07', 'présent', NULL),
-(10, 31, 10, '2023-09-07', 'présent', NULL);
+(10, 31, 10, '2023-09-07', 'présent', NULL),
+(11, 31, 17, '2023-09-08', 'présent', 'présent'),
+(12, 115, 17, '2023-09-08', NULL, 'présent'),
+(13, 35, 17, '2023-09-08', NULL, 'présent'),
+(14, 42, 17, '2023-09-08', NULL, 'présent'),
+(15, 99, 17, '2023-09-08', NULL, 'présent'),
+(16, 100, 17, '2023-09-08', NULL, 'présent'),
+(17, 151, 17, '2023-09-08', NULL, 'présent'),
+(18, 149, 17, '2023-09-08', NULL, 'présent'),
+(19, 43, 17, '2023-09-08', NULL, 'présent');
 
 -- --------------------------------------------------------
 
@@ -422,7 +434,11 @@ INSERT INTO `inscription_saison` (`rider_id`, `saison_id`) VALUES
 (104, 2),
 (105, 2),
 (106, 2),
-(115, 2);
+(115, 2),
+(43, 2),
+(150, 2),
+(149, 2),
+(151, 2);
 
 -- --------------------------------------------------------
 
@@ -514,12 +530,12 @@ INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`,
 (39, 'BEN ICHOU - LEPRINCE', 'ISMAEL', '2013-07-31', '0', 'débutant', '43 RUE DES FRERES BLAIS 94200 IVRY SUR SEINE', 34, 0, 0, 0, '0626454992', 'CHLOE LEPRINCE MATHIEU BEN ICHOU', '0665523836 0626454992'),
 (40, 'Soubielle-Fourie', 'Charline', '1998-11-15', '0', 'débutant', '16 rue Guyton de Morveau 75013 Paris', 35, 0, 0, 0, '0629172773', 'Soubielle-Fourie Charline', '0617060860 0609103737'),
 (41, 'Mouliney', 'Maxime', '1991-11-04', '0', 'débutant', '12A rue des dorés 91360 Épinay-sur-Orge', 36, 0, 0, 0, '0629748314', 'Eyang Élodie', '06 08 47 14 50  '),
-(42, 'Kamtchueng', 'Toko', '1987-01-14', '0', 'débutant', '14 rue Manin 75019 Paris', 37, 0, 1, 1, '0642010973', 'Kamtchueng Toko', '0642010973  '),
-(43, 'Bounleng', 'David', '1985-06-30', '0', 'débutant', '2 avenue saint-maurice du Valais 94410 Saint-maurice', 38, 0, 0, 1, '0612165244', 'Bounleng Joël', '0612870497  '),
+(42, 'Kamtchueng', 'Toko', '1987-01-14', '0', 'avancé', '14 rue Manin 75019 Paris', 37, 0, 1, 1, 'Kamtchueng Toko', 'Kamtchueng Toko', '0642010973  '),
+(43, 'Bounleng', 'David', '1985-06-30', '0', 'avancé', '2 avenue saint-maurice du Valais 94410 Saint-maurice', 38, 0, 0, 1, 'Bounleng Joël', 'Bounleng Joël', '0612870497  '),
 (44, 'AUSSET', 'Margot', '2012-06-27', '0', 'débutant', '23 rue Jean-Jacques ROUSSEAU 94200 Ivry sur seine', 39, 0, 0, 0, '0769839694', 'BENARD Yvon', '0685563266  '),
 (45, 'Hernando', 'Malik', '2010-04-25', '0', 'débutant', '56 rue du Fort 94400 Vitry sur seine', 40, 0, 0, 0, '0649825469', 'Bennani / Hernando Dounia / Jessy', '0649825469 0623114903'),
 (46, 'Duarte', 'Lucie', '1990-02-28', '0', 'débutant', '12 rue du docteur goujon 75012 Paris', 41, 0, 0, 0, '0687117510', 'Duarte Marc', '0614612543  '),
-(47, 'Taillebrest', 'François', '1985-03-07', '0', 'débutant', '30 rue saint Claude 93190 Livry-Gargan', 42, 0, 1, 0, 'Taillebrest Elisabeth / Loïc', 'Taillebrest Elisabeth / Loïc', '0344499807 0676632646'),
+(47, 'Taillebrest', 'François', '1985-03-07', '0', 'avancé', '30 rue saint Claude 93190 Livry-Gargan', 42, 0, 1, 0, 'Taillebrest Elisabeth / Loïc', 'Taillebrest Elisabeth / Loïc', '0344499807 0676632646'),
 (48, 'Trouvé ', 'Mélanie ', '1996-04-03', '0', 'débutant', '251 avenue Daumesnil 75012 Paris', 43, 0, 0, 0, '0659921206', 'Azémar Léo', '0633168315  '),
 (49, 'RIFAFUD', 'CELIA', '1973-07-16', '0', 'débutant', '75 BIS AVENUE DANIELLE CASANOVA 94200 IVRY SUR SEINE', 44, 0, 0, 0, '0608217585', 'CASTRO ANDREA', '0677133399  '),
 (50, 'Tripault', 'Fabrice', '1978-10-04', '0', 'débutant', '34 rue de Picpus 75012 PARIS', 45, 0, 0, 0, '0662078978', 'Tripault Marie-Rose', '0612392868  '),
@@ -570,15 +586,15 @@ INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`,
 (95, 'ye', 'jiamei', '2017-05-10', '0', 'débutant', '63 rue gabriel péri 94200 ivry sur seine', 87, 0, 0, 0, '0667230101', 'jin juan', '0667230101  '),
 (96, 'JIN', 'JUAN', '1985-06-28', '0', 'débutant', '63 rue gabriel péri 94200 ivry sur seine', 87, 0, 0, 0, '0667230101', 'HU YAOFANG', '0761383595  '),
 (97, 'Ledoux', 'Léa', '1998-12-13', '0', 'débutant', '49 rue Gabriel Lamé 75012 Paris', 88, 0, 0, 0, '0641762034', 'Ledoux Marianne', '0609402925 0659740475'),
-(98, 'Viain', 'Zélie', '2016-04-03', '0', 'débutant', '30 Rue Brongniart 94600 Choisy-le-Roi', 89, 0, 0, 0, '0652944489', 'Windenberger Fanny', '0652944489 0685022853'),
-(99, 'Viain', 'Léon', '2013-10-29', '0', 'débutant', '30 Rue Brongniart 94600 Choisy-le-Roi', 89, 0, 0, 0, '0652944489', 'Windenberger Fanny', '0652944489 0685022853'),
-(100, 'Viain', 'Francis', '1973-06-10', '0', 'débutant', '30 Rue Brongniart 94600 Choisy-le-Roi', 89, 0, 0, 1, '0685022853', 'Windenberger Fanny', '0652944489  '),
-(101, 'Windenberger', 'Fanny', '1985-05-26', '0', 'débutant', '30 rue Brongniart 94600 CHOISY LE ROI', 89, 0, 0, 0, '+33652944489', 'Viain Francis', '0685022853  '),
+(98, 'Viain', 'Zélie', '2016-04-03', '0', 'intermédiaire', '30 Rue Brongniart 94600 Choisy-le-Roi', 89, 0, 0, 0, 'Windenberger Fanny', 'Windenberger Fanny', '0652944489 0685022853'),
+(99, 'Viain', 'Léon', '2013-10-29', '0', 'avancé', '30 Rue Brongniart 94600 Choisy-le-Roi', 89, 0, 0, 0, 'Windenberger Fanny', 'Windenberger Fanny', '0652944489 0685022853'),
+(100, 'Viain', 'Francis', '1973-06-10', '0', 'intermédiaire', '30 Rue Brongniart 94600 Choisy-le-Roi', 89, 0, 0, 1, 'Windenberger Fanny', 'Windenberger Fanny', '0652944489  '),
+(101, 'Windenberger', 'Fanny', '1985-05-26', '0', 'intermédiaire', '30 rue Brongniart 94600 CHOISY LE ROI', 89, 0, 0, 0, 'Viain Francis', 'Viain Francis', '0685022853  '),
 (102, 'berrabah', 'Sofia', '2013-08-08', '0', 'débutant', '7 rue blaqui 94200 Ivry sur seine', 90, 0, 0, 0, '0676365607', 'Medjoubi Assia', '06 76 36 56 07 06 98 86 04 76'),
 (103, 'Medjoubi', 'Camila', '2012-05-20', '0', 'débutant', '7 rue blaqui 94200 Ivry sur seine', 90, 0, 0, 0, '0676365607', 'Medjoubi Assia', '06 76 36 56 07 06 98 86 04 76'),
-(104, 'Le Lamer', 'Bérénice', '2015-07-15', '0', 'débutant', '19 rue Louis Fablet 94200 Ivry sur Seine', 13, 0, 0, 0, '0695113506', 'Omnès Le Lamer Virginie', '0695113506 0687285346'),
-(105, 'Grivel', 'Eloïse', '2014-03-08', '0', 'débutant', '175 rue Marcel Hartmann 94200 IVRY SUR SEINE', 91, 0, 0, 0, '+33681223435', 'Grivel Mathilde ou Gaëtan', '0681223435 0607668189'),
-(106, 'Grivel', 'Mathilde', '1981-08-18', '0', 'débutant', '175 rue Marcel Hartmann 94200 IVRY SUR SEINE', 91, 0, 0, 1, '+33681223435', 'Grivel Gaëtan', '0607668189  '),
+(104, 'Le Lamer', 'Bérénice', '2015-07-15', '0', 'intermédiaire', '19 rue Louis Fablet 94200 Ivry sur Seine', 13, 0, 0, 0, 'Omnès Le Lamer Virginie', 'Omnès Le Lamer Virginie', '0695113506 0687285346'),
+(105, 'Grivel', 'Eloïse', '2014-03-08', '0', 'intermédiaire', '175 rue Marcel Hartmann 94200 IVRY SUR SEINE', 91, 0, 0, 0, 'Grivel Mathilde ou Gaëtan', 'Grivel Mathilde ou Gaëtan', '0681223435 0607668189'),
+(106, 'Grivel', 'Mathilde', '1981-08-18', '0', 'intermédiaire', '175 rue Marcel Hartmann 94200 IVRY SUR SEINE', 91, 0, 0, 1, 'Grivel Gaëtan', 'Grivel Gaëtan', '0607668189  '),
 (107, 'Foucault', 'camille', '2013-05-07', '0', 'débutant', '185 rue marcel hartmann 94200 IVRY SUR SEINE', 92, 0, 0, 0, '0666343036', 'lecomte dorothée', '06 66 34 30 36 06 89 23 92 79'),
 (108, 'Presset', 'Ilse', '2016-08-12', '0', 'débutant', '181 rue Marcel Hartmann 94200 Ivry sur Seine', 93, 0, 0, 0, '0621305417', 'Presset François', '0621305417 0603849225'),
 (109, 'Nkemba', 'Goy', '2014-10-26', '0', 'débutant', '65 boullevard  Hyppolyte Marques 94200 Ivry sur seine', 94, 0, 0, 0, '0642434133', 'Nkemba Vivian', '0642434133  '),
@@ -587,7 +603,7 @@ INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`,
 (112, 'Shata', 'Moustafa', '2017-05-05', '0', 'débutant', '28 avenue Henri Barbusse 94200 Ivry-sur-Seine', 96, 0, 0, 0, '0636369558', 'Lafaye Manon', '0636369558  '),
 (113, 'Dobler Trinh Dinh', 'Helena', '2015-12-08', '0', 'débutant', '77 av de Verdun 94200 Ivry-sur-Seine', 97, 0, 0, 0, '0650579535', 'Dobler Sandrine Dobler Danièle', '0650579535 0676635220'),
 (114, 'Dobler', 'Sandrine', '1978-05-10', '0', 'débutant', '77 av de Verdun 94200 Ivry-sur-Seine', 97, 0, 0, 0, '0650579535', 'Dobler Danièle Cizeau Thibault', '0676635220 0680131101'),
-(115, 'Elamraoui', 'Zoubir', '1977-03-08', '0', 'débutant', '4 allée Chanteclair 94200 Ivry sur seine', 98, 0, 0, 0, '0688080986', 'Basty Léa', '0671156765  '),
+(115, 'Elamraoui', 'Zoubir', '1977-03-08', '0', 'intermédiaire', '4 allée Chanteclair 94200 Ivry sur seine', 98, 0, 0, 0, 'Basty Léa', 'Basty Léa', '0671156765  '),
 (116, 'zyskind', 'Laurène', '1996-04-17', '0', 'débutant', '201 rue de Charenton 75012 Paris', 99, 0, 0, 0, '0635423505', 'Zyskind Isabelle', '0619926826  '),
 (117, 'Khaber', 'Naila', '2022-04-15', '0', 'débutant', '11 avenue de verdun 94200 94200 - IVRY SUR SEINE', 100, 0, 0, 0, '0750514043', 'Khaber Angelique', '07 50 51 40 43 0750514825'),
 (118, 'Garnier', 'Kilian', '1983-08-05', '0', 'débutant', '7 Rue Léon Blum 94600 CHOISY LE ROI', 101, 0, 0, 0, '+33634465104', 'Audierne Pierre', '+33 7 82 36 64 28  '),
@@ -621,10 +637,13 @@ INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`,
 (146, 'Marques', 'Priscilia', '1985-01-22', '0', 'débutant', '96 bis Boulevard Paul Vaillant Couturier 94200 Ivry-sur-Seine', 123, 0, 0, 0, '0620428478', 'Dallou Axel', '066296016  '),
 (147, 'Dallou Marques', 'Suzanne', '2016-05-29', '0', 'débutant', '96 bis Boulevard Paul Vaillant Couturier 94200 Ivry-sur-Seine', 123, 0, 0, 0, '0662960116', 'Dallou Axel', '0662960116 0620428478'),
 (148, 'Thielleux', 'Matthieu', '1987-12-12', '0', 'débutant', '4 rue Claude Pernes 93110 Rosny Sous Bois', 124, 0, 0, 0, '+33664179319', 'Bonnerot Laurence', '+33688317436  '),
-(149, 'Hanaizi', 'Zahir', '1990-03-19', '1', 'avancé', '70 RUE GEORGE GOSMAT\n94200 IVRY-SUR-SEINE', 125, 0, 1, 0, '06 74 82 11 26', 'A voir', '06 74 82 11 26'),
-(150, 'Boulay', 'Priam', '2000-12-22', '0', 'avancé', 'TBD', 126, 0, 1, 0, '+33 7 83 41 01 85', 'TBD', '+33 7 83 41 01 85'),
+(149, 'Hanaizi', 'Zahir', '1990-03-19', '1', 'avancé', '70 RUE GEORGE GOSMAT\n94200 IVRY-SUR-SEINE', 125, 0, 1, 0, 'A voir', 'A voir', '06 74 82 11 26'),
+(150, 'Boulay', 'Priam', '2000-12-22', '0', 'avancé', 'TBD', 126, 0, 1, 0, 'TBD', 'TBD', '+33 7 83 41 01 85'),
 (151, 'Sidibe', 'Yoro', '1996-03-16', '0', 'avancé', '61 RUE DES PIROGUES DE BERCY\n75012 PARIS 12', 127, 0, 1, 0, '06 58 17 68 96', 'TBD', '06 58 17 68 96'),
-(152, 'Riffaud', 'Celia', '1973-07-17', '0', 'débutant', '75avenue Danielle Casanova 94200 ivry sur seine', 128, 2, 0, 0, '0608217585', 'mehdi', '06 08 42 56 02');
+(152, 'Riffaud', 'Celia', '1973-07-17', '0', 'débutant', '75avenue Danielle Casanova 94200 ivry sur seine', 128, 2, 0, 0, '0608217585', 'mehdi', '06 08 42 56 02'),
+(153, 'Saroza MIchau', 'Luwen', '2018-07-07', '1', 'débutant', '24 Voie Lancret', 129, 2, 0, 0, '0649641245', 'Mère', '0649641245'),
+(154, 'Robledo-Gruel', 'Hugo', '1991-11-10', '1', 'intermédiaire', 'TBD', 130, 0, 1, 0, '+33 6 15 95 07 96', 'TBD', '+33 6 15 95 07 96'),
+(155, 'Laillier', 'Matthieu', '1988-10-13', '1', 'débutant', 'Dans le 16eme', 131, 0, 1, 0, '+33 6 63 00 47 03', 'TBD', '+33 6 63 00 47 03');
 
 -- --------------------------------------------------------
 
@@ -678,15 +697,16 @@ INSERT INTO `seance` (`seance_id`, `cours`, `libelle`, `date_seance`, `heure_deb
 (5, 3, NULL, '2023-08-25', '15:50', 75, 1, 'prévue', 4, 0, 'débutant'),
 (6, 8, 'Adultes - RollBall', '2023-09-13', '20:30', 90, 2, 'prévue', 14, 99, 'intermédiaire'),
 (7, 1, 'Adultes - RollerSoccer', '2023-09-13', '19:00', 90, 2, 'prévue', 14, 99, 'intermédiaire'),
-(8, 16, 'Adultes - Roller Derby', '2023-09-11', '20:00', 120, 2, 'prévue', 18, 99, 'débutant'),
+(8, 16, 'Adultes - Roller Derby', '2023-09-11', '20:00', 120, 2, 'prévue', 18, 99, 'intermédiaire'),
 (9, 9, 'Adultes - RollerSoccer', '2023-09-13', '19:00', 90, 2, 'prévue', 14, 99, 'intermédiaire'),
 (10, 15, 'Adultes - RollBall', '2023-09-13', '20:30', 90, 2, 'prévue', 14, 99, 'intermédiaire'),
-(11, 17, 'Adultes - Roller Derby - Jeudi', '2023-09-07', '20:00', 150, 3, 'prévue', 18, 99, 'intermédiaire'),
-(12, 10, 'Enfants - Initiation', '2023-09-17', '14:00', 80, 1, 'prévue', 4, 99, 'débutant'),
-(13, 14, 'Enfants - Roller Street', '2023-09-17', '15:30', 90, 1, 'prévue', 8, 99, 'intermédiaire'),
-(14, 11, 'Enfants - Activités : Multiglisse', '2023-09-17', '16:00', 80, 1, 'prévue', 8, 99, 'intermédiaire'),
+(11, 17, 'Adultes - Roller Derby - Jeudi', '2023-09-14', '20:00', 150, 3, 'prévue', 18, 99, 'intermédiaire'),
+(12, 10, 'Enfants - Initiation', '2023-09-17', '14:00', 80, 1, 'prévue', 4, 18, 'débutant'),
+(13, 14, 'Enfants - Roller Street', '2023-09-17', '15:30', 90, 1, 'prévue', 8, 18, 'intermédiaire'),
+(14, 11, 'Enfants - Activités : Multiglisse', '2023-09-17', '16:00', 80, 1, 'prévue', 8, 18, 'intermédiaire'),
 (15, 12, 'Adultes - Rollers', '2023-09-17', '14:30', 90, 1, 'prévue', 16, 99, 'débutant'),
-(16, 13, 'Enfants - RollerSoccer', '2023-09-17', '17:00', 90, 1, 'prévue', 8, 99, 'intermédiaire');
+(16, 13, 'Enfants - RollerSoccer', '2023-09-17', '17:00', 90, 1, 'prévue', 8, 18, 'intermédiaire'),
+(17, 9, 'Adultes - RollerSoccer', '2023-09-06', '20:00', 120, 2, 'réalisée', 8, 99, 'intermédiaire');
 
 -- --------------------------------------------------------
 
@@ -728,7 +748,11 @@ INSERT INTO `seance_professeur` (`seance_id`, `professeur_id`, `statut`) VALUES
 (14, 150, 'présent'),
 (15, 150, 'présent'),
 (16, 31, 'présent'),
-(16, 151, 'présent');
+(16, 151, 'présent'),
+(17, 31, 'présent'),
+(17, 42, 'présent'),
+(10, 154, 'présent'),
+(10, 155, 'présent');
 
 --
 -- Indexes for dumped tables
@@ -788,7 +812,7 @@ ALTER TABLE `seance`
 -- AUTO_INCREMENT for table `compte`
 --
 ALTER TABLE `compte`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 
 --
 -- AUTO_INCREMENT for table `cours`
@@ -800,7 +824,7 @@ ALTER TABLE `cours`
 -- AUTO_INCREMENT for table `inscription`
 --
 ALTER TABLE `inscription`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `lieu`
@@ -812,7 +836,7 @@ ALTER TABLE `lieu`
 -- AUTO_INCREMENT for table `riders`
 --
 ALTER TABLE `riders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
 
 --
 -- AUTO_INCREMENT for table `saison`
@@ -824,7 +848,7 @@ ALTER TABLE `saison`
 -- AUTO_INCREMENT for table `seance`
 --
 ALTER TABLE `seance`
-  MODIFY `seance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `seance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

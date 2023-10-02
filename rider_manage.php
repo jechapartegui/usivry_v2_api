@@ -132,6 +132,14 @@ switch ($command) {
             $result = $RiderService->update_level($data['niveau'], $data['id']);
         }
         break;
+    case 'get_account':
+        if (!isset($data['id'])) {
+            $server->getHttpStatusMessage(401, "NO_ID_FOUND");
+            exit;
+        } else {
+            $result = $RiderService->get_account($data['id']);
+        }
+        break;
     case 'update_mail':
         if (!isset($data['compte'])) {
             $server->getHttpStatusMessage(401, "NO_ACCOUNT_FOUND");
@@ -151,6 +159,17 @@ switch ($command) {
             } else {
                 $result = $RiderService->update_mail($data['compte'], $data['mail']);
             }
+        }
+        break;
+    case 'update_mail_active':
+        if (!isset($data['compte'])) {
+            $server->getHttpStatusMessage(401, "NO_ACCOUNT_FOUND");
+            exit;
+        } else  if (!isset($data['mail_active'])) {
+            $server->getHttpStatusMessage(401, "NO_INFO_FOUND");
+            exit;
+        } else {         
+            $result = $RiderService->update_mail_active($data['compte'], $data['mail_active']);
         }
         break;
     case 'update_password':
