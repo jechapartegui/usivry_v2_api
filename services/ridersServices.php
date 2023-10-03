@@ -198,7 +198,7 @@ class RiderService
     }
 
     public function generateRandomString($length = 8) {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!/,ùàéà';
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $randomString = '';
         $charLength = strlen($characters);
     
@@ -310,16 +310,20 @@ class RiderService
     }
 
     public function getSeancesProf($rider_id,$this_season){
+        $referenceDate = date('Y-m-d'); // Date de référence (jour J)
+        // $niveaux = $p->getNiveaux($rider->niveau);
+        // $inClause = implode(',', array_fill(0, count($niveaux), '?'));     
+        $dateref = date('Y-m-d', strtotime("-5 days", strtotime($referenceDate)));
         $sql = "SELECT  s.seance_id as seance_id, c.id as cours, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis, s.age_maximum as age_maximum, s.niveau_requis as niveau_requis
         FROM seance s 
         inner join seance_professeur sp on sp.seance_id = s.seance_id
         INNER JOIN cours c ON s.cours = c.id 
         INNER JOIN lieu l ON s.lieu_id = l.id 
-        WHERE sp.professeur_id = ? AND c.saison_id = " . $this_season . "  ";
+        WHERE sp.professeur_id = ? AND c.saison_id = " . $this_season . " AND s.date_seance >= ? ";
 
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');      
-        $stmt->execute([$rider_id]);
+        $stmt->execute([$rider_id, $dateref]);
         $seances = $stmt->fetchAll();
         foreach ($seances as $seance) {
             $seance->professeurs = $this->get_prof_seance($seance->seance_id);

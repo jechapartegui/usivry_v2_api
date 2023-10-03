@@ -20,6 +20,7 @@ if (isset($data['logout'])){
 	exit;
 }
 if (isset($data['renvoi_mdp']) && isset($data['login']) ){
+	
 	$randomstring = $rider->generateRandomString(8);
 	$val = $rider->update_psw_compte($data['login'],$randomstring);
 	if($val){		

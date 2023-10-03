@@ -21,18 +21,27 @@
             $cours['saison_id'] = $season_id;
         }
         $cours = $this->ToCours($cours);
-        
+        if (is_array($cours->niveau_requis)) {
+            $niveau = implode(',', $cours->niveau_requis);
+        } else {
+            $niveau = $cours->niveau_requis;
+        }
         $sql = "INSERT INTO cours (nom, jour_semaine, heure, duree, prof_principal_id, lieu_id, age_requis, niveau_requis, saison_id, place_maximum) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$cours->nom, $cours->jour_semaine, $cours->heure, $cours->duree, $cours->prof_principal_id, $cours->lieu_id, $cours->age_requis, $cours->niveau_requis, $cours->saison_id, $cours->place_maximum]);
+        $stmt->execute([$cours->nom, $cours->jour_semaine, $cours->heure, $cours->duree, $cours->prof_principal_id, $cours->lieu_id, $cours->age_requis, $niveau, $cours->saison_id, $cours->place_maximum]);
         return $this->db->lastInsertId();
     }
 
     public function update($cours) {
         $cours = $this->ToCours($cours);
+        if (is_array($cours->niveau_requis)) {
+            $niveau = implode(',', $cours->niveau_requis);
+        } else {
+            $niveau = $cours->niveau_requis;
+        }
         $sql = "UPDATE cours SET nom=?, jour_semaine=?, heure=?, duree=?, prof_principal_id=?, lieu_id=?, age_requis=?, niveau_requis=?, saison_id=?, place_maximum = ? WHERE id=?";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$cours->nom, $cours->jour_semaine, $cours->heure, $cours->duree, $cours->prof_principal_id, $cours->lieu_id, $cours->age_requis, $cours->niveau_requis, $cours->saison_id, $cours->place_maximum, $cours->id]);
+        return $stmt->execute([$cours->nom, $cours->jour_semaine, $cours->heure, $cours->duree, $cours->prof_principal_id, $cours->lieu_id, $cours->age_requis, $niveau, $cours->saison_id, $cours->place_maximum, $cours->id]);
     }
 
     public function delete($id) {
