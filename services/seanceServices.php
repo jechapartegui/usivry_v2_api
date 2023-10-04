@@ -60,13 +60,72 @@ class SeanceService
         }
         $sql = "INSERT INTO seance (cours, libelle, date_seance, heure_debut, duree_cours, lieu_id, statut, niveau_requis, age_requis, age_maximum, place_maximum, essai_possible, notes, info_seance) VALUES (?, ?,?, ?, ?, ?, ?,?,?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$seance->cours, $seance->libelle, $seance->date_seance, $seance->heure_debut, $seance->duree_cours, $seance->lieu_id, $seance->statut, $niveau, $seance->age_requis, $seance->age_maximum, $seance->place_maximum, $seance->essai_possible, $seance->notes]);
+        $stmt->execute([$seance->cours, $seance->libelle, $seance->date_seance, $seance->heure_debut, $seance->duree_cours, $seance->lieu_id, $seance->statut, $niveau, $seance->age_requis, $seance->age_maximum, $seance->place_maximum, $seance->essai_possible, $seance->notes, $seance->info_seance]);
         $seance_id = $this->db->lastInsertId();
         foreach ($seance->professeurs as $prof) {
-            $this->add_prof($seance_id, $prof);
+            $this->add_prof($seance_id, $prof['key']);
         }
         return $seance_id;
     }
+    public function get_relance(){
+
+        $date_min = date('Y-m-d'); // Date de référence (jour J)
+        // $niveaux = $p->getNiveaux($rider->niveau);
+        // $inClause = implode(',', array_fill(0, count($niveaux), '?'));   
+        $date_max = date('Y-m-d', strtotime("+10 days", strtotime($date_min)));  
+        $sql = "select distinct c.id, c.login from compte c inner join riders r on r.compte=c.id left join inscription_saison i on i.rider_id = r.id left join saison s on s.id = i.saison_id where s.active = 1;";
+        $stmt = $this->db->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Compte');
+        $stmt->execute();
+        $comptes = $stmt->fetchAll();
+        $p = new params();        
+        foreach ($comptes as $compte) {
+            $compte->riders = array();
+            $sql = "SELECT id, prenom, nom, date_naissance, niveau FROM riders WHERE compte = ". $compte->id;
+            $stmt = $this->db->prepare($sql);
+            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Rider');
+            $stmt->execute();
+            $compte->riders = $stmt->fetchAll();
+            foreach ($compte->riders as $rider) {
+                    $age = $p->calculerAge($rider->date_naissance);
+                    $niveaux = $p->getNiveaux($rider->niveau);
+                    $inClause = implode(',', array_fill(0, count($niveaux), '?'));
+            
+                    // Entourer chaque niveau par des quotes
+                    $inClause = implode(',', array_map(function () {
+                        return '?';
+                    }, $niveaux));
+                    $rider->seances = array();
+                    $rider->inscriptions = array();
+                    $sql = "SELECT  s.seance_id as seance_id, c.id as cours, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.nom as lieu
+                    FROM seance s 
+                    INNER JOIN cours c ON s.cours = c.id 
+                    INNER JOIN lieu l ON s.lieu_id = l.id 
+                    WHERE s.date_seance >= '$date_min' AND s.date_seance <= '$date_max' AND s.age_requis <= $age AND s.age_maximum >= $age AND s.niveau_requis LIKE '%$rider->niveau%'  AND s.statut = 'prévue'";
+                   $stmt = $this->db->prepare($sql);
+                    $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance'); // Ajoute les niveaux requis à la liste des valeurs à binder
+                    $stmt->execute();
+                    $ss = $stmt->fetchAll();                    
+                    foreach ($ss as $seance) {
+                        $sql = "SELECT * FROM `inscription` WHERE `statut` is not null and rider_id = ". $rider->id . " AND seance_id = " . $seance->seance_id ;
+                        $stmt = $this->db->prepare($sql);
+                        $stmt->execute();                    
+                        $rowCount = $stmt->rowCount();
+                        if($rowCount == 0 ){
+                            array_push($rider->seances, $seance);
+                        } else {
+                            array_push($rider->inscriptions, $seance);
+                        }
+                    }
+            }
+               
+                
+            
+
+        }
+        return $comptes;
+    }
+
     public function update_prof_list($seance_id, $professeur)
     {
         $sql = "SELECT professeur_id from seance_professeur where seance_id = ?";
@@ -130,6 +189,7 @@ class SeanceService
         $stmt->execute([$id]);
         $seance = $stmt->fetch();
         $seance->professeurs = $this->get_prof_seance($id);
+        $seance->niveau_requis = explode(",",$seance->niveau_requis);
         return $seance;
     }
 
@@ -143,6 +203,7 @@ class SeanceService
         $seances = $stmt->fetchAll();
         foreach ($seances as $seance) {
             $seance->professeurs = $this->get_prof_seance($seance->seance_id);
+            $seance->niveau_requis = explode(",",$seance->niveau_requis);
         }
         return $seances;
     }
@@ -156,6 +217,7 @@ class SeanceService
         $seances = $stmt->fetchAll();
         foreach ($seances as $seance) {
             $seance->professeurs = $this->get_prof_seance($seance->seance_id);
+            $seance->niveau_requis = explode(",",$seance->niveau_requis);
         }
         return $seances;
     }
@@ -175,6 +237,7 @@ class SeanceService
         $seances = $stmt->fetchAll();
         foreach ($seances as $seance) {
             $seance->professeurs = $this->get_prof_seance($seance->seance_id);
+            $seance->niveau_requis = explode(",",$seance->niveau_requis);
         }
         return $seances;
     }

@@ -51,27 +51,33 @@
     }
 
     public function get($id) {
-        $sql = "SELECT *, CONCAT(r.prenom, ' ', r.nom) as prof_principal_nom, l.nom as lieu_nom FROM cours c 
+        $sql = "SELECT c.id, c.nom, c.jour_semaine, c.heure, c.duree, c.prof_principal_id, c.lieu_id, c.age_requis, c.age_maximum, SPLIT(c.niveau_requis,',') as niveau_requis, c.saison_id, c.place_maximum, CONCAT(r.prenom, ' ', r.nom) as prof_principal_nom, l.nom as lieu_nom FROM cours c 
         inner join riders r on r.id = c.prof_principal_id
         inner join lieu l on l.id = c.lieu_id WHERE id=?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Cours');
-        return $stmt->fetch();
+        $res = $stmt->fetch();
+        $res->niveau_requis = explode(",",$res->niveau_requis);
+        return $res;
     }
 
     public function getAll() {
-        $sql = "SELECT *, CONCAT(r.prenom, ' ', r.nom) as prof_principal_nom, l.nom as lieu_nom FROM cours c 
+        $sql = "SELECT c.id, c.nom, c.jour_semaine, c.heure, c.duree, c.prof_principal_id, c.lieu_id, c.age_requis, c.age_maximum, SPLIT(c.niveau_requis,',') as niveau_requis, c.saison_id, c.place_maximum, CONCAT(r.prenom, ' ', r.nom) as prof_principal_nom, l.nom as lieu_nom FROM cours c 
         inner join riders r on r.id = c.prof_principal_id
         inner join lieu l on l.id = c.lieu_id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Cours');
-        return $stmt->fetchAll();
+        $res = $stmt->fetchAll();
+        foreach ($res as $ligne) {
+            $ligne->niveau_requis = explode(",",$ligne->niveau_requis);
+        }
+        return $res;
     }
 
     public function getAll_bySaison($saison_id) {
-        $sql = "SELECT c.*, 
+        $sql = "SELECT c.id, c.nom, c.jour_semaine, c.heure, c.duree, c.prof_principal_id, c.lieu_id, c.age_requis, c.age_maximum, c.niveau_requis, c.saison_id, c.place_maximum,
         CONCAT(r.prenom, ' ', r.nom) as prof_principal_nom, l.nom as lieu_nom FROM cours c 
         inner join riders r on r.id = c.prof_principal_id
         inner join lieu l on l.id = c.lieu_id
@@ -79,7 +85,11 @@
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$saison_id]);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Cours');
-        return $stmt->fetchAll();
+        $res = $stmt->fetchAll();
+        foreach ($res as $ligne) {
+            $ligne->niveau_requis = explode(",",$ligne->niveau_requis);
+        }
+        return $res;
     }
     public function getAllLight_bySaison($saison_id) {
         $sql = "SELECT id as 'key', nom as 'value' FROM cours where saison_id = ?";

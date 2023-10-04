@@ -136,3 +136,10 @@ class KeyValuePair
     public $key;
     public $value;
 }
+
+class Compte{
+    public $id;
+    public $login;
+    public $registration_date;
+    public $mail_active;
+}

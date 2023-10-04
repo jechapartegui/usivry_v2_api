@@ -7,6 +7,7 @@ require_once("class/class.php");
 require_once("services/ridersServices.php");
 require_once("services/saisonServices.php");
 require_once("services/seanceServices.php");
+require_once("services/mailServices.php");
 require_once("services/inscriptionServices.php");
 
 // Connect to database
@@ -106,7 +107,10 @@ $season_id = $s->getActive();
                 $result = $seanceServices->update($data['seance']);
            
             break;
-
+        case 'mail_relance':
+            $riders = $seanceServices->get_relance();
+            $mailServices = new MailService();
+            $result = $mailServices->MailDispo($riders);
         case 'get':
             if (!isset($data['id'])) {
                 $server->getHttpStatusMessage(401, "NO_ID_FOUND");

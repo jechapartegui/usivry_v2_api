@@ -236,34 +236,20 @@ class RiderService
     public function getSeances($rider, $remove_inscription,$this_season)   {
         $p = new params();
         //Age + niveau requis  + date
-        $referenceDate = date('Y-m-d'); // Date de référence (jour J)
+        $date_min = date('Y-m-d'); // Date de référence (jour J)
         // $niveaux = $p->getNiveaux($rider->niveau);
         // $inClause = implode(',', array_fill(0, count($niveaux), '?'));
         $age = $p->calculerAge($rider->date_naissance);
-        $startDate = date('Y-m-d', strtotime($referenceDate));
-        $endDate = date('Y-m-d', strtotime("+30 days", strtotime($referenceDate)));
-        if($rider->est_inscrit == false){
-            $rider->niveau = 'avancé';
-        }
-        $niveaux = $p->getNiveaux($rider->niveau);
-        $inClause = implode(',', array_fill(0, count($niveaux), '?'));
-
-        // Entourer chaque niveau par des quotes
-        $inClause = implode(',', array_map(function () {
-            return '?';
-        }, $niveaux));
-       
+        $date_max = date('Y-m-d', strtotime("+30 days", strtotime($date_min)));
         $sql = "SELECT  s.seance_id as seance_id, c.id as cours, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis,  s.age_requis as age_maximum, s.niveau_requis as niveau_requis
         FROM seance s 
         INNER JOIN cours c ON s.cours = c.id 
         INNER JOIN lieu l ON s.lieu_id = l.id 
-        WHERE s.date_seance >= ? AND s.date_seance <= ? AND s.age_requis <= ? AND s.age_maximum >= ? AND s.niveau_requis IN ($inClause) AND c.saison_id = " . $this_season;
+        WHERE s.date_seance >= '$date_min' AND s.date_seance <= '$date_max' AND s.age_requis <= $age AND s.age_maximum >= $age AND s.niveau_requis LIKE '%$rider->niveau%' AND c.saison_id = " . $this_season;
 
         $stmt = $this->db->prepare($sql);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
-        $bindValueArray = [$startDate, $endDate, $age, $age];
-        $bindValueArray = array_merge($bindValueArray, $niveaux); // Ajoute les niveaux requis à la liste des valeurs à binder
-        $stmt->execute($bindValueArray);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');// Ajoute les niveaux requis à la liste des valeurs à binder
+        $stmt->execute();
         $ss = $stmt->fetchAll();
         $seances = array();
         if($remove_inscription){
@@ -285,6 +271,7 @@ class RiderService
         }
         foreach ($seances as $seance) {
             $seance->professeurs = $this->get_prof_seance($seance->seance_id);
+            $seance->niveau_requis = explode(",",$seance->niveau_requis);
         }
         return $seances;
     }
@@ -298,6 +285,7 @@ class RiderService
         $inscriptions = $stmt->fetchAll();
         foreach ($inscriptions as $seance) {
             $seance->professeurs = $this->get_prof_seance($seance->seance_id);
+            $seance->niveau_requis = explode(",",$seance->niveau_requis);
         }
         return $inscriptions;
     }
@@ -327,7 +315,9 @@ class RiderService
         $seances = $stmt->fetchAll();
         foreach ($seances as $seance) {
             $seance->professeurs = $this->get_prof_seance($seance->seance_id);
+            $seance->niveau_requis = explode(",",$seance->niveau_requis);
         }
+        
         return $seances;
     }
 
