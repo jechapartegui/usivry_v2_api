@@ -73,14 +73,14 @@ class MailService
             $this->mail->Subject    =  'Cours de roller disponibles';                      //Le sujet du mail
             $this->mail->WordWrap   = 200;                     //Préciser qu'il faut utiliser le texte brut
             $str = "<div>Bonjour,<br/>
-            Voici les différents cours disponibles sur les 10 prochains jours <br/>";
+            Vous trouverez ci-dessous les séances disponibles au sein de l'US Ivry Roller pour les adhérents associés au compte " . $compte->login . "<br/>";
             foreach ($compte->riders as $rider) {
                 if (count($rider->seances) > 0 || count($rider->inscriptions) > 0) {
-                    $str = $str . "Pour " . $rider->prenom . " " . $rider->nom . "<br/>";
+                    $str = $str . "Pour " . $rider->prenom . " " . $rider->nom . ",";
                     if (count($rider->seances) > 0) {
-                        $str = $str . " Voici les séances disponibles :<br/><ul>";
+                        $str = $str . " voici les séances disponibles :<br/><ul>";
                         foreach ($rider->seances as $seance) {
-                            $str = $str . "<li>" . $seance->libelle . " - Date : " . $seance->date_seance . " - Heure : " . $seance->heure_debut . " - Durée : " . $seance->duree_cours . "</li>";
+                            $str = $str . "<li>" . $seance->libelle . " ( - Date : " . $seance->date_seance . " - Heure : " . $seance->heure_debut . " - Durée : " . $seance->duree_cours . "</li>";
                         }
                         $str = $str . "</ul><br/>";
                     }
@@ -92,13 +92,15 @@ class MailService
                         $str = $str . "</ul><br/>";
                     }
                 } else {
-                    $str = $str . "Pas de séance disponible pour " . $rider->prenom . " " . $rider->nom . "<br/>";
+                    $str = $str . " pas de séance disponible pour " . $rider->prenom . " " . $rider->nom . "<br/>";
                 }
 
              
             }
-            $str  = $str . "Pour vous inscrire ou désinscrire à une séance, connectez-vous à votre espace : <a href='http://www.usivryroller.fr/login'>http://www.usivryroller.fr/login</a> <br/>";
-            $str  = $str . "Merci d'avance<br/>Sportivement <br/> La team USI Roller";
+            $str  = $str . "Pour vous inscrire ou désinscrire à une séance, connectez-vous sur votre espace : <a href='http://www.usivryroller.fr/login'>http://www.usivryroller.fr/login</a>. Pour rappel votre login est cette adresse email.<br/>
+            Merci d'avance pour vos retours, cela nous permettra de vous proposer une offre toujours plus adaptée.<br/>
+            Sportivement<br/>
+            La team USI Roller<br/>";
             $this->mail->MsgHTML($str);                         //Le contenu au format HTML
             $this->mail->IsHTML(true);
             $this->mail->AddAddress("jechapartegui@yahoo.fr");
