@@ -225,7 +225,7 @@ class RiderService
                 $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
                 $rider->id =  $this->db->lastInsertId();
             } else{
-                $this->update($rider);
+                $this->update_addrange($rider);
             }
             array_push($liste_id, $rider->id);
         }
@@ -323,9 +323,9 @@ class RiderService
 
     public function exist($rider)
     {
-        $sql = "SELECT r.id FROM riders r inner join compte c on c.id =r.compte WHERE r.prenom like ? AND r.nom like ? AND c.login = ?";
+        $sql = "SELECT r.id FROM riders r inner join compte c on c.id =r.compte WHERE LOWER(r.prenom) like ? AND LOWER(r.nom) like ? AND LOWER(c.login) = ?";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$rider->prenom, $rider->nom, $rider->email]);
+        $stmt->execute([strtolower($rider->prenom), strtolower($rider->nom), strtolower($rider->email)]);
         $rowCount = $stmt->rowCount();
         if ($rowCount > 0) {
             $res = $stmt->fetch(); 
@@ -486,6 +486,14 @@ class RiderService
         $sql = "UPDATE riders SET nom=?, prenom=?, date_naissance=?, sexe=?, niveau=?, adresse=?, est_prof=?, est_admin=?, telephone=?, personne_prevenir=?, telephone_personne_prevenir=? WHERE id=?";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau, $rider->adresse,  $rider->est_prof, $rider->est_admin, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir, $rider->id]);
+    }
+
+    public function update_addrange($rider)
+    {
+        $rider = $this->ToRider($rider);
+        $sql = "UPDATE riders SET  sexe=?, adresse=?, telephone=?, personne_prevenir=?, telephone_personne_prevenir=? WHERE id=?";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$rider->sexe, $rider->adresse,  $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir, $rider->id]);
     }
 
     public function delete($id)
