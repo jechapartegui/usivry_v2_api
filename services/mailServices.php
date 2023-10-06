@@ -80,14 +80,14 @@ class MailService
                     if (count($rider->seances) > 0) {
                         $str = $str . " voici les séances disponibles :<br/><ul>";
                         foreach ($rider->seances as $seance) {
-                            $str = $str . "<li>" . $seance->libelle . " ( - Date : " . $seance->date_seance . " - Heure : " . $seance->heure_debut . " - Durée : " . $seance->duree_cours . "</li>";
+                            $str = $str . "<li>" . $seance->libelle . " (" . $seance->lieu . ") - le  " . strftime('%A %d %B %Y', strtotime($seance->date_seance)) . " - à " . $seance->heure_debut . " - Durée : " . $seance->duree_cours . " minutes</li>";
                         }
                         $str = $str . "</ul><br/>";
                     }
                     if (count($rider->inscriptions) > 0) {
                         $str = $str . " Pour rappel, il existe une inscription / absence prévue sur :<br/><ul>";
                         foreach ($rider->inscriptions as $seance) {
-                            $str = $str . "<li>" . $seance->libelle . " (" . $seance->statut . ") - Date : " . $seance->date_seance . " - Heure : " . $seance->heure_debut . " - Durée : " . $seance->duree_cours . "</li>";
+                            $str = $str . "<li>" . $seance->libelle . " (" . $seance->lieu . ") - le  " . strftime('%A %d %B %Y', strtotime($seance->date_seance)) . " - à " . $seance->heure_debut . " - Durée : " . $seance->duree_cours . " minutes</li>";
                         }
                         $str = $str . "</ul><br/>";
                     }

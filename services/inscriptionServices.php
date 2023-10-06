@@ -85,11 +85,12 @@ class InscriptionService
 
     public function load_seance($id, $this_season)
     {
-        $sql = "SELECT age_requis, niveau_requis FROM seance WHERE seance_id = ?";
+        $sql = "SELECT age_requis, age_maximum, niveau_requis FROM seance WHERE seance_id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
         $res =  $stmt->fetch();
-        $jour = $res['age_requis'] * 365;
+        $age_min = $res['age_requis'] * 365 -10;
+        $age_max = $res['age_maximum'] * 365 +10;
         $elements = explode(",", $res['niveau_requis']); // Divise la chaîne en un tableau en utilisant la virgule comme séparateur
         $quotedElements = array_map(function($element) {
             return "'" . $element . "'";
@@ -105,7 +106,7 @@ class InscriptionService
     INNER JOIN
         inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = " . $this_season . " 
     WHERE
-        DATEDIFF(CURDATE(), r.date_naissance) > " . $jour . " AND r.niveau IN "  . $niveau . "
+        DATEDIFF(CURDATE(), r.date_naissance) < " . $age_max . " AND DATEDIFF(CURDATE(), r.date_naissance) > " . $age_min . " AND r.niveau IN "  . $niveau . "
     ORDER BY
         r.nom ASC;";
         $stmt = $this->db->prepare($sql);

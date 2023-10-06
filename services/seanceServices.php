@@ -97,7 +97,7 @@ class SeanceService
                     }, $niveaux));
                     $rider->seances = array();
                     $rider->inscriptions = array();
-                    $sql = "SELECT  s.seance_id as seance_id, c.id as cours, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.nom as lieu
+                    $sql = "SELECT  s.seance_id as seance_id, c.id as cours, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.nom as lieu, s.info_seance as info_seance
                     FROM seance s 
                     INNER JOIN cours c ON s.cours = c.id 
                     INNER JOIN lieu l ON s.lieu_id = l.id 
