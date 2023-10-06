@@ -116,7 +116,7 @@ $season_id = $s->getActive();
                 $server->getHttpStatusMessage(401, "NO_ID_FOUND");
                 exit;
             }
-            if (!$admin) {
+            if (!$admin && !$prof) {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                 exit;
             } else {

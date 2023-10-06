@@ -76,23 +76,23 @@ class MailService
             Vous trouverez ci-dessous les séances disponibles au sein de l'US Ivry Roller pour les adhérents associés au compte " . $compte->login . "<br/>";
             foreach ($compte->riders as $rider) {
                 if (count($rider->seances) > 0 || count($rider->inscriptions) > 0) {
-                    $str = $str . "Pour " . $rider->prenom . " " . $rider->nom . ",";
+                    
                     if (count($rider->seances) > 0) {
-                        $str = $str . " voici les séances disponibles :<br/><ul>";
+                        $str = $str . "Pour " . $rider->prenom . " " . $rider->nom . ", voici les séances disponibles :<br/><ul>";
                         foreach ($rider->seances as $seance) {
-                            $str = $str . "<li>" . $seance->libelle . " (" . $seance->lieu . ") - le  " . strftime('%A %d %B %Y', strtotime($seance->date_seance)) . " - à " . $seance->heure_debut . " - Durée : " . $seance->duree_cours . " minutes</li>";
+                            $str = $str . "<li>" . $seance->libelle . " (" . $seance->lieu . ") - le  " . $seance->date_seance->format('l j F Y') . " - à " . $seance->heure_debut . " - Durée : " . $seance->duree_cours . " minutes</li>";
                         }
                         $str = $str . "</ul><br/>";
                     }
                     if (count($rider->inscriptions) > 0) {
-                        $str = $str . " Pour rappel, il existe une inscription / absence prévue sur :<br/><ul>";
+                        $str = $str . "Pour " . $rider->prenom . " " . $rider->nom . ", il existe une inscription / absence prévue sur :<br/><ul>";
                         foreach ($rider->inscriptions as $seance) {
-                            $str = $str . "<li>" . $seance->libelle . " (" . $seance->lieu . ") - le  " . strftime('%A %d %B %Y', strtotime($seance->date_seance)) . " - à " . $seance->heure_debut . " - Durée : " . $seance->duree_cours . " minutes</li>";
+                            $str = $str . "<li>" . $seance->libelle . " (" . $seance->lieu . ") - le  " . $seance->date_seance->format('l j F Y') . " - à " . $seance->heure_debut . " - Durée : " . $seance->duree_cours . " minutes</li>";
                         }
                         $str = $str . "</ul><br/>";
                     }
                 } else {
-                    $str = $str . " pas de séance disponible pour " . $rider->prenom . " " . $rider->nom . "<br/>";
+                    $str = $str . "Pour " . $rider->prenom . " " . $rider->nom . ", pas de séance disponible ces prochains jours.<br/>";
                 }
 
              
@@ -103,7 +103,7 @@ class MailService
             La team USI Roller<br/>";
             $this->mail->MsgHTML($str);                         //Le contenu au format HTML
             $this->mail->IsHTML(true);
-            $this->mail->AddAddress("jechapartegui@yahoo.fr");
+            $this->mail->AddAddress($compte->login);
             if (!$this->mail->send()) {
                  echo $this->mail->ErrorInfo;
                 return false;
