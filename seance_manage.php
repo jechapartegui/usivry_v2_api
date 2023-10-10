@@ -77,7 +77,7 @@ $season_id = $s->getActive();
                 $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
                 exit;
             }
-            if (!$prof) {
+            if (!$prof && !$admin) {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                 exit;
             } else {
@@ -127,8 +127,27 @@ $season_id = $s->getActive();
             if (isset($data['season_id'])) {
                 $season_id = $data['season_id'];
             }
-            $result = $seanceServices->getAll($season_id);
+            if (isset($data['all'])) {
+                $result = $seanceServices->getAll($season_id, $data['all']);
+            } else {
+                $result = $seanceServices->getAll($season_id);
+            }
             break;
+        case 'notifier_annulation':
+            if (!isset($data['seance_id'])) {
+                $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+                exit;
+            }
+            if (!isset($data['message'])) {
+                $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+                exit;
+            } else { 
+                $inscrits = $seanceServices->get_Inscrits($data['seance_id']);
+                $seance = $seanceServices->get($data['seance_id']);
+                $mailServices = new MailService();
+                $result = $mailServices->NotifierAnnulation($seance,$data['message'], $inscrits);
+            }
+            break; 
         case 'get_seanceprevue':
             $result = $seanceServices->get_seanceprevue($season_id);
             break;

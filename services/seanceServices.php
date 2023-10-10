@@ -193,10 +193,15 @@ class SeanceService
         return $seance;
     }
 
-    public function getAll($season_id)
+    public function getAll($season_id, $all = false)
     {
-        $sql = "SELECT s.seance_id as seance_id, s.libelle as libelle, c.id as cours, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis, s.age_maximum as age_maximum, s.niveau_requis as niveau_requis, s.place_maximum, s.notes, s.essai_possible, s.info_seance
-        FROM seance s inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE c.saison_id = ? order by s.date_seance desc";
+        if($all){
+            $sql = "SELECT s.seance_id as seance_id, s.libelle as libelle, c.id as cours, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis, s.age_maximum as age_maximum, s.niveau_requis as niveau_requis, s.place_maximum, s.notes, s.essai_possible, s.info_seance
+            FROM seance s inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE c.saison_id = ? order by s.date_seance desc";
+        } else {
+            $sql = "SELECT s.seance_id as seance_id, s.libelle as libelle, c.id as cours, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis, s.age_maximum as age_maximum, s.niveau_requis as niveau_requis, s.place_maximum, s.notes, s.essai_possible, s.info_seance
+            FROM seance s inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE c.saison_id = ? and s.statut = 'prévue' order by s.date_seance desc";
+        }
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
         $stmt->execute([$season_id]);
@@ -221,6 +226,16 @@ class SeanceService
         }
         return $seances;
     }
+
+    public function get_Inscrits($id)
+    {
+        $sql = "select DISTINCT c.login from compte c inner join riders r on r.compte =c.id inner join inscription i on i.rider_id = r.id where i.seance_id = $id and statut = 'présent'";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $inscrits = $stmt->fetchAll();
+        return $inscrits;
+    }
+
 
     public function get_seance_plagedate($this_season)
     {

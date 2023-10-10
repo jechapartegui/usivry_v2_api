@@ -108,7 +108,7 @@ class InscriptionService
     WHERE
         DATEDIFF(CURDATE(), r.date_naissance) < " . $age_max . " AND DATEDIFF(CURDATE(), r.date_naissance) > " . $age_min . " AND r.niveau IN "  . $niveau . "
     ORDER BY
-        r.nom ASC;";
+        r.prenom ASC;";
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Inscription');
         $stmt->execute();
