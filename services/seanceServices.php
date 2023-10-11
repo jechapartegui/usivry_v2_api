@@ -109,11 +109,14 @@ class SeanceService
                     foreach ($ss as $seance) {
                         $sql = "SELECT * FROM `inscription` WHERE `statut` is not null and rider_id = ". $rider->id . " AND seance_id = " . $seance->seance_id ;
                         $stmt = $this->db->prepare($sql);
-                        $stmt->execute();                    
-                        $rowCount = $stmt->rowCount();
+                        $stmt->execute();     
+                        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Inscription');    
+                        $resinsc = $stmt->fetch();     
+                        $rowCount = $stmt->rowCount();                        
                         if($rowCount == 0 ){
                             array_push($rider->seances, $seance);
                         } else {
+                            $seance->statut = $resinsc->statut;      
                             array_push($rider->inscriptions, $seance);
                         }
                     }
