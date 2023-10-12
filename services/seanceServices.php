@@ -101,7 +101,7 @@ class SeanceService
                     FROM seance s 
                     INNER JOIN cours c ON s.cours = c.id 
                     INNER JOIN lieu l ON s.lieu_id = l.id 
-                    WHERE s.date_seance >= '$date_min' AND s.date_seance <= '$date_max' AND s.age_requis <= $age AND s.age_maximum >= $age AND s.niveau_requis LIKE '%$rider->niveau%'  AND s.statut = 'prévue'";
+                    WHERE s.date_seance >= '$date_min' AND s.date_seance <= '$date_max' AND s.age_requis <= $age AND s.age_maximum >= $age AND s.niveau_requis LIKE '%$rider->niveau%'  AND s.statut = 'prévue' order by s.date_seance asc ";
                    $stmt = $this->db->prepare($sql);
                     $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance'); // Ajoute les niveaux requis à la liste des valeurs à binder
                     $stmt->execute();

@@ -151,7 +151,18 @@ switch ($command) {
             $inscrits = $seanceServices->get_Inscrits($data['seance_id']);
             $seance = $seanceServices->get($data['seance_id']);
             $mailServices = new MailService();
-            $result = $mailServices->NotifierAnnulation($seance, $data['message'], $inscrits);
+            $mailServices->NotifierAnnulation($seance, $data['message'], $inscrits);
+            $result = true;
+        }
+    case 'reserver_essai':
+        if (!isset($data['essai'])) {
+            $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+            exit;
+        } else {
+            $mailServices = new MailService();
+            $mailServices->EnvoyerAdmin($data['essai']);
+            $mailServices->ConfirmerEssai($data['essai']);
+            $result = true;
         }
         break;
     case 'get_seanceprevue':

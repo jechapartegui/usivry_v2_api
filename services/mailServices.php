@@ -100,14 +100,15 @@ class MailService
                         $str = $str . "Pour " . $rider->prenom . " " . $rider->nom . ", voici les séances disponibles :<br/><ul>";
                         foreach ($rider->seances as $seance) {
                             $newDate = date("d-m-Y", strtotime($seance->date_seance));  
-                            $str = $str . "<li>" . $seance->libelle . " (" . $seance->lieu . ") - le  " . $newDate . " - à " . $seance->heure_debut . " - Durée : " . $seance->duree_cours . " minutes</li>";
+                            $str = $str . "<li>" . $seance->libelle . " (" . $seance->lieu . ")  le  " . $newDate . "  à " . $seance->heure_debut . " - Durée : " . $seance->duree_cours . " minutes</li>";
                         }
                         $str = $str . "</ul><br/>";
                     }
                     if (count($rider->inscriptions) > 0) {
                         $str = $str . "Pour " . $rider->prenom . " " . $rider->nom . ", il existe une inscription / absence prévue sur :<br/><ul>";
                         foreach ($rider->inscriptions as $seance) {
-                            $str = $str . "<li>" . $seance->statut . " : " . $seance->libelle . " (" . $seance->lieu . ") - le  " . $seance->date_seance->format('l j F Y') . " - à " . $seance->heure_debut . " - Durée : " . $seance->duree_cours . " minutes</li>";
+                            $newDate = date("d-m-Y", strtotime($seance->date_seance));  
+                            $str = $str . "<li>" . $seance->statut . " : " . $seance->libelle . " (" . $seance->lieu . ")  le  " . $newDate . "  à " . $seance->heure_debut . " - Durée : " . $seance->duree_cours . " minutes</li>";
                         }
                         $str = $str . "</ul><br/>";
                     }
@@ -121,14 +122,15 @@ class MailService
             La team USI Roller<br/>";
             $this->mail->MsgHTML($str);                         //Le contenu au format HTML
             $this->mail->IsHTML(true);
-            $this->mail->AddAddress('usivry.roller@gmail.com');
+            $this->mail->clearAllRecipients();
+            $this->mail->AddAddress($compte->login);
             if (!$this->mail->send()) {
                $retour = $retour . "Envoi " . $compte->login . "OK\n";
             } else {                
                 $retour = $retour . "Envoi " . $compte->login . "non OK : ". $this->mail->ErrorInfo ."\n";
             }
         }
-        return $str;
+        return $retour;
     }
 
     public function MailTest($comptes){
@@ -170,6 +172,7 @@ class MailService
         }
         $this->mail->MsgHTML($str);                         //Le contenu au format HTML
         $this->mail->IsHTML(true);
+        $this->mail->clearAddresses();
         $this->mail->AddAddress('usivry.roller@gmail.com');
         if (!$this->mail->send()) {
             return "Envoi " . $compte->login . "OK\n";
