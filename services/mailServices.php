@@ -189,7 +189,7 @@ class MailService
     </ul> 
        <br/>Sportivement,<br/>US Ivry Roller</div>');                         //Le contenu au format HTML
         $this->mail->IsHTML(true);
-        $this->mail->AddAddress("usivry.roller@gmail.com");
+        $this->mail->AddAddress($essai->rider->email);
         if (!$this->mail->send()) {
             echo $this->mail->ErrorInfo;
         }
