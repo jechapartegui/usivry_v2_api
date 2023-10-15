@@ -105,7 +105,18 @@ class RiderService
         }
     }
 
+    public function GetEmailProf($professeurs){
+        $mailprof = array();
+        foreach ($professeurs as $prof) {
+           $sql = "Select c.login from riders r inner join compte c on r.compte = c.id where r.id = " . $prof['key'];
+           $stmt = $this->db->prepare($sql);
+           $stmt->execute();
+           $login =  $stmt->fetch();
+           array_push($mailprof, $login['login']);
+        }
+        return $mailprof;
 
+    }
 
     public function search($search, $season_id, $all, $this_season){
         if($all==true){

@@ -160,8 +160,12 @@ switch ($command) {
             exit;
         } else {
             $mailServices = new MailService();
-            $mailServices->EnvoyerAdmin($data['essai']);
-            $mailServices->ConfirmerEssai($data['essai']);
+            $essai = new stdClass();
+            $essai->rider = $RiderService->ToRider($data['essai']['rider']);
+            $essai->seance = $seanceServices->ToSeance($data['essai']['seance']);
+            $list = $RiderService->GetEmailProf($essai->seance->professeurs);
+            $mailServices->EnvoyerAdmin($essai,$list);
+           $mailServices->ConfirmerEssai($essai);
             $result = true;
         }
         break;

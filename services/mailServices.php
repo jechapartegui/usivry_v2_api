@@ -133,6 +133,68 @@ class MailService
         return $retour;
     }
 
+    public function EnvoyerAdmin($essai, $listprof){
+        $this->mail->Subject    =  "Ajout d'un essai - RollerDay";    
+       
+        $newDate = date("d-m-Y", strtotime($essai->seance->date_seance));                    //Le sujet du mail
+        $this->mail->WordWrap   = 200;                     //Préciser qu'il faut utiliser le texte brut
+
+        $this->mail->MsgHTML('<div>Voici les information pour créer le Roller Day : <br/>
+        <ul>
+            <li>Nom Prenom : ' . $essai->rider->nom . ' ' . $essai->rider->prenom . '</li>
+            <li>Date de naissance : ' . $essai->rider->date_naissance . '</li>
+            <li>Mail : ' . $essai->rider->email . '</li>
+            <li>Adresse : ' . $essai->rider->adresse . '</li>
+            <li>Téléphone : ' . $essai->rider->telephone . '</li>
+        </ul> 
+        Pour la séance : <br/>
+        <ul>
+        <li>Libellé : ' . $essai->seance->libelle . '</li>
+        <li>Date  : ' . $newDate . '</li>
+        <li>Heure : ' . $essai->seance->heure_debut . '</li>
+    </ul> 
+       <br/>Sportivement,<br/>US Ivry Roller</div>');                         //Le contenu au format HTML
+        $this->mail->IsHTML(true);
+
+        $this->mail->AddAddress("usivry.roller@gmail.com");
+        foreach ($listprof as $prrrof) {
+            $this->mail->AddAddress($prrrof);
+        }
+        if (!$this->mail->send()) {
+            echo $this->mail->ErrorInfo;
+        }
+    }
+    public function ConfirmerEssai($essai){
+        $prof = "";
+        
+        $this->mail->Subject    =  "Confirmation du cours d'essai";                      //Le sujet du mail
+        $this->mail->WordWrap   = 200;   
+                          //Préciser qu'il faut utiliser le texte brut
+
+        $this->mail->MsgHTML('<div>Bonjour <br/>
+        Voici le récapitulatif pour la séance  : <br/>
+        <ul>
+            <li>Nom Prenom : ' . $essai->rider->nom . ' ' . $essai->rider->prenom . '</li>
+            <li>Date de naissance : ' . $essai->rider->date_naissance . '</li>
+            <li>Mail : ' . $essai->rider->email . '</li>
+            <li>Adresse : ' . $essai->rider->adresse . '</li>
+            <li>Téléphone : ' . $essai->rider->telephone . '</li>
+        </ul> 
+        Pour la séance : <br/>
+        <ul>
+        <li>Libellé : ' . $essai->seance->libelle . '</li>
+        <li>Date  : ' . $essai->seance->date_seance . '</li>
+        <li>Heure : ' . $essai->seance->heure_debut . '</li>
+
+    </ul> 
+       <br/>Sportivement,<br/>US Ivry Roller</div>');                         //Le contenu au format HTML
+        $this->mail->IsHTML(true);
+        $this->mail->AddAddress("usivry.roller@gmail.com");
+        if (!$this->mail->send()) {
+            echo $this->mail->ErrorInfo;
+        }
+    }
+
     public function MailTest($comptes){
         $this->mail->Subject    =  'Cours de roller disponibles';                      //Le sujet du mail
         $this->mail->WordWrap   = 200;    

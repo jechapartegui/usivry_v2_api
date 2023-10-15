@@ -73,7 +73,7 @@ class SeanceService
         // $niveaux = $p->getNiveaux($rider->niveau);
         // $inClause = implode(',', array_fill(0, count($niveaux), '?'));   
         $date_max = date('Y-m-d', strtotime("+10 days", strtotime($date_min)));  
-        $sql = "select distinct c.id, c.login from compte c inner join riders r on r.compte=c.id left join inscription_saison i on i.rider_id = r.id left join saison s on s.id = i.saison_id where s.active = 1;";
+        $sql = "select distinct c.id, c.login from compte c inner join riders r on r.compte=c.id left join inscription_saison i on i.rider_id = r.id left join saison s on s.id = i.saison_id where s.active = 1 and c.mail_active = 1;";
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Compte');
         $stmt->execute();
