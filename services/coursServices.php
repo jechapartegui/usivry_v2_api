@@ -9,9 +9,7 @@
         $cours = new Cours();
         foreach ($data as $attribut => $valeur) {           
                 $cours->$attribut = $valeur;
-        }
-        
-
+        }      
         return $cours;
     }
 
@@ -20,82 +18,65 @@
         if(!isset($cours['saison_id']) || $cours['saison_id']==0){
             $cours['saison_id'] = $season_id;
         }
-        $cours = $this->ToCours($cours);
-        if (is_array($cours->niveau_requis)) {
-            $niveau = implode(',', $cours->niveau_requis);
-        } else {
-            $niveau = $cours->niveau_requis;
-        }
-        $sql = "INSERT INTO cours (nom, jour_semaine, heure, duree, prof_principal_id, lieu_id, age_requis, niveau_requis, saison_id, place_maximum) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $cours = $this->ToCours($cours);       
+        $sql = "INSERT INTO cours (nom, jour_semaine, heure, duree, prof_principal_id, lieu_id, age_requis, age_maximum, saison_id, place_maximum, convocation_nominative) 
+        VALUES ('$cours->nom', '$cours->jour_semaine', '$cours->heure', $cours->duree, $cours->prof_principal_id, $cours->lieu_id, $cours->age_requis, $cours->age_requis, $cours->age_maximum, $cours->saison_id, $cours->place_maximum, $cours->convocation_nominative)";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$cours->nom, $cours->jour_semaine, $cours->heure, $cours->duree, $cours->prof_principal_id, $cours->lieu_id, $cours->age_requis, $niveau, $cours->saison_id, $cours->place_maximum]);
-        return $this->db->lastInsertId();
+        $stmt->execute();
+        $cours->id = $this->db->lastInsertId();
+        return $cours;
+
     }
 
     public function update($cours) {
-        $cours = $this->ToCours($cours);
-        if (is_array($cours->niveau_requis)) {
-            $niveau = implode(',', $cours->niveau_requis);
-        } else {
-            $niveau = $cours->niveau_requis;
-        }
-        $sql = "UPDATE cours SET nom=?, jour_semaine=?, heure=?, duree=?, prof_principal_id=?, lieu_id=?, age_requis=?, niveau_requis=?, saison_id=?, place_maximum = ? WHERE id=?";
+        $cours = $this->ToCours($cours);       
+        $sql = "UPDATE cours SET nom='$cours->nom',jour_semaine='$cours->jour_semaine',heure='$cours->heure',duree='$cours->duree',prof_principal_id=$cours->prof_principal_id,
+        lieu_id=$cours->lieu_id,age_requis=$cours->age_requis,age_maximum=$cours->age_maximum,saison_id=$cours->saison_id,place_maximum=$cours->place_maximum,convocation_nominative='$cours->convocation_nominative' WHERE id=$cours->id";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$cours->nom, $cours->jour_semaine, $cours->heure, $cours->duree, $cours->prof_principal_id, $cours->lieu_id, $cours->age_requis, $niveau, $cours->saison_id, $cours->place_maximum, $cours->id]);
+         $stmt->execute();
+         return $cours->id;
     }
 
     public function delete($id) {
-        $sql = "DELETE FROM cours WHERE id=?";
+        $sql = "DELETE FROM cours WHERE id=$id";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$id]);
+        return $stmt->execute();
     }
 
     public function get($id) {
-        $sql = "SELECT c.id, c.nom, c.jour_semaine, c.heure, c.duree, c.prof_principal_id, c.lieu_id, c.age_requis, c.age_maximum, SPLIT(c.niveau_requis,',') as niveau_requis, c.saison_id, c.place_maximum, CONCAT(r.prenom, ' ', r.nom) as prof_principal_nom, l.nom as lieu_nom FROM cours c 
+        $sql = "SELECT c.*, CONCAT(r.prenom, ' ', r.nom) as prof_principal_nom, l.nom as lieu_nom FROM cours c 
         inner join riders r on r.id = c.prof_principal_id
         inner join lieu l on l.id = c.lieu_id WHERE id=?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Cours');
         $res = $stmt->fetch();
-        $res->niveau_requis = explode(",",$res->niveau_requis);
         return $res;
     }
 
-    public function getAll() {
-        $sql = "SELECT c.id, c.nom, c.jour_semaine, c.heure, c.duree, c.prof_principal_id, c.lieu_id, c.age_requis, c.age_maximum, SPLIT(c.niveau_requis,',') as niveau_requis, c.saison_id, c.place_maximum, CONCAT(r.prenom, ' ', r.nom) as prof_principal_nom, l.nom as lieu_nom FROM cours c 
+    public function get_all($saison_id = 0) {
+        $sql = "SELECT c.*, CONCAT(r.prenom, ' ', r.nom) as prof_principal_nom, l.nom as lieu_nom FROM cours c 
         inner join riders r on r.id = c.prof_principal_id
         inner join lieu l on l.id = c.lieu_id";
+        if($saison_id > 0){
+            $sql = $sql . " WHERE saison_id = $saison_id";
+        }
+        $sql = $sql . " order by c.heure asc" ;
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Cours');
-        $res = $stmt->fetchAll();
-        foreach ($res as $ligne) {
-            $ligne->niveau_requis = explode(",",$ligne->niveau_requis);
-        }
+        $res = $stmt->fetchAll();       
         return $res;
     }
-
-    public function getAll_bySaison($saison_id) {
-        $sql = "SELECT c.id, c.nom, c.jour_semaine, c.heure, c.duree, c.prof_principal_id, c.lieu_id, c.age_requis, c.age_maximum, c.niveau_requis, c.saison_id, c.place_maximum,
-        CONCAT(r.prenom, ' ', r.nom) as prof_principal_nom, l.nom as lieu_nom FROM cours c 
-        inner join riders r on r.id = c.prof_principal_id
-        inner join lieu l on l.id = c.lieu_id
-         where saison_id = ? order by c.heure asc";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([$saison_id]);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Cours');
-        $res = $stmt->fetchAll();
-        foreach ($res as $ligne) {
-            $ligne->niveau_requis = explode(",",$ligne->niveau_requis);
+    public function get_all_light($saison_id = 0) {
+        $sql = "SELECT id as 'key', nom as 'value' FROM cours";
+        if($saison_id > 0){
+            $sql = $sql . " WHERE saison_id = $saison_id";
         }
-        return $res;
-    }
-    public function getAllLight_bySaison($saison_id) {
-        $sql = "SELECT id as 'key', nom as 'value' FROM cours where saison_id = ?";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$saison_id]);
+        $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'KeyValuePair');
-        return $stmt->fetchAll();
+        $res = $stmt->fetchAll();       
+        return $res;
     }
 }

@@ -7,6 +7,7 @@ require_once("class/class.php");
 require_once("services/ridersServices.php");
 require_once("services/saisonServices.php");
 require_once("services/coursServices.php");
+require_once("services/groupeServices.php");
 
 
 // Connect to database
@@ -48,6 +49,7 @@ if ($pwd_peppered != $password) {
 }
 $RiderService = new RiderService($con);
 $coursServices = new CoursService($con);
+$groupeServices = new GroupeService($con);
 $s = new SaisonService($con);
 if ($user_id > 0) {
     $logged = true;
@@ -67,7 +69,9 @@ switch ($command) {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                 exit;
             } else {
-                $result = $coursServices->add($data['cours'], $season_id);
+                $cours = $coursServices->add($data['cours'], $season_id);
+                $groupeServices->add_lien($cours->id, 'cours', $cours->groupes);
+                $result = $cours->id;
             }
             break;
         case 'update':
@@ -79,7 +83,9 @@ switch ($command) {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                 exit;
             } else {
-                $result = $coursServices->update($data['cours']);
+                $id = $coursServices->update($data['cours']);
+                $groupeServices->update_lien($id, 'cours', $cours->groupes);
+                $result = true;
             }
             break;
 
@@ -92,30 +98,40 @@ switch ($command) {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                 exit;
             } else {
-                $result = $coursServices->get($data['id']);
+                $cours = $coursServices->get($data['id']);
+                $cours->groupes = $groupeServices->get_lien($cours->id, 'cours');
+                $result = $cours;
             }
             break;
         case 'get_all':
             if (!$admin) {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
                 exit;
+            }
+            if (isset($data['season_id'])) {
+                $season_id = $data['season_id'];
+                $result = $coursServices->get_all($season_id);
             } else {
-                $result = $coursServices->getAll();
+                $result = $coursServices->get_all();
+            }
+            foreach ($result as $cours) {
+                $cours->groupes = $groupeServices->get_lien($cours->id, 'cours');
             }
             break;
 
-        case 'get_all_byseason':
-            if (isset($data['season_id'])) {
-                $season_id = $data['season_id'];
-            }
-            $result = $coursServices->getAll_bySaison($season_id);
-            break;
-        case 'get_all_light_byseason':
-            if (isset($data['season_id'])) {
-                $season_id = $data['season_id'];
-            }
-            $result = $coursServices->getAllLight_bySaison($season_id);
-            break;
+            case 'get_all_light':
+                if (!$admin) {
+                    $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+                    exit;
+                }
+                if (isset($data['season_id'])) {
+                    $season_id = $data['season_id'];
+                    $result = $coursServices->get_all_light($season_id);
+                } else {
+                    $result = $coursServices->get_all_light();
+                }
+              
+                break;
         case 'get_seasons_light':
             if (!$admin && !$prof) {
                 $server->getHttpStatusMessage(401, "UNAUTHORIZED");
@@ -135,6 +151,7 @@ switch ($command) {
                 exit;
             } else {
                 $result = $coursServices->delete($data['id']);
+                $groupeServices->delete_lien($data['id'], 'cours');
             }
             break;
     }

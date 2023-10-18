@@ -64,9 +64,23 @@ class Cours
     public $lieu_id;
     public $lieu_nom;
     public $age_requis;
+    public $age_maximum;
     public $niveau_requis;
     public $saison_id;
     public $place_maximum;
+    public $convocation_nominative;
+    public $groupes;
+
+    public function __construct()
+    {
+        $utils = new utils();
+        $this->nom = $utils->convert_texte($this->nom);
+        if ($this->convocation_nominative == 0) {
+            $this->convocation_nominative = false;
+        } else {
+            $this->convocation_nominative = true;
+        }
+    }
 }
 
 
@@ -136,6 +150,20 @@ class KeyValuePair
     public $key;
     public $value;
 }
+
+class Groupe
+{
+    public $id;
+    public $nom;
+}
+
+class Lien_Groupe
+{
+    public $groupe_id;
+    public $objet_id;
+    public $objet_type;
+}
+
 
 class Compte{
     public $id;
