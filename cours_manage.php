@@ -99,7 +99,7 @@ switch ($command) {
                 exit;
             } else {
                 $cours = $coursServices->get($data['id']);
-                $cours->groupes = $groupeServices->get_lien($cours->id, 'cours');
+                $cours->groupes = $groupeServices->get_lien_objet_type($cours->id, 'cours');
                 $result = $cours;
             }
             break;
@@ -115,7 +115,7 @@ switch ($command) {
                 $result = $coursServices->get_all();
             }
             foreach ($result as $cours) {
-                $cours->groupes = $groupeServices->get_lien($cours->id, 'cours');
+                $cours->groupes = $groupeServices->get_lien_objet_type($cours->id, 'cours');
             }
             break;
 
@@ -151,7 +151,7 @@ switch ($command) {
                 exit;
             } else {
                 $result = $coursServices->delete($data['id']);
-                $groupeServices->delete_lien($data['id'], 'cours');
+                $groupeServices->delete_lien_objet_type($data['id'], 'cours');
             }
             break;
     }

@@ -155,6 +155,7 @@ class Groupe
 {
     public $id;
     public $nom;
+    public $saison_id;
 }
 
 class Lien_Groupe
