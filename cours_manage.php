@@ -60,100 +60,108 @@ if ($user_id > 0) {
 }
 $season_id = $s->getActive();
 switch ($command) {
-        case 'add':
-            if (!isset($data['cours'])) {
-                $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
-                exit;
+    case 'add':
+        if (!isset($data['cours'])) {
+            $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
+            exit;
+        }
+        if (!$admin) {
+            $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+            exit;
+        } else {
+            $cours = $coursServices->add($data['cours'], $season_id);
+            $groupeServices->add_lien($cours->id, 'cours', $cours->groupes);
+            $result = $cours->id;
+        }
+        break;
+    case 'update':
+        if (!isset($data['cours'])) {
+            $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
+            exit;
+        }
+        if (!$admin) {
+            $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+            exit;
+        } else {
+            $cours =  $coursServices->ToCours($data['cours']);
+            $result = $coursServices->update($cours);
+            $LG = new Lien_Groupe();
+            $LG->objet_id = $cours->id;
+            $LG->objet_type = "cours";
+            $LG->groupes = array();
+            foreach ($seance->groupes as $item) {
+                array_push($LG->groupes, $item['id']);
             }
-            if (!$admin) {
-                $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-                exit;
-            } else {
-                $cours = $coursServices->add($data['cours'], $season_id);
-                $groupeServices->add_lien($cours->id, 'cours', $cours->groupes);
-                $result = $cours->id;
-            }
-            break;
-        case 'update':
-            if (!isset($data['cours'])) {
-                $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
-                exit;
-            }
-            if (!$admin) {
-                $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-                exit;
-            } else {
-                $id = $coursServices->update($data['cours']);
-                $groupeServices->update_lien($id, 'cours', $cours->groupes);
-                $result = true;
-            }
-            break;
+            $groupeServices->update_lien($LG);
+            $result = true;
+        }
+        break;
 
-        case 'get':
-            if (!isset($data['id'])) {
-                $server->getHttpStatusMessage(401, "NO_ID_FOUND");
-                exit;
-            }
-            if (!$admin) {
-                $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-                exit;
-            } else {
-                $cours = $coursServices->get($data['id']);
-                $cours->groupes = $groupeServices->get_lien_objet_type($cours->id, 'cours');
-                $result = $cours;
-            }
-            break;
-        case 'get_all':
-            if (!$admin) {
-                $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-                exit;
-            }
-            if (isset($data['season_id'])) {
-                $season_id = $data['season_id'];
-                $result = $coursServices->get_all($season_id);
-            } else {
-                $result = $coursServices->get_all();
-            }
-            foreach ($result as $cours) {
-                $cours->groupes = $groupeServices->get_lien_objet_type($cours->id, 'cours');
-            }
-            break;
+    case 'get':
+        if (!isset($data['id'])) {
+            $server->getHttpStatusMessage(401, "NO_ID_FOUND");
+            exit;
+        }
+        if (!$admin) {
+            $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+            exit;
+        } else {
+            $cours = $coursServices->get($data['id']);
+            $cours->groupes = $groupeServices->get_lien_objet_id($cours->id, 'cours');
+            $result = $cours;
+        }
+        break;
+    case 'get_all':
+        if (!$admin) {
+            $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+            exit;
+        }
+        if (isset($data['season_id'])) {
+            $season_id = $data['season_id'];
+            $result = $coursServices->get_all($season_id);
+        } else {
+            $result = $coursServices->get_all();
+        }
+        foreach ($result as $cours) {
+            $cours->groupes = $groupeServices->get_lien_objet_id($cours->id, 'cours');
+        }
+        break;
+        
+    case 'get_all_light':
+        if (!$admin) {
+            $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+            exit;
+        }
+        if (isset($data['season_id'])) {
+            $season_id = $data['season_id'];
+            $result = $coursServices->get_all_light($season_id);
+        } else {
+            $result = $coursServices->get_all_light();
+        }
 
-            case 'get_all_light':
-                if (!$admin) {
-                    $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-                    exit;
-                }
-                if (isset($data['season_id'])) {
-                    $season_id = $data['season_id'];
-                    $result = $coursServices->get_all_light($season_id);
-                } else {
-                    $result = $coursServices->get_all_light();
-                }
-              
-                break;
-        case 'get_seasons_light':
-            if (!$admin && !$prof) {
-                $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-                exit;
-            } else {
-                
-                $result = $s->getAllLight();
-            }
-            break;
-        case 'delete':
-            if (!isset($data['id'])) {
-                $server->getHttpStatusMessage(401, "NO_ID_FOUND");
-                exit;
-            }
-            if (!$admin) {
-                $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-                exit;
-            } else {
-                $result = $coursServices->delete($data['id']);
-                $groupeServices->delete_lien_objet_type($data['id'], 'cours');
-            }
-            break;
-    }
+        break;
+    case 'get_seasons_light':
+        if (!$admin && !$prof) {
+            $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+            exit;
+        } else {
 
-    print json_encode($result);
+            $result = $s->getAllLight();
+        }
+        break;
+    case 'delete':
+        if (!isset($data['id'])) {
+            $server->getHttpStatusMessage(401, "NO_ID_FOUND");
+            exit;
+        }
+        if (!$admin) {
+            $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+            exit;
+        } else {
+            $result = $coursServices->delete($data['id']);
+            $groupeServices->delete_lien_objet_type($data['id'], 'cours');
+        }
+        break;
+}
+
+print json_encode($result);

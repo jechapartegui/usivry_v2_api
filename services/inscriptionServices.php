@@ -85,28 +85,34 @@ class InscriptionService
 
     public function load_seance($id, $this_season)
     {
-        $sql = "SELECT age_requis, age_maximum, niveau_requis FROM seance WHERE seance_id = ?";
+        $sql = "SELECT age_requis, age_maximum FROM seance WHERE seance_id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
-        $res =  $stmt->fetch();
+        $res =  $stmt->fetch();        
         $age_min = $res['age_requis'] * 365 -10;
         $age_max = $res['age_maximum'] * 365 +10;
-        $elements = explode(",", $res['niveau_requis']); // Divise la chaîne en un tableau en utilisant la virgule comme séparateur
+        $sql = "SELECT groupe_id FROM lien_groupe WHERE objet_id = $id and objet_type = 'séance'";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$id]);
+        $groupes =  $stmt->fetchAll();  
+        $elements = explode(",", $groupes); // Divise la chaîne en un tableau en utilisant la virgule comme séparateur
         $quotedElements = array_map(function($element) {
             return "'" . $element . "'";
         }, $elements); // Ajoute des guillemets simples autour de chaque élément
         
-        $niveau = "(" . implode(",", $quotedElements) . ")";
-        $sql = "SELECT
+        $groupe = "(" . implode(",", $quotedElements) . ")";              
+        $sql = "SELECT DISTINCT
         r.id as rider_id,
-        CONCAT(r.prenom, ' ', r.nom) as rider_libelle, r.niveau as niveau,
+        CONCAT(r.prenom, ' ', r.nom) as rider_libelle,
         CONCAT(r.personne_prevenir, ' ', r.telephone_personne_prevenir) as contact_urgence
     FROM
         riders r
     INNER JOIN
         inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = " . $this_season . " 
+    LEFT JOIN
+        lien_groupe lg on lg.objet_type = 'rider' and lg.objet_id = r.id
     WHERE
-        DATEDIFF(CURDATE(), r.date_naissance) < " . $age_max . " AND DATEDIFF(CURDATE(), r.date_naissance) > " . $age_min . " AND r.niveau IN "  . $niveau . "
+        DATEDIFF(CURDATE(), r.date_naissance) < " . $age_max . " AND DATEDIFF(CURDATE(), r.date_naissance) > " . $age_min . " AND lg.groupe_id IN "  . $groupe . "
     ORDER BY
         r.prenom ASC;";
         $stmt = $this->db->prepare($sql);

@@ -65,7 +65,6 @@ class Cours
     public $lieu_nom;
     public $age_requis;
     public $age_maximum;
-    public $niveau_requis;
     public $saison_id;
     public $place_maximum;
     public $convocation_nominative;
@@ -98,12 +97,13 @@ class Seance
     public $statut;
     public $age_requis;
     public $age_maximum;
-    public $niveau_requis;
+    public $groupes;
     public $professeurs;
     public $place_maximum;
     public $essai_possible;
     public $notes;
     public $info_seance;
+    public $convocation_nominative;
 
     public function __construct()
     {
@@ -112,6 +112,11 @@ class Seance
             $this->essai_possible = false;
         } else {
             $this->essai_possible = true;
+        }
+        if ($this->convocation_nominative == 0) {
+            $this->convocation_nominative = false;
+        } else {
+            $this->convocation_nominative = true;
         }
         
     }
@@ -160,7 +165,7 @@ class Groupe
 
 class Lien_Groupe
 {
-    public $groupe_id;
+    public $groupes;
     public $objet_id;
     public $objet_type;
 }

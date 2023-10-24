@@ -5,6 +5,7 @@ include_once("config/database.php");
 include_once("services/ridersServices.php");
 include_once("services/saisonServices.php");
 include_once("services/mailServices.php");
+include_once("services/groupeServices.php");
 
 // Connect to database
 $database=new database();
@@ -14,6 +15,7 @@ $data = $server->initRest();
 $ss = new SaisonService($con);
 $season_id = $ss->getActive();
 $rider=new RiderService($con);
+$groupeServices=new GroupeService($con);
 $mail=new MailService();
 if (isset($data['logout'])){
 	session_unset();
@@ -67,6 +69,16 @@ foreach ($riders as $rd) {
 	$rd->seances = $rider->getSeances($rd, true,$season_id);
 	if($rd->est_prof){
 		$rd->seances_prof = $rider->getSeancesProf($rd->id,$season_id);
+	}
+	if(isset($rd->inscriptions)) {
+		foreach ($rd->inscriptions as $inscr) {
+			$inscr->groupes = $groupeService->get_lien_objet($inscr->seance_id,'séance');
+		}
+	}
+	if(isset($rd->seances)) {
+		foreach ($rd->seances as $sss) {
+			$sss->groupes = $groupeService->get_lien_objet($sss->seance_id,'séance');
+		}
 	}
 }
 

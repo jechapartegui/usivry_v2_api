@@ -37,9 +37,9 @@ class RiderService
             return $compte;
         }
         //sans update du mot de passe
-        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau,  $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
+        $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
         return $this->db->lastInsertId();
     }
     public function addrider_existingaccount($rider)
@@ -51,9 +51,9 @@ class RiderService
             return $compte;
         }
         //sans update du mot de passe
-        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?,  ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?,  ?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
+        $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
         $id = $this->db->lastInsertId();
         return $id;
     }
@@ -231,9 +231,9 @@ class RiderService
             if ($rider->id == 0) {
                 $compte = $this->ReturnOrInsertAccount($rider->email, $rider->mot_de_passe);             
                 //sans update du mot de passe
-                $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, niveau, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?,   ?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?,   ?, ?, ?, ?, ?, ?)";
                 $stmt = $this->db->prepare($sql);
-                $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
+                $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
                 $rider->id =  $this->db->lastInsertId();
             } else{
                 $this->update_addrange($rider);
@@ -246,20 +246,17 @@ class RiderService
 
     public function getSeances($rider, $remove_inscription,$this_season)   {
         $p = new params();
-        //Age + niveau requis  + date
         $date_min = date('Y-m-d'); // Date de référence (jour J)
-        // $niveaux = $p->getNiveaux($rider->niveau);
-        // $inClause = implode(',', array_fill(0, count($niveaux), '?'));
-        $age = $p->calculerAge($rider->date_naissance);
+            $age = $p->calculerAge($rider->date_naissance);
         $date_max = date('Y-m-d', strtotime("+30 days", strtotime($date_min)));
-        $sql = "SELECT  s.seance_id as seance_id, c.id as cours, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis,  s.age_requis as age_maximum, s.niveau_requis as niveau_requis, s.info_seance as info_seance
+        $sql = "SELECT  s.seance_id as seance_id, c.id as cours, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis,  s.age_requis as age_maximum, s.info_seance as info_seance
         FROM seance s 
         INNER JOIN cours c ON s.cours = c.id 
         INNER JOIN lieu l ON s.lieu_id = l.id 
-        WHERE s.date_seance >= '$date_min' AND s.date_seance <= '$date_max' AND s.age_requis <= $age AND s.age_maximum >= $age AND s.niveau_requis LIKE '%$rider->niveau%' AND c.saison_id = " . $this_season;
+        WHERE s.date_seance >= '$date_min' AND s.date_seance <= '$date_max' AND s.age_requis <= $age AND s.age_maximum >= $age AND c.saison_id = " . $this_season;
 
         $stmt = $this->db->prepare($sql);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');// Ajoute les niveaux requis à la liste des valeurs à binder
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
         $stmt->execute();
         $ss = $stmt->fetchAll();
         $seances = array();
@@ -282,38 +279,35 @@ class RiderService
         }
         foreach ($seances as $seance) {
             $seance->professeurs = $this->get_prof_seance($seance->seance_id);
-            $seance->niveau_requis = explode(",",$seance->niveau_requis);
+            //Get groupe
         }
         return $seances;
     }
     public function getInscriptions($id,$this_season)
     {
-        $sql = "SELECT i.id as id, s.seance_id as seance_id, c.id as cours, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, i.statut as statut, s.age_requis as age_requis, s.age_maximum as age_maximum,  s.niveau_requis as niveau_requis, s.info_seance as info_seance
-        FROM inscription i inner join seance s on i.seance_id = s.seance_id inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE i.rider_id = ? AND i.statut IS NOT NULL AND s.date_seance > DATE_SUB(CURDATE(), INTERVAL 1 DAY) AND c.saison_id = " . $this_season;
+        $sql = "SELECT i.id as id, s.seance_id as seance_id, c.id as cours, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, i.statut as statut, s.age_requis as age_requis, s.age_maximum as age_maximum, s.info_seance as info_seance
+        FROM inscription i inner join seance s on i.seance_id = s.seance_id inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE i.rider_id = ? AND i.statut IS NOT NULL AND s.date_seance > DATE_SUB(CURDATE(), INTERVAL 1 DAY) AND c.saison_id = " . $this_season ." and s.statut = 'prévue'";
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
         $stmt->execute([$id]);
         $inscriptions = $stmt->fetchAll();
         foreach ($inscriptions as $seance) {
             $seance->professeurs = $this->get_prof_seance($seance->seance_id);
-            $seance->niveau_requis = explode(",",$seance->niveau_requis);
         }
         return $inscriptions;
     }
     public function get_prof_seance($seance_id){
-        $sql = "SELECT s.professeur_id as 'key', concat(r.prenom,' ', r.nom) as 'value' from seance_professeur s inner join riders r on r.id = s.professeur_id where s.seance_id=?";
+        $sql = "SELECT s.professeur_id as 'key', concat(r.prenom,' ', r.nom) as 'value' from seance_professeur s inner join riders r on r.id = s.professeur_id where s.seance_id=$seance_id and s.statut = 'prévue'";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$seance_id]);
+        $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'KeyValuePair');
         return $stmt->fetchAll();
     }
 
     public function getSeancesProf($rider_id,$this_season){
-        $referenceDate = date('Y-m-d'); // Date de référence (jour J)
-        // $niveaux = $p->getNiveaux($rider->niveau);
-        // $inClause = implode(',', array_fill(0, count($niveaux), '?'));     
+        $referenceDate = date('Y-m-d'); // Date de référence (jour J)     
         $dateref = date('Y-m-d', strtotime("-5 days", strtotime($referenceDate)));
-        $sql = "SELECT  s.seance_id as seance_id, c.id as cours, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis, s.age_maximum as age_maximum, s.niveau_requis as niveau_requis, s.info_seance as info_seance
+        $sql = "SELECT  s.seance_id as seance_id, c.id as cours, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis, s.age_maximum as age_maximum, s.info_seance as info_seance
         FROM seance s 
         inner join seance_professeur sp on sp.seance_id = s.seance_id
         INNER JOIN cours c ON s.cours = c.id 
@@ -326,7 +320,7 @@ class RiderService
         $seances = $stmt->fetchAll();
         foreach ($seances as $seance) {
             $seance->professeurs = $this->get_prof_seance($seance->seance_id);
-            $seance->niveau_requis = explode(",",$seance->niveau_requis);
+            //Get groupe
         }
         
         return $seances;
@@ -485,18 +479,12 @@ class RiderService
         $stmt->execute();
         return $stmt->fetchAll();
     }
-    public function update_level($niveau, $id)
-    {
-        $sql = "UPDATE riders SET niveau=? WHERE id=?";
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$niveau, $id]);
-    }
     public function update($rider)
     {
         $rider = $this->ToRider($rider);
-        $sql = "UPDATE riders SET nom=?, prenom=?, date_naissance=?, sexe=?, niveau=?, adresse=?, est_prof=?, est_admin=?, telephone=?, personne_prevenir=?, telephone_personne_prevenir=? WHERE id=?";
+        $sql = "UPDATE riders SET nom=?, prenom=?, date_naissance=?, sexe=?,  adresse=?, est_prof=?, est_admin=?, telephone=?, personne_prevenir=?, telephone_personne_prevenir=? WHERE id=?";
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->niveau, $rider->adresse,  $rider->est_prof, $rider->est_admin, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir, $rider->id]);
+        return $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->adresse,  $rider->est_prof, $rider->est_admin, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir, $rider->id]);
     }
 
     public function update_addrange($rider)

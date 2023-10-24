@@ -7,6 +7,7 @@ require_once("class/class.php");
 require_once("services/ridersServices.php");
 require_once("services/saisonServices.php");
 require_once("services/seanceServices.php");
+require_once("services/groupeServices.php");
 require_once("services/mailServices.php");
 require_once("services/inscriptionServices.php");
 
@@ -47,6 +48,7 @@ if ($pwd_peppered != $password) {
     $server->getHttpStatusMessage(401, "UNAUTHORIZED");
     exit;
 }
+$groupeServices = new GroupeService($con);
 $RiderService = new RiderService($con);
 $seanceServices = new SeanceService($con);
 $s = new SaisonService($con);
@@ -69,7 +71,9 @@ switch ($command) {
             $server->getHttpStatusMessage(401, "UNAUTHORIZED");
             exit;
         } else {
-            $result = $seanceServices->add($data['seance']);
+            $seance = $seance->ToSeance($data['seance']);
+            $result = $seanceServices->add($seance);
+            $groupeServices->add_lien($result, 'séance', $seance->groupes);
         }
         break;
     case 'load_seance':
@@ -103,8 +107,16 @@ switch ($command) {
             $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
             exit;
         }
-
-        $result = $seanceServices->update($data['seance']);
+        $seance =  $seanceServices->ToSeance($data['seance']);
+        $result = $seanceServices->update($seance);
+        $LG = new Lien_Groupe();
+        $LG->objet_id = $seance->seance_id;
+        $LG->objet_type = "séance";
+        $LG->groupes = array();
+        foreach ($seance->groupes as $item) {
+            array_push($LG->groupes, $item['id']);
+        }
+        $groupeServices->update_lien($LG);
 
         break;
     case 'mail_relance':
@@ -127,6 +139,7 @@ switch ($command) {
             exit;
         } else {
             $result = $seanceServices->get($data['id']);
+            $result->groupes = $groupeServices->get_lien_objet_id($result->seance_id, 'séance');
         }
         break;
     case 'get_all':
@@ -137,6 +150,9 @@ switch ($command) {
             $result = $seanceServices->getAll($season_id, $data['all']);
         } else {
             $result = $seanceServices->getAll($season_id);
+        }
+        foreach ($result as $item) {
+            $item->groupes = $groupeServices->get_lien_objet_id($item->seance_id, 'séance');
         }
         break;
     case 'notifier_annulation':
@@ -164,16 +180,22 @@ switch ($command) {
             $essai->rider = $RiderService->ToRider($data['essai']['rider']);
             $essai->seance = $seanceServices->ToSeance($data['essai']['seance']);
             $list = $RiderService->GetEmailProf($essai->seance->professeurs);
-            $mailServices->EnvoyerAdmin($essai,$list);
-           $mailServices->ConfirmerEssai($essai);
+            $mailServices->EnvoyerAdmin($essai, $list);
+            $mailServices->ConfirmerEssai($essai);
             $result = true;
         }
         break;
     case 'get_seanceprevue':
         $result = $seanceServices->get_seanceprevue($season_id);
+        foreach ($result as $item) {
+            $item->groupes = $groupeServices->get_lien_objet_id($item->seance_id, 'séance');
+        }
         break;
     case 'get_seance_plagedate':
         $result = $seanceServices->get_seance_plagedate($season_id);
+        foreach ($result as $item) {
+            $item->groupes = $groupeServices->get_lien_objet_id($item->seance_id, 'séance');
+        }
         break;
     case 'delete':
         if (!isset($data['id'])) {
@@ -184,7 +206,8 @@ switch ($command) {
             $server->getHttpStatusMessage(401, "UNAUTHORIZED");
             exit;
         } else {
-            $result = $seanceServices->delete($data['id']);
+            $result = $seanceServices->delete($data['id']);  
+            $groupeServices->delete_lien_objet($data['id'], 'séance');
         }
         break;
 }

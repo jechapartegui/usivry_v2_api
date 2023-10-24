@@ -47,6 +47,7 @@ if ($pwd_peppered != $password) {
     $server->getHttpStatusMessage(401, "UNAUTHORIZED");
     exit;
 }
+$RiderService = new RiderService($con);
 $groupeServices = new GroupeService($con);
 $s = new SaisonService($con);
 if ($user_id > 0) {
@@ -93,7 +94,7 @@ switch ($command) {
             $server->getHttpStatusMessage(401, "NO_ID_FOUND");
             exit;
         }
-        if (!$admin) {
+        if (!$admin && !$prof) {
             $server->getHttpStatusMessage(401, "UNAUTHORIZED");
             exit;
         } else {
@@ -103,10 +104,8 @@ switch ($command) {
     case 'get_all':
         if (isset($data['season_id'])) {
             $season_id = $data['season_id'];
-            $result = $groupeServices->get_all($season_id);
-        } else {
-            $result = $groupeServices->get_all();
         }
+        $result = $groupeServices->get_all($season_id);
         break;
 
     case 'delete':
@@ -122,44 +121,37 @@ switch ($command) {
             $groupeServices->delete_lien_groupe($data['id']);
         }
         break;
-    case 'add_lien_groupe':
-        if ((!isset($data['liste_id']))|| (!isset($data['groupe_id'])) || (!isset($data['objet_type']))){
-            $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
-            exit;
-        } else {
-                     
-            $result =$groupeServices->add_lien($data['groupe_id'], $data['objet_type'],$data['liste_id']);
-        }
-        break;
     case 'update_lien_groupe':
-        if ((!isset($data['liste_id']))|| (!isset($data['groupe_id'])) || (!isset($data['objet_type']))){
+        if (!isset($data['lien_groupe'])) {
             $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
             exit;
         } else {
-            $result =$groupeServices->update_lien($data['groupe_id'], $data['objet_type'],$data['liste_id']);
+            $result = $groupeServices->update_lien($data['lien_groupe']);
         }
         break;
 
-    case 'get_lien':
+    case 'get_all_lien_groupe_objet_id':
+        if ((!isset($data['objet_type'])) || (!isset($data['objet_id']))) {
+            $server->getHttpStatusMessage(401, "NO_ID_FOUND");
+            exit;
+        } else {
+            $result = $groupeServices->get_lien_objet_id($data['objet_id'], $data['objet_type']);
+        }
+        break;
+    case 'get_all_lien_groupe_groupe_id':
         if (!isset($data['groupe_id'])) {
             $server->getHttpStatusMessage(401, "NO_ID_FOUND");
             exit;
-        }
-        if (isset($data['objet_type'])) {
-            $result = $groupeServices->get_lien_objet_type($data['groupe_id'],$data['objet_type']);
         } else {
             $result = $groupeServices->get_lien_groupe($data['groupe_id']);
         }
         break;
-     case 'delete_lien':
-        if (!isset($data['groupe_id'])) {
+    case 'get_all_lien_groupe_objet_type':
+        if (!isset($data['objet_type'])) {
             $server->getHttpStatusMessage(401, "NO_ID_FOUND");
             exit;
-        }
-        if (isset($data['objet_type'])) {
-            $result = $groupeServices->delete_lien_objet_type($data['groupe_id'],$data['objet_type']);
         } else {
-            $result = $groupeServices->delete_lien_groupe($data['groupe_id']);
+            $result = $groupeServices->get_lien_objet_type($data['objet_type']);
         }
         break;
 }
