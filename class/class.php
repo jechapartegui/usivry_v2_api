@@ -122,6 +122,35 @@ class Seance
     }
 }
 
+class Team{
+    public $nom_long;
+    public $nom_court;
+    public $contact;
+    public $couleur_1;
+    public $couleur_2;
+    public $pays;
+    public $sexe;
+    public $email;
+    public $phone;
+    public $paiement;
+    public $not_enough;
+    public $how_many;
+    public function __construct()
+    {
+      
+        if ($this->not_enough == 0) {
+            $this->not_enough = false;
+        } else {
+            $this->not_enough = true;
+        }
+        if ($this->sexe == 0) {
+            $this->sexe = false;
+        } else {
+            $this->sexe = true;
+        }
+    }
+}
+
 class Lieu
 {
     public $id;

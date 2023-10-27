@@ -195,6 +195,54 @@ class MailService
         }
     }
 
+    public function ConfirmRollBall($team){
+                
+        $this->mail->Subject    =  "Welcome to Anywhere Anytime series in Paris";                      //Le sujet du mail
+        $this->mail->WordWrap   = 200;   
+                          //Préciser qu'il faut utiliser le texte brut
+        if($team->sexe == 0){
+            $sexe = "Women tournament";
+        } else {
+            $sexe = "Men tournament";
+        }
+        $this->mail->MsgHTML("<div>Dear $team->contact,<br/>
+        <br/>
+        We are thrilled to confirm the registration of your team, $team->nom_long, for the upcoming European Tournaments scheduled for February 11th and 12th, 2024.<br/>
+        <br/>
+        Team Details:<br/>
+        <ul>
+        <li>Full Team Name: $team->nom_long</li>
+        <li>Short Team Name: $team->nom_cours</li>
+        <li>Email Address: $team->email</li>
+        <li>Country: $team->pays</li>
+        <li>Phone: $team->phone</li>
+        <li>Category: $sexe</li>
+       </ul><br/>
+        
+        To complete your registration, please click on the following payment link to submit the registration fee: 
+        <a href='https://www.helloasso.com/associations/us-ivry-roller/evenements/rollball-tournament'>https://www.helloasso.com/associations/us-ivry-roller/evenements/rollball-tournament</a><br/>
+        
+        Payment Information:
+            <ul>
+        <li>For foreign teams: €50</li>
+        <li>For French teams: €100</li></ul><br/>
+        Please ensure payment is made before [Payment Deadline], as this secures your team's spot in the tournament. After completing the payment, you will receive a confirmation email with further event details.
+        
+        If you have any questions or need assistance, please don't hesitate to contact our team at [Contact Email] or [Contact Phone].
+        
+        We look forward to your team's participation in the tournament and can't wait to see you in action!
+        
+        Best regards,
+        US Ivry Roller and RollBall France
+        +33 6 69 40 37 38</div>");                         //Le contenu au format HTML
+        $this->mail->IsHTML(true);
+        $this->mail->AddAddress($team->email);
+        if (!$this->mail->send()) {
+            echo $this->mail->ErrorInfo;
+        }
+        
+    }
+
     public function MailTest($comptes){
         $this->mail->Subject    =  'Cours de roller disponibles';                      //Le sujet du mail
         $this->mail->WordWrap   = 200;    
