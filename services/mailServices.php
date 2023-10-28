@@ -199,6 +199,7 @@ class MailService
                 
         $this->mail->Subject    =  "Welcome to Anywhere Anytime series in Paris";                      //Le sujet du mail
         $this->mail->WordWrap   = 200;   
+        $this->mail->FromName   = 'RollBall US Ivry';  
                           //Préciser qu'il faut utiliser le texte brut
         if($team->sexe == 0){
             $sexe = "Women tournament";
@@ -212,7 +213,7 @@ class MailService
         Team Details:<br/>
         <ul>
         <li>Full Team Name: $team->nom_long</li>
-        <li>Short Team Name: $team->nom_cours</li>
+        <li>Short Team Name: $team->nom_court</li>
         <li>Email Address: $team->email</li>
         <li>Country: $team->pays</li>
         <li>Phone: $team->phone</li>
@@ -228,12 +229,10 @@ class MailService
         <li>For French teams: €100</li></ul><br/>
         Please ensure payment is made before [Payment Deadline], as this secures your team's spot in the tournament. After completing the payment, you will receive a confirmation email with further event details.
         
-        If you have any questions or need assistance, please don't hesitate to contact our team at [Contact Email] or [Contact Phone].
-        
-        We look forward to your team's participation in the tournament and can't wait to see you in action!
-        
-        Best regards,
-        US Ivry Roller and RollBall France
+        If you have any questions or need assistance, please don't hesitate to contact our team at <a href='mailto:usivry.roller@gmail.com'>usivry.roller@gmail.com</a> or Whatsapp : + 33 6 69 40 37 38.<br/>        
+        We look forward to your team's participation in the tournament and can't wait to see you in action!<br/>        
+        Best regards,<br/>
+        US Ivry Roller and RollBall France<br/>
         +33 6 69 40 37 38</div>");                         //Le contenu au format HTML
         $this->mail->IsHTML(true);
         $this->mail->AddAddress($team->email);

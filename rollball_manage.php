@@ -12,7 +12,6 @@ $database = new database();
 $con = $database->getConnection();
 $server = new restServer();
 $data = $server->initRest();
-var_dump("huuh");
 if (!isset($data['command'])) {
     $server->getHttpStatusMessage(401, "NO_COMMAND_FOUND");
     exit;
@@ -39,24 +38,32 @@ if ($pwd_peppered != $password) {
     $server->getHttpStatusMessage(401, "UNAUTHORIZED");
     exit;
 }
-$rbs = new RollBallServices($con);
 switch ($command) {
-    case 'subscribe':
+    case 'add':
         if (!isset($data['team'])) {
             $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
             exit;
         } else {
+           $rbs = new RollBallServices($con);
             $team = $rbs->ToTeam($data['team']);
+            $similar = $rbs->checksimilar($team);
+            if($similar != "OK"){
+                $server->getHttpStatusMessage(405, $similar);
+                exit;
+            }
             $id = $rbs->add($team);
             if ($id > 0) {
                 $mailServices = new MailService();
-                $mailServices->ConfirmRollBall($team);
+                 $mailServices->ConfirmRollBall($team);
                 $result = true;
             } else {
                 $result = false;
             }
         }
         break;
+        case 'retour': 
+            $result = "retour";
+            break;
 }
 
 print json_encode($result);
