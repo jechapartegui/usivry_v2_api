@@ -208,7 +208,7 @@ class MailService
         }
         $this->mail->MsgHTML("<div>Dear $team->contact,<br/>
         <br/>
-        We are thrilled to confirm the registration of your team, $team->nom_long, for the upcoming European Tournaments scheduled for February 11th and 12th, 2024.<br/>
+        We are thrilled to confirm the registration of your team, $team->nom_long, for the upcoming European Tournaments scheduled for February 10th and 11th, 2024.<br/>
         <br/>
         Team Details:<br/>
         <ul>
@@ -227,7 +227,7 @@ class MailService
             <ul>
         <li>For foreign teams: €50</li>
         <li>For French teams: €100</li></ul><br/>
-        Please ensure payment is made before [Payment Deadline], as this secures your team's spot in the tournament. After completing the payment, you will receive a confirmation email with further event details.
+        Please ensure payment is made before December 31th, as this secures your team's spot in the tournament. After completing the payment, you will receive a confirmation email with further event details.
         
         If you have any questions or need assistance, please don't hesitate to contact our team at <a href='mailto:usivry.roller@gmail.com'>usivry.roller@gmail.com</a> or Whatsapp : + 33 6 69 40 37 38.<br/>        
         We look forward to your team's participation in the tournament and can't wait to see you in action!<br/>        
