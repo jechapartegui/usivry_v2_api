@@ -22,6 +22,7 @@ class Rider
     public $telephone_personne_prevenir;
     public $seances_prof;
     public $inscriptions;
+    public $groupes;
 
     public function __construct()
     {
@@ -66,8 +67,8 @@ class Cours
     public $age_requis;
     public $age_maximum;
     public $saison_id;
-    public $place_maximum;
-    public $convocation_nominative;
+    public $place_maximum = null;
+    public $convocation_nominative = false;
     public $groupes;
 
     public function __construct()

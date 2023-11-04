@@ -126,7 +126,8 @@ switch ($command) {
             $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
             exit;
         } else {
-            $result = $groupeServices->update_lien($data['lien_groupe']);
+            $lien_groupe = $groupeServices->ToLien_Groupe($data['lien_groupe']);
+            $result = $groupeServices->update_lien($lien_groupe);
         }
         break;
 

@@ -72,14 +72,15 @@ foreach ($riders as $rd) {
 	}
 	if(isset($rd->inscriptions)) {
 		foreach ($rd->inscriptions as $inscr) {
-			$inscr->groupes = $groupeService->get_lien_objet($inscr->seance_id,'séance');
+			$inscr->groupes = $groupeServices->get_lien_objet_id($inscr->seance_id,'séance');
 		}
 	}
 	if(isset($rd->seances)) {
 		foreach ($rd->seances as $sss) {
-			$sss->groupes = $groupeService->get_lien_objet($sss->seance_id,'séance');
+			$sss->groupes = $groupeServices->get_lien_objet_id($sss->seance_id,'séance');
 		}
-	}
+	}	
+	$rd->groupes = $groupeServices->get_lien_objet_id($rd->id,'rider');
 }
 
 

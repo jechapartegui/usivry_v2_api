@@ -13,6 +13,18 @@ class SeanceService
         $seance = new Seance();
         foreach ($data as $attribut => $valeur) {
             $seance->$attribut = $valeur;
+            if ($attribut == "place_maximum" && $valeur == "") {
+                $seance->$attribut = -1;
+            }
+            if ($attribut == "age_maximum" && $valeur == "") {
+                $seance->$attribut = 99;
+            }
+            if ($attribut == "convocation_nominative" && $valeur == "") {
+                $seance->$attribut = 0;
+            }
+            if ($attribut == "essai_possible" && $valeur == "") {
+                $seance->$attribut = 0;
+            }
         }
 
 
@@ -81,7 +93,7 @@ class SeanceService
 
     public function add($seance)
     {
-        $seance = $this->ToSeance($seance);       
+        $seance = $this->ToSeance($seance);
         $sql = "INSERT INTO seance (cours, libelle, date_seance, heure_debut, duree_cours, lieu_id, statut,  
         age_requis, age_maximum, place_maximum, essai_possible, notes, info_seance, convocation_nominative) 
         VALUES ($seance->cours, '$seance->libelle','$seance->date_seance','$seance->heure_debut', $seance->duree_cours, $seance->lieu_id, '$seance->statut',
@@ -114,7 +126,7 @@ class SeanceService
         $this->delete_prof($id);
         return $stmt->execute([$id]);
     }
-    
+
     public function get($id)
     {
         $sql = "SELECT * FROM seance WHERE seance_id=$id";
@@ -128,7 +140,7 @@ class SeanceService
 
     public function getAll($season_id, $all = false)
     {
-        if($all){
+        if ($all) {
             $sql = "SELECT s.seance_id as seance_id, s.libelle as libelle, c.id as cours, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis, s.age_maximum as age_maximum,  s.place_maximum, s.notes, s.essai_possible, s.info_seance, s.convocation_nominative
             FROM seance s inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE c.saison_id = $season_id order by s.date_seance desc";
         } else {
@@ -144,10 +156,11 @@ class SeanceService
         }
         return $seances;
     }
-    public function get_relance(){
+    public function get_relance()
+    {
 
         $date_min = date('Y-m-d'); // Date de référence (jour J) 
-        $date_max = date('Y-m-d', strtotime("+10 days", strtotime($date_min)));  
+        $date_max = date('Y-m-d', strtotime("+10 days", strtotime($date_min)));
         $sql = "select distinct c.id, c.login 
         from compte c 
         inner join riders r on r.compte=c.id 
@@ -158,59 +171,55 @@ class SeanceService
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Compte');
         $stmt->execute();
         $comptes = $stmt->fetchAll();
-        $p = new params();        
+        $p = new params();
         foreach ($comptes as $compte) {
             $compte->riders = array();
-            $sql = "SELECT id, prenom, nom, date_naissance FROM riders WHERE compte = ". $compte->id;
+            $sql = "SELECT id, prenom, nom, date_naissance FROM riders WHERE compte = " . $compte->id;
             $stmt = $this->db->prepare($sql);
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Rider');
             $stmt->execute();
             $compte->riders = $stmt->fetchAll();
             foreach ($compte->riders as $rider) {
-                    $age = $p->calculerAge($rider->date_naissance);
-                    $sql = "SELECT groupe_id FROM lien_groupe WHERE objet_id = $rider->id and objet_type = 'rider'";
-                    $stmt = $this->db->prepare($sql);
-                    $stmt->execute();
-                    $rider->groupes = $stmt->fetchAll();
-                    // $niveaux = $p->getNiveaux($rider->niveau);
-                    // $inClause = implode(',', array_fill(0, count($niveaux), '?'));
-            
-                    // // Entourer chaque niveau par des quotes
-                    // $inClause = implode(',', array_map(function () {
-                    //     return '?';
-                    // }, $niveaux));
-                    $rider->seances = array();
-                    $rider->inscriptions = array();
-                    $sql = "SELECT distinct s.seance_id as seance_id, c.id as cours, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.nom as lieu, s.info_seance as info_seance
+                $age = $p->calculerAge($rider->date_naissance);
+                $sql = "SELECT groupe_id FROM lien_groupe WHERE objet_id = $rider->id and objet_type = 'rider'";
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute();
+                $rider->groupes = $stmt->fetchAll();
+                // $niveaux = $p->getNiveaux($rider->niveau);
+                // $inClause = implode(',', array_fill(0, count($niveaux), '?'));
+
+                // // Entourer chaque niveau par des quotes
+                // $inClause = implode(',', array_map(function () {
+                //     return '?';
+                // }, $niveaux));
+                $rider->seances = array();
+                $rider->inscriptions = array();
+                $sql = "SELECT distinct s.seance_id as seance_id, c.id as cours, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.nom as lieu, s.info_seance as info_seance
                     FROM seance s 
                     INNER JOIN cours c ON s.cours = c.id 
                     INNER JOIN lieu l ON s.lieu_id = l.id 
                     inner join lien_groupe lg1 on lg1.objet_id = s.seance_id and lg1.objet_type = 'séance'
                     inner join lien_groupe lg2 on lg1.groupe_id = lg2.groupe_id and lg2.objet_id = $rider->id and lg2.objet_type = 'rider'
                     WHERE s.date_seance >= '$date_min' AND s.date_seance <= '$date_max' AND s.age_requis <= $age AND s.age_maximum >= $age AND s.statut = 'prévue' order by s.date_seance asc ";
-                   $stmt = $this->db->prepare($sql);
-                    $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance'); 
+                $stmt = $this->db->prepare($sql);
+                $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
+                $stmt->execute();
+                $ss = $stmt->fetchAll();
+                foreach ($ss as $seance) {
+                    $sql = "SELECT * FROM `inscription` WHERE `statut` is not null and rider_id = " . $rider->id . " AND seance_id = " . $seance->seance_id;
+                    $stmt = $this->db->prepare($sql);
                     $stmt->execute();
-                    $ss = $stmt->fetchAll();                    
-                    foreach ($ss as $seance) {
-                        $sql = "SELECT * FROM `inscription` WHERE `statut` is not null and rider_id = ". $rider->id . " AND seance_id = " . $seance->seance_id ;
-                        $stmt = $this->db->prepare($sql);
-                        $stmt->execute();     
-                        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Inscription');    
-                        $resinsc = $stmt->fetch();     
-                        $rowCount = $stmt->rowCount();                        
-                        if($rowCount == 0 ){
-                            array_push($rider->seances, $seance);
-                        } else {
-                            $seance->statut = $resinsc->statut;      
-                            array_push($rider->inscriptions, $seance);
-                        }
+                    $stmt->setFetchMode(PDO::FETCH_CLASS, 'Inscription');
+                    $resinsc = $stmt->fetch();
+                    $rowCount = $stmt->rowCount();
+                    if ($rowCount == 0) {
+                        array_push($rider->seances, $seance);
+                    } else {
+                        $seance->statut = $resinsc->statut;
+                        array_push($rider->inscriptions, $seance);
                     }
+                }
             }
-               
-                
-            
-
         }
         return $comptes;
     }

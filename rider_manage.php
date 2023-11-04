@@ -6,6 +6,7 @@ include_once("config/params.php");
 require_once("class/class.php");
 require_once("services/ridersServices.php");
 require_once("services/saisonServices.php");
+require_once("services/groupeServices.php");
 require_once("services/inscriptionsaisonServices.php");
 
 // Connect to database
@@ -46,6 +47,7 @@ if ($pwd_peppered != $password) {
     exit;
 }
 $RiderService = new RiderService($con);
+$groupeServices = new GroupeService($con);
 $s = new SaisonService($con);
 if ($user_id > 0) {
     $logged = true;
@@ -61,44 +63,67 @@ switch ($command) {
         if (!isset($data['rider'])) {
             $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
             exit;
+        } else {
+            $rider = $RiderService->ToRider($data['rider']);
         }
         if (!$admin) {
             $server->getHttpStatusMessage(401, "UNAUTHORIZED");
             exit;
         } else {
             if (isset($data['with_psw'])) {
-                $result = $RiderService->addrider_new_account($data['rider']);
+                $id = $RiderService->addrider_new_account($rider);
             } else {
-                $result = $RiderService->addrider_existingaccount($data['rider']);
+                $id = $RiderService->addrider_existingaccount($rider);
             }
-            if (!is_numeric($result)) {
-                $server->getHttpStatusMessage(401, $result);
+            if (!is_numeric($id)) {
+                $server->getHttpStatusMessage(401, $id);
                 exit;
             }
             if (isset($data['inscription_saison_encours'])) {
                 $is = new InscriptionSaisonService($conn);
-                $is->add($season_id, $result);
+                $is->add($season_id, $id);
             }
+            $LG = new Lien_Groupe();
+            $LG->objet_id = $id;
+            $LG->objet_type = "rider";
+            $LG->groupes = array();
+            foreach ($rider->groupes as $item) {
+                array_push($LG->groupes, $item['id']);
+            }
+            $groupeServices->update_lien($LG);
+            $result = $id;
         }
         break;
     case 'create':
         if (!isset($data['rider'])) {
             $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
             exit;
+        } else {
+            $rider = $RiderService->ToRider($data['rider']);
         }
 
         if (isset($data['with_psw'])) {
-            $result = $RiderService->addrider_new_account($data['rider']);
+            $id = $RiderService->addrider_new_account($rider);
         } else {
-            $result = $RiderService->addrider_existingaccount($data['rider']);
+            $id = $RiderService->addrider_existingaccount($rider);
         }
-        if (!is_numeric($result)) {
-            $server->getHttpStatusMessage(401, $result);
+        if (!is_numeric($id)) {
+            $server->getHttpStatusMessage(401, $id);
             exit;
-        }
-        if (isset($data['inscription_saison_encours'])) {
-            $is = new InscriptionSaisonService($conn);
-            $is->add($season_id, $result);
+        } else {
+            if (isset($data['inscription_saison_encours'])) {
+                $is = new InscriptionSaisonService($conn);
+                $is->add($season_id, $id);
+            }
+            $LG = new Lien_Groupe();
+            $LG->objet_id = $id;
+            $LG->objet_type = "rider";
+            $LG->groupes = array();
+            foreach ($rider->groupes as $item) {
+                array_push($LG->groupes, $item['id']);
+            }
+            $groupeServices->update_lien($LG);
+            $result = $id;
         }
         break;
     case 'add_range':
@@ -109,11 +134,23 @@ switch ($command) {
         if (!isset($data['riders'])) {
             $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
             exit;
-        }
-        $result = $RiderService->add_range($data['riders']);
-        $is = new InscriptionSaisonService($con);
-        foreach ($result as $id) {
-            $is->add($season_id, $id);
+        } else {
+            $is = new InscriptionSaisonService($con);
+            foreach ($data['riders'] as $rider) {
+                $rider = $RiderService->ToRider($rider);
+                $rider->id  = $RiderService->exist($rider);
+                $rider->id = $RiderService->add_or_update($rider);
+                $is->add($season_id, $rider->id);
+                $LG = new Lien_Groupe();
+                $LG->objet_id = $rider->id;
+                $LG->objet_type = "rider";
+                $LG->groupes = array();
+                foreach ($rider->groupes as $item) {
+                    array_push($LG->groupes, $item['id']);
+                }
+                $groupeServices->update_lien($LG);
+            }
+            $result = true;
         }
         break;
     case 'update':
@@ -121,7 +158,17 @@ switch ($command) {
             $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
             exit;
         } else {
-            $result = $RiderService->update($data['rider']);
+            $rider =  $RiderService->ToRider($data['rider']);
+            $result = $RiderService->update($rider);
+            $LG = new Lien_Groupe();
+            $LG->objet_id = $rider->id;
+            $LG->objet_type = "rider";
+            $LG->groupes = array();
+            foreach ($rider->groupes as $item) {
+                array_push($LG->groupes, $item['id']);
+            }
+            $groupeServices->update_lien($LG);
+            $result = true;
         }
         break;
     case 'get_account':
@@ -160,7 +207,7 @@ switch ($command) {
         } else  if (!isset($data['mail_active'])) {
             $server->getHttpStatusMessage(401, "NO_INFO_FOUND");
             exit;
-        } else {         
+        } else {
             $result = $RiderService->update_mail_active($data['compte'], $data['mail_active']);
         }
         break;
@@ -191,6 +238,7 @@ switch ($command) {
             if ($rd->est_prof) {
                 $rd->seances_prof = $RiderService->getSeancesProf($rd->id, $season_id);
             }
+            $rd->groupes = $groupeServices->get_lien_objet_id($rd->id, 'rider');
         }
         break;
     case 'get_all':
@@ -206,6 +254,9 @@ switch ($command) {
             $result = $RiderService->search($data['search'], $season_id, $all, $this_season);
         } else {
             $result = $RiderService->get_all($season_id, $all, $this_season);
+        }
+        foreach ($result as $rd) {
+            $rd->groupes = $groupeServices->get_lien_objet_id($rd->id, 'rider');
         }
 
         break;
@@ -256,6 +307,7 @@ switch ($command) {
             exit;
         } else {
             $result = $RiderService->delete($data['id']);
+            $groupeServices->delete_lien_objet($data['id'], 'rider');
         }
         break;
 }

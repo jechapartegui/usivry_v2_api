@@ -31,7 +31,6 @@ class RiderService
 
     public function addrider_new_account($rider)
     {
-        $rider = $this->ToRider($rider);
         $compte = $this->checkAndInsertAccount($rider->email, $rider->mot_de_passe);
         if(!is_numeric($compte)){
             return $compte;
@@ -45,7 +44,6 @@ class RiderService
     public function addrider_existingaccount($rider)
     {
 
-        $rider = $this->ToRider($rider);
         $compte = $this->CheckLogin($rider->email, $rider->mot_de_passe);        
         if(!is_numeric($compte)){
             return $compte;
@@ -244,6 +242,22 @@ class RiderService
         return $liste_id;
     }
 
+    public function add_or_update($rider){
+        if ($rider->id == 0) {
+            $compte = $this->ReturnOrInsertAccount($rider->email, $rider->mot_de_passe);             
+            //sans update du mot de passe
+            $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?,   ?, ?, ?, ?, ?, ?)";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
+            $rider->id =  $this->db->lastInsertId();
+        } else{
+            $sql = "UPDATE riders SET  sexe=?, adresse=?, telephone=?, personne_prevenir=?, telephone_personne_prevenir=? WHERE id=?";
+            $stmt = $this->db->prepare($sql);
+             $stmt->execute([$rider->sexe, $rider->adresse,  $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir, $rider->id]);
+             return $rider->id;
+        }
+    }
+
     public function getSeances($rider, $remove_inscription,$this_season)   {
         $p = new params();
         $date_min = date('Y-m-d'); // Date de référence (jour J)
@@ -297,7 +311,7 @@ class RiderService
         return $inscriptions;
     }
     public function get_prof_seance($seance_id){
-        $sql = "SELECT s.professeur_id as 'key', concat(r.prenom,' ', r.nom) as 'value' from seance_professeur s inner join riders r on r.id = s.professeur_id where s.seance_id=$seance_id and s.statut = 'prévue'";
+        $sql = "SELECT s.professeur_id as 'key', concat(r.prenom,' ', r.nom) as 'value' from seance_professeur s inner join riders r on r.id = s.professeur_id inner join seance se on se.seance_id = s.seance_id where s.seance_id=$seance_id and se.statut = 'prévue'";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'KeyValuePair');

@@ -89,7 +89,7 @@ switch ($command) {
             $LG->objet_id = $cours->id;
             $LG->objet_type = "cours";
             $LG->groupes = array();
-            foreach ($seance->groupes as $item) {
+            foreach ($cours->groupes as $item) {
                 array_push($LG->groupes, $item['id']);
             }
             $groupeServices->update_lien($LG);
@@ -112,21 +112,16 @@ switch ($command) {
         }
         break;
     case 'get_all':
-        if (!$admin) {
-            $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-            exit;
-        }
         if (isset($data['season_id'])) {
             $season_id = $data['season_id'];
-            $result = $coursServices->get_all($season_id);
-        } else {
-            $result = $coursServices->get_all();
         }
+        $result = $coursServices->get_all($season_id);
+
         foreach ($result as $cours) {
             $cours->groupes = $groupeServices->get_lien_objet_id($cours->id, 'cours');
         }
         break;
-        
+
     case 'get_all_light':
         if (!$admin) {
             $server->getHttpStatusMessage(401, "UNAUTHORIZED");

@@ -71,7 +71,7 @@ switch ($command) {
             $server->getHttpStatusMessage(401, "UNAUTHORIZED");
             exit;
         } else {
-            $seance = $seance->ToSeance($data['seance']);
+            $seance = $seanceServices->ToSeance($data['seance']);
             $result = $seanceServices->add($seance);
             $groupeServices->add_lien($result, 'séance', $seance->groupes);
         }

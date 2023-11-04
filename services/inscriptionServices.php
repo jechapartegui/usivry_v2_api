@@ -94,64 +94,74 @@ class InscriptionService
         $sql = "SELECT groupe_id FROM lien_groupe WHERE objet_id = $id and objet_type = 'séance'";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
-        $groupes =  $stmt->fetchAll();  
-        $elements = explode(",", $groupes); // Divise la chaîne en un tableau en utilisant la virgule comme séparateur
-        $quotedElements = array_map(function($element) {
-            return "'" . $element . "'";
-        }, $elements); // Ajoute des guillemets simples autour de chaque élément
+        $groupes =  $stmt->fetchAll();
+        $list_rider = array();
+        if ($stmt->rowCount() > 0) {
+            // Initialisez un tableau pour stocker les IDs de groupe
+            $groupeIds = array();
         
-        $groupe = "(" . implode(",", $quotedElements) . ")";              
-        $sql = "SELECT DISTINCT
-        r.id as rider_id,
-        CONCAT(r.prenom, ' ', r.nom) as rider_libelle,
-        CONCAT(r.personne_prevenir, ' ', r.telephone_personne_prevenir) as contact_urgence
-    FROM
-        riders r
-    INNER JOIN
-        inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = " . $this_season . " 
-    LEFT JOIN
-        lien_groupe lg on lg.objet_type = 'rider' and lg.objet_id = r.id
-    WHERE
-        DATEDIFF(CURDATE(), r.date_naissance) < " . $age_max . " AND DATEDIFF(CURDATE(), r.date_naissance) > " . $age_min . " AND lg.groupe_id IN "  . $groupe . "
-    ORDER BY
-        r.prenom ASC;";
-        $stmt = $this->db->prepare($sql);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Inscription');
-        $stmt->execute();
-        $list_rider= $stmt->fetchAll();
-        $inscrits = $this->getAll_BySeance($id);
-        foreach ($inscrits as $inscrit) {
-            $rider_id = $inscrit->rider_id;
-            $est_list = false;
-            foreach($list_rider as $rr){
-                if ($rr->rider_id == $rider_id) {
-                    $rr->statut = $inscrit->statut;
-                    $rr->hors_liste = false;
-                    $rr->id = $inscrit->id;
-                    $est_list = true;
-                    $rr->statut_seance = $inscrit->statut_seance;
+            // Parcourez les résultats et ajoutez les IDs de groupe au tableau
+            foreach ($groupes as $row) {
+                $groupeIds[] = $row['groupe_id'];
+            }
+        
+            // Transformez le tableau en une chaîne de caractères formatée
+            $groupeIdsString = implode(',', $groupeIds);
+         
+            $sql = "SELECT DISTINCT
+            r.id as rider_id,
+            CONCAT(r.prenom, ' ', r.nom) as rider_libelle,
+            CONCAT(r.personne_prevenir, ' ', r.telephone_personne_prevenir) as contact_urgence
+        FROM
+            riders r
+        INNER JOIN
+            inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = " . $this_season . " 
+        LEFT JOIN
+            lien_groupe lg on lg.objet_type = 'rider' and lg.objet_id = r.id
+        WHERE
+            DATEDIFF(CURDATE(), r.date_naissance) < " . $age_max . " AND DATEDIFF(CURDATE(), r.date_naissance) > " . $age_min . " AND lg.groupe_id IN ("  . $groupeIdsString . ")
+        ORDER BY
+            r.prenom ASC;";
+            $stmt = $this->db->prepare($sql);
+            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Inscription');
+            $stmt->execute();
+            $list_rider= $stmt->fetchAll();
+            $inscrits = $this->getAll_BySeance($id);
+            foreach ($inscrits as $inscrit) {
+                $rider_id = $inscrit->rider_id;
+                $est_list = false;
+                foreach($list_rider as $rr){
+                    if ($rr->rider_id == $rider_id) {
+                        $rr->statut = $inscrit->statut;
+                        $rr->hors_liste = false;
+                        $rr->id = $inscrit->id;
+                        $est_list = true;
+                        $rr->statut_seance = $inscrit->statut_seance;
+                    }
                 }
+                if(!$est_list){
+                     $sql = "SELECT
+                    r.id as rider_id,
+                    CONCAT(r.prenom, ' ', r.nom) as rider_libelle,
+                    CONCAT(r.personne_prevenir, ' ', r.telephone_personne_prevenir) as contact_urgence
+                FROM
+                    riders r
+                    WHERE r.id = ? ";
+                    $stmt = $this->db->prepare($sql);
+                    $stmt->execute([$rider_id]);
+                    $stmt->setFetchMode(PDO::FETCH_CLASS, 'Inscription');
+                    $rider = $stmt->fetch();
+                    $rider->statut = $inscrit->statut;
+                    $rider->hors_liste = true;
+                    $rider->id = $inscrit->id;
+                    $rider->statut_seance = $inscrit->statut_seance;
+                    array_push($list_rider, $rider);
+                }
+               
             }
-            if(!$est_list){
-                 $sql = "SELECT
-                r.id as rider_id,
-                CONCAT(r.prenom, ' ', r.nom) as rider_libelle,
-                CONCAT(r.personne_prevenir, ' ', r.telephone_personne_prevenir) as contact_urgence
-            FROM
-                riders r
-                WHERE r.id = ? ";
-                $stmt = $this->db->prepare($sql);
-                $stmt->execute([$rider_id]);
-                $stmt->setFetchMode(PDO::FETCH_CLASS, 'Inscription');
-                $rider = $stmt->fetch();
-                $rider->statut = $inscrit->statut;
-                $rider->hors_liste = true;
-                $rider->id = $inscrit->id;
-                $rider->statut_seance = $inscrit->statut_seance;
-                array_push($list_rider, $rider);
-            }
-           
-        }
+        }  
+       
+        
         return $list_rider;
         
     }

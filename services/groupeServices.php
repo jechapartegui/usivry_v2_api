@@ -27,7 +27,7 @@
     public function add_lien($objet_id, $objet_type, $groupes)
     {
         foreach ($groupes as $groupe) {
-            $sql = "INSERT INTO lien_groupe(groupe_id, objet_id, objet_type) VALUES (" . $groupe['groupe_id'] . ", $objet_id,'$objet_type')";
+            $sql = "INSERT INTO lien_groupe(groupe_id, objet_id, objet_type) VALUES (" . $groupe['id'] . ", $objet_id,'$objet_type')";
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
         }
@@ -47,28 +47,36 @@
     {
         //ajouter ce qui n'y sont pas
         $nouveau_lien_groupe = $this->ToLien_Groupe($lien_groupe);
-        $ancien_lien = $this->get_lien_objet_id($lien_groupe->objet_id, $lien_groupe->objet_type);
-        foreach ($nouveau_lien_groupe->groupes as $nouveau_groupe_id) {
-            $exist = false;
-            foreach ($ancien_lien->groupes as $ancien_groupe_id) {
-                if ($nouveau_groupe_id == $ancien_groupe_id) {
-                    $exist = true;
+        $ancien_lien = $this->get_lien_groupe_objet_id($lien_groupe->objet_id, $lien_groupe->objet_type);
+        if (isset($nouveau_lien_groupe->groupes)) {
+            foreach ($nouveau_lien_groupe->groupes as $nouveau_groupe_id) {
+                $exist = false;
+                if (isset($ancien_lien->groupes)) {
+                    foreach ($ancien_lien->groupes as $ancien_groupe_id) {
+                        if ($nouveau_groupe_id == $ancien_groupe_id) {
+                            $exist = true;
+                        }
+                    }
                 }
-            }
-            if ($exist == false) {
-                $this->add_1lien($nouveau_lien_groupe->objet_id, $nouveau_lien_groupe->objet_type, $nouveau_groupe_id);
+                if ($exist == false) {
+                    $this->add_1lien($nouveau_lien_groupe->objet_id, $nouveau_lien_groupe->objet_type, $nouveau_groupe_id);
+                }
             }
         }
         //Retirer ceux qui manquent
-        foreach ($ancien_lien->groupes as $ancien_groupe_id) {
-            $exist = false;
-            foreach ($nouveau_lien_groupe->groupes as $nouveau_groupe_id) {
-                if ($nouveau_groupe_id == $ancien_groupe_id) {
-                    $exist = true;
+        if (isset($ancien_lien->groupes)) {
+            foreach ($ancien_lien->groupes as $ancien_groupe_id) {
+                $exist = false;
+                if (isset($nouveau_lien_groupe->groupes)) {
+                    foreach ($nouveau_lien_groupe->groupes as $nouveau_groupe_id) {
+                        if ($nouveau_groupe_id == $ancien_groupe_id) {
+                            $exist = true;
+                        }
+                    }
                 }
-            }
-            if ($exist == false) {
-                $this->delete_1lien($ancien_lien->objet_id, $ancien_lien->objet_type, $ancien_groupe_id);
+                if ($exist == false) {
+                    $this->delete_1lien($ancien_lien->objet_id, $ancien_lien->objet_type, $ancien_groupe_id);
+                }
             }
         }
         return true;
@@ -85,12 +93,27 @@
     }
     public function get_lien_objet_id($objet_id, $objet_type)
     {
-        $sql = "SELECT * FROM lien_groupe WHERE objet_id = $objet_id and objet_type = '$objet_type'";
+        $sql = "SELECT g.* FROM groupes g inner join lien_groupe lg on g.id = lg.groupe_id WHERE lg.objet_id = $objet_id and lg.objet_type = '$objet_type'";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Lien_Groupe');
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Groupe');
         $liens_groupe = $stmt->fetchAll();
         return $liens_groupe;
+    }
+    public function get_lien_groupe_objet_id($objet_id, $objet_type)
+    {
+        $sql = "SELECT groupe_id FROM lien_groupe WHERE objet_type = '$objet_type' and  objet_id = $objet_id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $liens_groupe = $stmt->fetchAll();
+        $LG = new Lien_Groupe();
+        $LG->objet_id = $objet_id;
+        $LG->objet_type = $objet_type;
+        $LG->groupes = array();
+        foreach ($liens_groupe as $lien) {
+            array_push($LG->groupes, $lien['groupe_id']);
+        }
+        return $LG;
     }
     public function get_lien_groupe($groupe_id)
     {
@@ -103,7 +126,7 @@
     }
     public function delete_lien_groupe($groupe_id)
     {
-        $sql = "DELETE FROM lien_groupe WWHERE groupe_id = $groupe_id";
+        $sql = "DELETE FROM lien_groupe WHERE groupe_id = $groupe_id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         return true;
@@ -124,7 +147,7 @@
     }
     public function delete_1lien($objet_id, $objet_type, $groupe_id)
     {
-        $sql = "DELETE FROM lien_groupe WHERE WHERE groupe_id = $groupe_id and objet_type = '$objet_type' and objet_id = $objet_id";
+        $sql = "DELETE FROM lien_groupe WHERE  groupe_id = $groupe_id and objet_type = '$objet_type' and objet_id = $objet_id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         return true;
@@ -136,7 +159,7 @@
         $sql = "INSERT INTO groupes(nom, saison_id) VALUES ('$groupe->nom',$groupe->saison_id)";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
-        return $stmt->lastInsertId();
+        return $this->db->lastInsertId();
     }
     public function update($groupe)
     {
@@ -146,10 +169,9 @@
         $stmt->execute();
         return true;
     }
-    public function delete($groupe)
+    public function delete($id)
     {
-        $groupe = $this->ToGroupe($groupe);
-        $sql = "DELETE FROM groupes WHERE id = $groupe->id";
+        $sql = "DELETE FROM groupes WHERE id = $id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         return true;

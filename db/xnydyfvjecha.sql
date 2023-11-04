@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : xnydyfvjecha.mysql.db
--- Généré le : mar. 10 oct. 2023 à 16:01
+-- Généré le : dim. 29 oct. 2023 à 11:32
 -- Version du serveur : 5.7.42-log
 -- Version de PHP : 8.1.23
 
@@ -40,7 +40,7 @@ CREATE TABLE `compte` (
 --
 
 INSERT INTO `compte` (`id`, `login`, `password`, `registration_date`, `mail_active`) VALUES
-(2, 'nora.youcefi@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
+(2, 'nora.youcefi@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 0),
 (3, 'lorrainefaure@hotmail.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (4, 'sabbarnabe@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (5, 'laurine.annon@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
@@ -51,7 +51,7 @@ INSERT INTO `compte` (`id`, `login`, `password`, `registration_date`, `mail_acti
 (10, 'geraldigne@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (11, 'cthiltges@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (12, 'sdliberafr@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
-(13, 'nine143@hotmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
+(13, 'nine143@hotmail.com', '632096c46e888670aedb718978712eda52de411db528d25ffec4132b6f61716c', '2023-08-04', 1),
 (14, 'nahema.pvh@hotmail.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (15, 'meidi.lakrout@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 0),
 (16, 'leadorion@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 0),
@@ -65,17 +65,17 @@ INSERT INTO `compte` (`id`, `login`, `password`, `registration_date`, `mail_acti
 (24, 'marie.elmkhanter@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (25, 'arnaudtournaire@yahoo.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (26, 'Samy.zakki@outlook.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
-(27, 'jechapartegui@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
+(27, 'jechapartegui@gmail.com', 'e64f5e4dcc3457faf4e829f18e3bc1fbbec5221f5a6ddb8f754110a05ac294d3', '2023-08-04', 1),
 (28, 'noraayad@msn.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (29, 'antoine.fiel@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (30, 'charlene.julienne@free.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 0),
-(31, 'raoul.jo@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
-(32, 'weinland.liza@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
+(31, 'raoul.jo@gmail.com', 'd1763725ed30b45e1bf0cc95b06a05bda2e7668fbf072250fb92fd0dc418a4c2', '2023-08-04', 0),
+(32, 'weinland.liza@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 0),
 (33, 'ddlegac@yahoo.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (34, 'mathieubench@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (35, 'charline.s.fourie@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (36, 'maxime.mouliney@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
-(37, 'tokokam@yahoo.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
+(37, 'tokokam@yahoo.fr', '4ced13f897bb3480ede856aae214fcf7e4f14681dd267abf4651ff4e31f65b94', '2023-08-04', 1),
 (38, 'david.bounleng@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (39, 'yvon@ncdecor.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (40, 'doudychkaya@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
@@ -84,21 +84,21 @@ INSERT INTO `compte` (`id`, `login`, `password`, `registration_date`, `mail_acti
 (43, 'melanie.trouv@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 0),
 (44, 'ellisosndo@me.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (45, 'chezlich-roller@yahoo.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
-(46, 'marc.revilloud@laposte.net', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
+(46, 'marc.revilloud@laposte.net', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 0),
 (47, 'maryhenry566@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (48, 'florian_pr@hotmail.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (49, 'ninabonomo@hotmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (50, 'marie.alloing@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (51, 'nicolaa94100@hotmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
-(52, 'Griveaujohanna@hotmail.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
+(52, 'Griveaujohanna@hotmail.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 0),
 (53, 'n.vuillerme@live.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
-(54, 'noemiecrozat@hotmail.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
-(55, 'webexplorer8@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
+(54, 'noemiecrozat@hotmail.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 0),
+(55, 'webexplorer8@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 0),
 (56, 'alcolei.aurore@sfr.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (57, 'cj.caroujel@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (58, 'angelero32@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (59, 'arthur_aubertin@hotmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
-(60, 'maryloupetot@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
+(60, 'maryloupetot@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 0),
 (61, 'camille.legouez1@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (62, 'Marionservier@hotmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (63, 'aurelien.josse@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
@@ -121,7 +121,7 @@ INSERT INTO `compte` (`id`, `login`, `password`, `registration_date`, `mail_acti
 (80, 'cigolottiaudrey@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (81, 'fabricethai@yahoo.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (82, 'capucine.daguet@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
-(83, 'cecile-tea@wanadoo.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
+(83, 'cecile-tea@wanadoo.fr', 'c2e3ee68aa78d5194fb7f161841457ac00e5851369c0ced31905d274fe5e4350', '2023-08-04', 1),
 (84, 'ocotto@live.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (85, 'alexandre.alauzet@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (86, 'bakhti.sarra94@hotmail.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
@@ -134,7 +134,7 @@ INSERT INTO `compte` (`id`, `login`, `password`, `registration_date`, `mail_acti
 (93, 'francois@presset.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (94, 'vivian.nkemba@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (95, 'marieleroy9@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
-(96, 'manon.lafaye.archi@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
+(96, 'manon.lafaye.archi@gmail.com', 'bab0200e464923b636b4ea2dce2e3a635d1ca14af84bde1b41b74022412c2d75', '2023-08-04', 1),
 (97, 'Sardineallo@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (98, 'e.zoubir@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (99, 'laurene.zyskind@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 0),
@@ -148,7 +148,7 @@ INSERT INTO `compte` (`id`, `login`, `password`, `registration_date`, `mail_acti
 (107, 'elodie.eyang@hotmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (108, 'alize.saintandre@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 0),
 (109, 'nevenavuckovica@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
-(110, 'sophie.pelletier971@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
+(110, 'sophie.pelletier971@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 0),
 (111, 'florian.rappaport@gadz.org', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 0),
 (112, 'camillefuger@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 0),
 (113, 'guilbertgaelle@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
@@ -163,13 +163,13 @@ INSERT INTO `compte` (`id`, `login`, `password`, `registration_date`, `mail_acti
 (122, 'emilie.enouf@aliceadsl.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (123, 'Aprisciel@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
 (124, 'matthieu.thielleux@laposte.net', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-08-04', 1),
-(125, 'zahirhanaizi@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-09-07', 1),
+(125, 'zahirhanaizi@gmail.com', '7adc698e468d6453ef651fb2585b4e7a8af06b2d102c67510248ae7a9b714ae5', '2023-09-07', 1),
 (126, 'Priam-boulay@orange.fr', '8e6243ccb0f8e45ab007c173d6deb8ef4fe895d4e003cad5cdb37cc65389164b', '2023-09-07', 1),
 (127, 'yorosidibe@outlook.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-09-07', 1),
 (128, 'ellissondo@me.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-09-07', 1),
 (129, 'michau.evelaure@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-09-08', 1),
-(130, 'h.robledogruel.15@eigsi.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-09-11', 1),
-(131, 'mlaillier@yahoo.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-09-11', 1),
+(130, 'h.robledogruel.15@eigsi.fr', '775a1f24b68f5d458b39b26d919eab8b4c7ce2ff9eec795dcca96b22eef8c6df', '2023-09-11', 0),
+(131, 'mlaillier@yahoo.fr', '0aca340adc246190fb1cb16aa2f1adab808fd8b34604065bb155b8a387041acf', '2023-09-11', 1),
 (132, 'fny.lefebvre@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-06', 0),
 (133, 'camille.blavy@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-06', 0),
 (134, 'sovanna94@free.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-06', 1),
@@ -203,9 +203,9 @@ INSERT INTO `compte` (`id`, `login`, `password`, `registration_date`, `mail_acti
 (162, 'Ktmala1@hotmail.com', '3750d0dda89b3be32f47ab57def095ff8d3e608d566ebc79a63f7da601ae2fbe', '2023-10-06', 1),
 (163, 'sisourat.nicolas@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-06', 1),
 (164, 'fatou471@hotmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-06', 1),
-(165, 'weberfranck@hotmail.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-06', 1),
+(165, 'weberfranck@hotmail.fr', '6627c82773201830acea9c5354317591505e2def58d2a73ed302464e80de69a6', '2023-10-06', 1),
 (166, 'dubbbbb@hotmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-06', 1),
-(167, 'arthur.zavaro@gadz.org', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-06', 1),
+(167, 'arthur.zavaro@gadz.org', '35a4da163d0ab7023eba54de178ac90cc586bdfa9a6ebde8e3c515c0d21f919d', '2023-10-06', 0),
 (168, 'miralles.yuna@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-06', 1),
 (169, 'S.K.ALICIA@OUTLOOK.FR', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-06', 1),
 (170, 'Bahraoui@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-06', 1),
@@ -225,13 +225,21 @@ INSERT INTO `compte` (`id`, `login`, `password`, `registration_date`, `mail_acti
 (189, 'rebecca.deprez@yahoo.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-08', 1),
 (190, 'Mhouguet@dms-ascenseurs.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-08', 1),
 (187, 'julie.senkow@wanadoo.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-07', 1),
-(188, 'jajananou@hotmail.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-08', 1),
+(188, 'jajananou@hotmail.fr', '03e1c3f664bee120bd52238f4cd5d3ee511806cd5736ed9cb37b2dfa28a6a005', '2023-10-08', 1),
 (191, 'natatefo94@hotmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-08', 1),
 (192, 'stephanie.hurtadogil2407@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-08', 1),
 (193, 'meghiref.karima@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-08', 1),
 (194, 'isa4belle@hotmail.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-10', 1),
 (195, 'cherifaguerfi@hotmail.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-10', 1),
-(196, 'djibiole@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-10', 1);
+(196, 'djibiole@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-10', 1),
+(197, 'adrien.princet@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-15', 1),
+(198, 'moriceerika@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-15', 0),
+(199, 'mezzins@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-15', 0),
+(200, 'sarahjosserand@gmail.com', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-15', 0),
+(201, 'antoniopinto3@hotmail.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-15', 1),
+(202, 'Lauresedivina@yahoo.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-24', 1),
+(203, 'orianne-ld@hotmail.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-24', 0),
+(204, 'sophilix@yahoo.fr', '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', '2023-10-24', 1);
 
 -- --------------------------------------------------------
 
@@ -251,31 +259,51 @@ CREATE TABLE `cours` (
   `age_maximum` int(11) DEFAULT NULL,
   `niveau_requis` set('débutant','intermédiaire','avancé') NOT NULL,
   `saison_id` int(11) NOT NULL,
-  `place_maximum` int(11) DEFAULT NULL
+  `place_maximum` int(11) DEFAULT NULL,
+  `convocation_nominative` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `cours`
 --
 
-INSERT INTO `cours` (`id`, `nom`, `jour_semaine`, `heure`, `duree`, `prof_principal_id`, `lieu_id`, `age_requis`, `age_maximum`, `niveau_requis`, `saison_id`, `place_maximum`) VALUES
-(1, 'Adultes - RollerSoccer', 'mercredi', '19:00', 90, 31, 2, 14, NULL, 'intermédiaire', 1, NULL),
-(3, 'Enfants - Initiation', 'dimanche', '14:00', 80, 31, 1, 4, NULL, 'débutant', 1, NULL),
-(4, 'Enfants - Activités : Multiglisse', 'dimanche', '16:00', 80, 31, 1, 8, NULL, 'intermédiaire', 1, NULL),
-(5, 'Adultes - Rollers', 'dimanche', '14:30', 90, 31, 1, 16, NULL, 'débutant', 1, NULL),
-(6, 'Enfants - RollerSoccer', 'dimanche', '17:00', 90, 31, 1, 8, NULL, 'intermédiaire', 1, NULL),
-(7, 'Enfants - Roller Street', 'dimanche', '15:30', 90, 31, 1, 8, NULL, 'intermédiaire', 1, NULL),
-(8, 'Adultes - RollBall', 'mercredi', '20:30', 90, 24, 2, 14, NULL, 'intermédiaire', 1, NULL),
-(9, 'Adultes - RollerSoccer', 'mercredi', '19:00', 90, 31, 2, 13, NULL, 'intermédiaire,avancé', 2, NULL),
-(10, 'Enfants - Initiation', 'dimanche', '14:00', 80, 151, 1, 3, NULL, 'débutant,intermédiaire', 2, NULL),
-(11, 'Enfants - Activités : Multiglisse', 'dimanche', '16:00', 80, 150, 1, 6, NULL, 'débutant,intermédiaire,avancé', 2, NULL),
-(12, 'Adultes - Rollers', 'dimanche', '14:30', 90, 150, 1, 15, NULL, 'débutant,intermédiaire,avancé', 2, NULL),
-(13, 'Enfants - RollerSoccer', 'dimanche', '17:00', 90, 151, 1, 8, NULL, 'intermédiaire,avancé', 2, NULL),
-(14, 'Enfants - Roller Street', 'dimanche', '15:30', 90, 151, 1, 8, NULL, 'intermédiaire,avancé', 2, NULL),
-(15, 'Adultes - RollBall', 'mercredi', '20:30', 90, 24, 2, 14, NULL, 'intermédiaire,avancé', 2, NULL),
-(16, 'Adultes - Roller Derby - Lundi', 'lundi', '20:00', 150, 74, 2, 18, NULL, 'débutant,intermédiaire,avancé', 2, NULL),
-(17, 'Adultes - Roller Derby - Jeudi', 'jeudi', '20:00', 150, 74, 3, 18, NULL, 'intermédiaire,avancé', 2, NULL),
-(18, 'Adultes - Roller Derby Samedi', 'samedi', '10:00', 120, 74, 3, 18, NULL, 'intermédiaire,avancé', 2, NULL);
+INSERT INTO `cours` (`id`, `nom`, `jour_semaine`, `heure`, `duree`, `prof_principal_id`, `lieu_id`, `age_requis`, `age_maximum`, `niveau_requis`, `saison_id`, `place_maximum`, `convocation_nominative`) VALUES
+(1, 'Adultes - RollerSoccer', 'mercredi', '19:00', 90, 31, 2, 14, NULL, 'intermédiaire', 1, NULL, 0),
+(3, 'Enfants - Initiation', 'dimanche', '14:00', 80, 31, 1, 4, NULL, 'débutant', 1, NULL, 0),
+(4, 'Enfants - Activités : Multiglisse', 'dimanche', '16:00', 80, 31, 1, 8, NULL, 'intermédiaire', 1, NULL, 0),
+(5, 'Adultes - Rollers', 'dimanche', '14:30', 90, 31, 1, 16, NULL, 'débutant', 1, NULL, 0),
+(6, 'Enfants - RollerSoccer', 'dimanche', '17:00', 90, 31, 1, 8, NULL, 'intermédiaire', 1, NULL, 0),
+(7, 'Enfants - Roller Street', 'dimanche', '15:30', 90, 31, 1, 8, NULL, 'intermédiaire', 1, NULL, 0),
+(8, 'Adultes - RollBall', 'mercredi', '20:30', 90, 24, 2, 14, NULL, 'intermédiaire', 1, NULL, 0),
+(9, 'Adultes - RollerSoccer', 'mercredi', '19:00', 90, 31, 2, 13, NULL, 'intermédiaire,avancé', 2, NULL, 0),
+(10, 'Enfants - Initiation', 'dimanche', '14:00', 80, 151, 1, 3, NULL, 'débutant,intermédiaire', 2, NULL, 0),
+(11, 'Enfants - Activités : Multiglisse', 'dimanche', '16:00', 80, 150, 1, 6, NULL, 'débutant,intermédiaire,avancé', 2, NULL, 0),
+(12, 'Adultes - Rollers', 'dimanche', '14:30', 90, 150, 1, 15, NULL, 'débutant,intermédiaire,avancé', 2, NULL, 0),
+(13, 'Enfants - RollerSoccer', 'dimanche', '17:00', 90, 151, 1, 8, NULL, 'intermédiaire,avancé', 2, NULL, 0),
+(14, 'Enfants - Roller Street', 'dimanche', '15:30', 90, 151, 1, 8, NULL, 'intermédiaire,avancé', 2, NULL, 0),
+(15, 'Adultes - RollBall', 'mercredi', '20:30', 90, 24, 2, 14, NULL, 'intermédiaire,avancé', 2, NULL, 0),
+(16, 'Adultes - Roller Derby - Lundi', 'lundi', '20:00', 150, 74, 2, 18, NULL, 'débutant,intermédiaire,avancé', 2, NULL, 0),
+(17, 'Adultes - Roller Derby - Jeudi', 'jeudi', '20:00', 150, 74, 3, 18, NULL, 'intermédiaire,avancé', 2, NULL, 0),
+(18, 'Adultes - Roller Derby Samedi', 'samedi', '10:00', 120, 74, 3, 18, NULL, 'intermédiaire,avancé', 2, NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `groupes`
+--
+
+CREATE TABLE `groupes` (
+  `id` int(11) NOT NULL,
+  `nom` varchar(255) NOT NULL,
+  `saison_id` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `groupes`
+--
+
+INSERT INTO `groupes` (`id`, `nom`, `saison_id`) VALUES
+(1, 'RollerSoccer adultes', 2);
 
 -- --------------------------------------------------------
 
@@ -323,42 +351,42 @@ INSERT INTO `inscription` (`id`, `rider_id`, `seance_id`, `date_inscription`, `s
 (26, 100, 9, '2023-09-14', NULL, 'absent'),
 (27, 31, 18, '2023-09-20', 'présent', 'présent'),
 (28, 31, 19, '2023-09-20', 'présent', 'présent'),
-(29, 31, 31, '2023-10-06', 'présent', NULL),
+(29, 31, 31, '2023-10-06', 'présent', 'présent'),
 (30, 31, 37, '2023-10-06', 'présent', NULL),
-(31, 31, 32, '2023-10-06', 'présent', NULL),
+(31, 31, 32, '2023-10-06', 'présent', 'présent'),
 (32, 31, 38, '2023-10-06', 'présent', NULL),
 (33, 30, 28, '2023-10-06', 'présent', 'présent'),
-(34, 30, 34, '2023-10-06', 'présent', NULL),
+(34, 30, 34, '2023-10-06', 'présent', 'présent'),
 (35, 202, 27, '2023-10-06', 'présent', 'présent'),
-(36, 202, 33, '2023-10-06', 'présent', NULL),
+(36, 202, 33, '2023-10-06', 'présent', 'présent'),
 (37, 179, 28, '2023-10-06', 'absent', NULL),
 (38, 233, 27, '2023-10-06', 'présent', 'présent'),
-(39, 233, 33, '2023-10-06', 'présent', NULL),
+(39, 233, 33, '2023-10-06', 'présent', 'présent'),
 (40, 105, 28, '2023-10-06', 'absent', NULL),
 (41, 179, 29, '2023-10-06', 'absent', NULL),
-(42, 18, 32, '2023-10-06', 'présent', NULL),
+(42, 18, 32, '2023-10-06', 'présent', 'présent'),
 (43, 18, 38, '2023-10-06', 'présent', NULL),
 (44, 98, 28, '2023-10-06', 'absent', NULL),
-(45, 98, 34, '2023-10-06', 'présent', NULL),
-(46, 99, 36, '2023-10-06', 'présent', NULL),
-(47, 99, 35, '2023-10-06', 'présent', NULL),
+(45, 98, 34, '2023-10-06', 'présent', 'présent'),
+(46, 99, 36, '2023-10-06', 'présent', 'présent'),
+(47, 99, 35, '2023-10-06', 'présent', 'présent'),
 (48, 99, 29, '2023-10-06', 'absent', NULL),
-(49, 104, 34, '2023-10-06', 'présent', NULL),
-(50, 104, 36, '2023-10-06', 'présent', NULL),
+(49, 104, 34, '2023-10-06', 'présent', 'présent'),
+(50, 104, 36, '2023-10-06', 'présent', 'présent'),
 (51, 104, 30, '2023-10-06', 'présent', 'présent'),
 (52, 104, 28, '2023-10-06', 'présent', 'présent'),
 (53, 14, 39, '2023-10-06', 'présent', 'présent'),
-(54, 14, 38, '2023-10-06', 'présent', NULL),
+(54, 14, 38, '2023-10-06', 'absent', NULL),
 (55, 31, 39, '2023-10-06', 'absent', NULL),
 (56, 31, 40, '2023-10-06', 'absent', NULL),
 (57, 105, 27, '2023-10-06', 'absent', NULL),
 (58, 105, 30, '2023-10-06', 'absent', 'absent'),
 (59, 105, 29, '2023-10-06', 'absent', NULL),
 (60, 192, 27, '2023-10-06', 'présent', 'présent'),
-(61, 192, 33, '2023-10-06', 'présent', NULL),
+(61, 192, 33, '2023-10-06', 'présent', 'présent'),
 (62, 106, 39, '2023-10-06', 'absent', NULL),
 (63, 193, 27, '2023-10-06', 'présent', 'présent'),
-(64, 193, 33, '2023-10-06', 'présent', NULL),
+(64, 193, 33, '2023-10-06', 'présent', 'présent'),
 (65, 161, 27, '2023-10-06', 'présent', 'présent'),
 (66, 161, 28, '2023-10-06', 'présent', 'présent'),
 (67, 207, 27, '2023-10-06', 'présent', 'présent'),
@@ -371,72 +399,72 @@ INSERT INTO `inscription` (`id`, `rider_id`, `seance_id`, `date_inscription`, `s
 (74, 91, 33, '2023-10-06', 'absent', NULL),
 (75, 114, 39, '2023-10-06', 'présent', 'présent'),
 (76, 169, 27, '2023-10-06', 'présent', 'présent'),
-(77, 169, 33, '2023-10-06', 'présent', NULL),
+(77, 169, 33, '2023-10-06', 'présent', 'présent'),
 (78, 169, 28, '2023-10-06', 'absent', NULL),
 (79, 169, 34, '2023-10-06', 'absent', NULL),
 (80, 195, 27, '2023-10-06', 'présent', 'présent'),
-(81, 195, 33, '2023-10-06', 'présent', NULL),
+(81, 195, 33, '2023-10-06', 'présent', 'présent'),
 (82, 230, 27, '2023-10-06', 'absent', NULL),
 (83, 230, 34, '2023-10-06', 'présent', NULL),
 (84, 230, 28, '2023-10-06', 'absent', NULL),
 (85, 230, 33, '2023-10-06', 'absent', NULL),
 (86, 218, 39, '2023-10-06', 'présent', 'présent'),
-(87, 218, 40, '2023-10-06', 'présent', NULL),
+(87, 218, 40, '2023-10-06', 'présent', 'présent'),
 (88, 217, 27, '2023-10-06', 'présent', 'présent'),
 (89, 217, 28, '2023-10-06', 'absent', NULL),
 (90, 217, 34, '2023-10-06', 'absent', NULL),
 (91, 217, 33, '2023-10-06', 'absent', NULL),
 (92, 231, 27, '2023-10-06', 'présent', 'présent'),
-(93, 231, 33, '2023-10-06', 'présent', NULL),
+(93, 231, 33, '2023-10-06', 'présent', 'présent'),
 (94, 231, 28, '2023-10-06', 'présent', 'présent'),
-(95, 231, 34, '2023-10-06', 'présent', NULL),
+(95, 231, 34, '2023-10-06', 'présent', 'absent'),
 (96, 232, 27, '2023-10-06', 'présent', 'présent'),
-(97, 232, 33, '2023-10-06', 'présent', NULL),
+(97, 232, 33, '2023-10-06', 'présent', 'présent'),
 (98, 232, 28, '2023-10-06', 'présent', 'présent'),
-(99, 232, 34, '2023-10-06', 'présent', NULL),
+(99, 232, 34, '2023-10-06', 'présent', 'présent'),
 (100, 191, 39, '2023-10-07', 'absent', NULL),
 (101, 191, 40, '2023-10-07', 'présent', NULL),
 (102, 184, 27, '2023-10-07', 'présent', 'présent'),
-(103, 184, 33, '2023-10-07', 'présent', NULL),
+(103, 184, 33, '2023-10-07', 'présent', 'présent'),
 (104, 185, 27, '2023-10-07', 'présent', 'présent'),
-(105, 185, 33, '2023-10-07', 'présent', NULL),
+(105, 185, 33, '2023-10-07', 'présent', 'présent'),
 (106, 186, 27, '2023-10-07', 'présent', 'présent'),
-(107, 186, 33, '2023-10-07', 'présent', NULL),
+(107, 186, 33, '2023-10-07', 'présent', 'présent'),
 (108, 186, 28, '2023-10-07', 'présent', 'présent'),
-(109, 186, 34, '2023-10-07', 'présent', NULL),
+(109, 186, 34, '2023-10-07', 'présent', 'présent'),
 (110, 177, 27, '2023-10-07', 'présent', 'présent'),
-(111, 177, 33, '2023-10-07', 'présent', NULL),
-(112, 238, 33, '2023-10-07', 'présent', NULL),
+(111, 177, 33, '2023-10-07', 'présent', 'présent'),
+(112, 238, 33, '2023-10-07', 'présent', 'présent'),
 (113, 238, 27, '2023-10-07', 'présent', 'présent'),
 (114, 210, 27, '2023-10-07', 'présent', 'présent'),
 (115, 210, 34, '2023-10-07', 'présent', NULL),
 (116, 209, 27, '2023-10-07', 'présent', 'présent'),
-(117, 209, 33, '2023-10-07', 'présent', NULL),
+(117, 209, 33, '2023-10-07', 'présent', 'présent'),
 (118, 209, 28, '2023-10-07', 'absent', NULL),
 (119, 209, 34, '2023-10-07', 'absent', NULL),
 (120, 167, 27, '2023-10-07', 'présent', 'présent'),
 (121, 168, 27, '2023-10-07', 'présent', 'présent'),
 (122, 223, 27, '2023-10-07', 'présent', 'présent'),
 (123, 223, 29, '2023-10-07', 'présent', 'présent'),
-(124, 223, 33, '2023-10-07', 'présent', NULL),
-(125, 223, 35, '2023-10-07', 'présent', NULL),
+(124, 223, 33, '2023-10-07', 'présent', 'présent'),
+(125, 223, 35, '2023-10-07', 'présent', 'présent'),
 (126, 99, 28, '2023-10-07', 'absent', NULL),
 (127, 243, 27, '2023-10-07', 'présent', 'absent'),
 (128, 93, 39, '2023-10-07', 'présent', 'présent'),
 (129, 244, 39, '2023-10-07', 'présent', 'présent'),
 (130, 245, 27, '2023-10-07', 'présent', 'présent'),
 (131, 128, 28, '2023-10-08', 'présent', 'présent'),
-(132, 128, 34, '2023-10-08', 'présent', NULL),
-(133, 224, 34, '2023-10-08', 'présent', NULL),
+(132, 128, 34, '2023-10-08', 'présent', 'présent'),
+(133, 224, 34, '2023-10-08', 'présent', 'présent'),
 (134, 187, 27, '2023-10-08', 'présent', 'présent'),
 (135, 203, 27, '2023-10-08', 'présent', 'présent'),
-(136, 203, 33, '2023-10-08', 'présent', NULL),
+(136, 203, 33, '2023-10-08', 'présent', 'présent'),
 (137, 204, 27, '2023-10-08', 'présent', 'présent'),
-(138, 204, 33, '2023-10-08', 'présent', NULL),
+(138, 204, 33, '2023-10-08', 'présent', 'présent'),
 (139, 172, 28, '2023-10-08', 'présent', 'présent'),
-(140, 172, 34, '2023-10-08', 'présent', NULL),
+(140, 172, 34, '2023-10-08', 'présent', 'présent'),
 (141, 234, 27, '2023-10-08', 'présent', 'présent'),
-(142, 234, 33, '2023-10-08', 'présent', NULL),
+(142, 234, 33, '2023-10-08', 'présent', 'présent'),
 (143, 30, 27, '2023-10-08', 'absent', NULL),
 (144, 164, 27, '2023-10-08', NULL, 'présent'),
 (145, 159, 27, '2023-10-08', NULL, 'présent'),
@@ -457,7 +485,7 @@ INSERT INTO `inscription` (`id`, `rider_id`, `seance_id`, `date_inscription`, `s
 (160, 194, 27, '2023-10-08', NULL, 'présent'),
 (161, 212, 28, '2023-10-08', NULL, 'présent'),
 (162, 225, 27, '2023-10-08', NULL, 'présent'),
-(163, 187, 33, '2023-10-08', 'présent', NULL),
+(163, 187, 33, '2023-10-08', 'présent', 'absent'),
 (164, 144, 28, '2023-10-08', 'absent', NULL),
 (165, 144, 34, '2023-10-08', 'absent', NULL),
 (166, 144, 27, '2023-10-08', 'présent', 'présent'),
@@ -484,15 +512,15 @@ INSERT INTO `inscription` (`id`, `rider_id`, `seance_id`, `date_inscription`, `s
 (187, 32, 29, '2023-10-08', NULL, 'présent'),
 (188, 104, 29, '2023-10-08', NULL, 'présent'),
 (189, 81, 29, '2023-10-08', NULL, 'présent'),
-(190, 178, 33, '2023-10-09', 'présent', NULL),
-(191, 166, 32, '2023-10-09', 'présent', NULL),
+(190, 178, 33, '2023-10-09', 'présent', 'présent'),
+(191, 166, 32, '2023-10-09', 'présent', 'présent'),
 (192, 166, 38, '2023-10-09', 'présent', NULL),
 (193, 166, 40, '2023-10-09', 'absent', NULL),
 (194, 166, 31, '2023-10-09', 'absent', NULL),
 (195, 166, 37, '2023-10-09', 'absent', NULL),
-(196, 143, 36, '2023-10-10', 'présent', NULL),
+(196, 143, 36, '2023-10-10', 'présent', 'présent'),
 (197, 143, 34, '2023-10-10', 'présent', NULL),
-(198, 143, 35, '2023-10-10', 'présent', NULL),
+(198, 143, 35, '2023-10-10', 'présent', 'présent'),
 (199, 220, 30, '2023-10-10', NULL, 'présent'),
 (200, 206, 30, '2023-10-10', NULL, 'présent'),
 (201, 32, 30, '2023-10-10', NULL, 'présent'),
@@ -544,8 +572,285 @@ INSERT INTO `inscription` (`id`, `rider_id`, `seance_id`, `date_inscription`, `s
 (247, 26, 39, '2023-10-10', NULL, 'présent'),
 (248, 205, 30, '2023-10-10', 'présent', 'présent'),
 (249, 89, 30, '2023-10-10', 'présent', 'présent'),
-(250, 23, 32, '2023-10-10', 'présent', NULL),
-(251, 202, 42, '2023-10-10', 'présent', NULL);
+(250, 23, 32, '2023-10-10', 'présent', 'présent'),
+(251, 202, 42, '2023-10-10', 'présent', 'présent'),
+(252, 226, 35, '2023-10-10', 'présent', 'présent'),
+(253, 226, 44, '2023-10-10', 'présent', 'présent'),
+(254, 216, 32, '2023-10-10', 'présent', 'présent'),
+(255, 149, 31, '2023-10-11', 'présent', 'présent'),
+(256, 149, 32, '2023-10-11', 'présent', 'présent'),
+(257, 149, 37, '2023-10-11', 'présent', NULL),
+(258, 257, 32, '2023-10-11', 'présent', 'présent'),
+(259, 100, 31, '2023-10-11', 'présent', 'présent'),
+(260, 100, 40, '2023-10-11', 'absent', NULL),
+(261, 101, 40, '2023-10-11', 'présent', 'présent'),
+(262, 43, 31, '2023-10-12', NULL, 'présent'),
+(263, 142, 31, '2023-10-12', NULL, 'absent'),
+(264, 35, 31, '2023-10-12', NULL, 'absent'),
+(265, 42, 31, '2023-10-12', NULL, 'présent'),
+(266, 18, 31, '2023-10-12', NULL, 'absent'),
+(267, 115, 31, '2023-10-12', NULL, 'présent'),
+(268, 151, 31, '2023-10-12', NULL, 'absent'),
+(269, 135, 31, '2023-10-12', 'présent', NULL),
+(270, 135, 31, '2023-10-12', 'présent', 'présent'),
+(271, 135, 31, '2023-10-12', 'présent', 'présent'),
+(272, 257, 31, '2023-10-12', 'présent', 'présent'),
+(273, 43, 32, '2023-10-12', NULL, 'présent'),
+(274, 24, 32, '2023-10-12', NULL, 'absent'),
+(275, 15, 32, '2023-10-12', NULL, 'présent'),
+(276, 35, 32, '2023-10-12', NULL, 'absent'),
+(277, 42, 32, '2023-10-12', NULL, 'présent'),
+(278, 151, 32, '2023-10-12', NULL, 'absent'),
+(279, 115, 32, '2023-10-12', NULL, 'présent'),
+(280, 246, 33, '2023-10-13', 'présent', 'présent'),
+(281, 247, 33, '2023-10-13', 'présent', 'présent'),
+(282, 200, 33, '2023-10-14', 'présent', 'présent'),
+(283, 200, 42, '2023-10-14', 'présent', 'présent'),
+(284, 201, 33, '2023-10-14', 'présent', 'présent'),
+(285, 201, 42, '2023-10-14', 'présent', 'présent'),
+(286, 233, 42, '2023-10-14', 'présent', 'présent'),
+(287, 14, 40, '2023-10-14', 'présent', 'présent'),
+(288, 161, 33, '2023-10-15', 'présent', 'présent'),
+(289, 161, 42, '2023-10-15', 'présent', 'absent'),
+(290, 207, 33, '2023-10-15', 'présent', 'présent'),
+(291, 207, 42, '2023-10-15', 'présent', 'absent'),
+(292, 208, 33, '2023-10-15', 'présent', 'présent'),
+(293, 208, 34, '2023-10-15', 'présent', 'présent'),
+(294, 208, 42, '2023-10-15', 'présent', 'absent'),
+(295, 208, 45, '2023-10-15', 'présent', 'présent'),
+(296, 105, 33, '2023-10-15', 'absent', NULL),
+(297, 105, 34, '2023-10-15', 'présent', 'présent'),
+(298, 105, 35, '2023-10-15', 'absent', NULL),
+(299, 105, 36, '2023-10-15', 'absent', NULL),
+(300, 105, 42, '2023-10-15', 'absent', 'absent'),
+(301, 105, 44, '2023-10-15', 'absent', 'absent'),
+(302, 105, 45, '2023-10-15', 'absent', NULL),
+(303, 106, 40, '2023-10-15', 'présent', 'présent'),
+(304, 106, 43, '2023-10-15', 'présent', NULL),
+(305, 179, 33, '2023-10-15', 'absent', NULL),
+(306, 179, 34, '2023-10-15', 'absent', NULL),
+(307, 179, 35, '2023-10-15', 'absent', 'absent'),
+(308, 179, 44, '2023-10-15', 'présent', 'présent'),
+(309, 179, 36, '2023-10-15', 'absent', NULL),
+(310, 179, 37, '2023-10-15', 'absent', NULL),
+(311, 179, 42, '2023-10-15', 'absent', 'absent'),
+(312, 179, 45, '2023-10-15', 'absent', NULL),
+(313, 179, 46, '2023-10-15', 'absent', NULL),
+(314, 135, 36, '2023-10-15', 'présent', 'présent'),
+(315, 261, 40, '2023-10-15', 'présent', 'présent'),
+(316, 262, 33, '2023-10-15', 'absent', NULL),
+(317, 112, 33, '2023-10-15', 'absent', NULL),
+(318, 261, 43, '2023-10-15', 'présent', 'présent'),
+(319, 262, 42, '2023-10-15', 'présent', 'absent'),
+(320, 111, 33, '2023-10-15', 'absent', NULL),
+(321, 111, 42, '2023-10-15', 'présent', 'absent'),
+(322, 112, 42, '2023-10-15', 'présent', 'absent'),
+(323, 253, 33, '2023-10-15', 'présent', 'présent'),
+(324, 253, 42, '2023-10-15', 'présent', 'présent'),
+(325, 215, 33, '2023-10-15', 'présent', 'présent'),
+(326, 215, 42, '2023-10-15', 'absent', NULL),
+(327, 216, 38, '2023-10-15', 'présent', NULL),
+(328, 250, 33, '2023-10-15', 'absent', NULL),
+(329, 250, 42, '2023-10-15', 'absent', NULL),
+(330, 186, 42, '2023-10-15', 'présent', 'présent'),
+(331, 184, 42, '2023-10-15', 'présent', 'présent'),
+(332, 185, 42, '2023-10-15', 'présent', 'présent'),
+(333, 108, 33, '2023-10-15', 'présent', 'présent'),
+(334, 159, 33, '2023-10-15', NULL, 'présent'),
+(335, 165, 33, '2023-10-15', NULL, 'présent'),
+(336, 164, 33, '2023-10-15', NULL, 'présent'),
+(337, 245, 33, '2023-10-15', NULL, 'présent'),
+(338, 28, 33, '2023-10-15', NULL, 'présent'),
+(339, 27, 33, '2023-10-15', NULL, 'présent'),
+(340, 113, 33, '2023-10-15', NULL, 'présent'),
+(341, 180, 33, '2023-10-15', NULL, 'présent'),
+(342, 181, 33, '2023-10-15', NULL, 'présent'),
+(343, 225, 33, '2023-10-15', NULL, 'présent'),
+(344, 176, 33, '2023-10-15', NULL, 'présent'),
+(345, 236, 33, '2023-10-15', NULL, 'présent'),
+(346, 173, 33, '2023-10-15', NULL, 'présent'),
+(347, 219, 33, '2023-10-15', NULL, 'présent'),
+(348, 174, 33, '2023-10-15', NULL, 'présent'),
+(349, 243, 33, '2023-10-15', NULL, 'présent'),
+(350, 171, 33, '2023-10-15', NULL, 'présent'),
+(351, 248, 33, '2023-10-15', NULL, 'présent'),
+(352, 228, 33, '2023-10-15', NULL, 'présent'),
+(353, 221, 33, '2023-10-15', NULL, 'présent'),
+(354, 222, 33, '2023-10-15', NULL, 'présent'),
+(355, 213, 33, '2023-10-15', NULL, 'présent'),
+(356, 210, 33, '2023-10-15', NULL, 'présent'),
+(357, 251, 33, '2023-10-15', NULL, 'présent'),
+(358, 255, 33, '2023-10-15', 'présent', 'présent'),
+(359, 256, 33, '2023-10-15', 'présent', 'présent'),
+(360, 255, 42, '2023-10-15', 'présent', 'absent'),
+(361, 256, 42, '2023-10-15', 'présent', 'absent'),
+(362, 150, 40, '2023-10-15', 'présent', 'présent'),
+(363, 93, 40, '2023-10-15', NULL, 'présent'),
+(364, 19, 40, '2023-10-15', NULL, 'présent'),
+(365, 264, 40, '2023-10-15', NULL, 'présent'),
+(366, 227, 40, '2023-10-15', NULL, 'présent'),
+(367, 114, 40, '2023-10-15', NULL, 'présent'),
+(368, 129, 40, '2023-10-15', NULL, 'présent'),
+(369, 57, 40, '2023-10-15', NULL, 'présent'),
+(370, 100, 37, '2023-10-15', 'présent', NULL),
+(371, 174, 34, '2023-10-15', 'présent', NULL),
+(372, 174, 34, '2023-10-15', 'présent', NULL),
+(373, 174, 34, '2023-10-15', 'présent', NULL),
+(374, 174, 34, '2023-10-15', 'présent', NULL),
+(375, 174, 34, '2023-10-15', 'présent', NULL),
+(376, 174, 34, '2023-10-15', 'présent', NULL),
+(377, 174, 34, '2023-10-15', 'présent', NULL),
+(378, 174, 34, '2023-10-15', 'présent', 'présent'),
+(379, 207, 34, '2023-10-15', 'présent', 'présent'),
+(380, 32, 35, '2023-10-15', NULL, 'présent'),
+(381, 53, 35, '2023-10-15', NULL, 'présent'),
+(382, 89, 35, '2023-10-15', NULL, 'présent'),
+(383, 81, 35, '2023-10-15', NULL, 'présent'),
+(384, 254, 35, '2023-10-15', NULL, 'absent'),
+(385, 135, 35, '2023-10-15', NULL, 'présent'),
+(386, 161, 34, '2023-10-15', 'présent', 'présent'),
+(387, 27, 34, '2023-10-15', NULL, 'présent'),
+(388, 265, 34, '2023-10-15', NULL, 'présent'),
+(389, 141, 35, '2023-10-15', NULL, 'présent'),
+(390, 142, 35, '2023-10-15', NULL, 'présent'),
+(391, 220, 35, '2023-10-15', NULL, 'présent'),
+(392, 133, 35, '2023-10-15', NULL, 'présent'),
+(393, 180, 34, '2023-10-15', 'présent', 'présent'),
+(394, 181, 34, '2023-10-15', 'présent', 'présent'),
+(395, 181, 34, '2023-10-15', 'présent', 'présent'),
+(396, 201, 34, '2023-10-15', 'présent', 'présent'),
+(397, 200, 34, '2023-10-15', 'présent', 'présent'),
+(398, 206, 36, '2023-10-15', NULL, 'présent'),
+(399, 133, 36, '2023-10-15', NULL, 'présent'),
+(400, 89, 36, '2023-10-15', NULL, 'présent'),
+(401, 220, 36, '2023-10-15', NULL, 'présent'),
+(402, 211, 36, '2023-10-15', NULL, 'présent'),
+(403, 142, 36, '2023-10-15', NULL, 'présent'),
+(404, 141, 36, '2023-10-15', NULL, 'présent'),
+(405, 191, 43, '2023-10-16', 'absent', NULL),
+(406, 234, 42, '2023-10-16', 'présent', 'présent'),
+(407, 30, 42, '2023-10-16', 'absent', 'absent'),
+(408, 30, 45, '2023-10-16', 'absent', NULL),
+(409, 30, 46, '2023-10-16', 'absent', NULL),
+(410, 30, 36, '2023-10-17', NULL, 'présent'),
+(411, 32, 36, '2023-10-17', NULL, 'présent'),
+(412, 254, 36, '2023-10-17', NULL, 'présent'),
+(413, 205, 36, '2023-10-17', NULL, 'présent'),
+(414, 209, 42, '2023-10-17', 'présent', 'présent'),
+(415, 209, 49, '2023-10-17', 'présent', NULL),
+(416, 202, 49, '2023-10-17', 'présent', NULL),
+(417, 246, 42, '2023-10-17', 'présent', 'absent'),
+(418, 247, 42, '2023-10-17', 'présent', 'absent'),
+(419, 89, 45, '2023-10-17', 'présent', NULL),
+(420, 89, 46, '2023-10-17', 'présent', NULL),
+(421, 89, 51, '2023-10-17', 'présent', NULL),
+(422, 89, 52, '2023-10-17', 'présent', NULL),
+(423, 89, 44, '2023-10-17', 'présent', 'absent'),
+(424, 31, 47, '2023-10-17', 'absent', NULL),
+(425, 31, 48, '2023-10-17', 'absent', NULL),
+(426, 257, 37, '2023-10-17', 'présent', NULL),
+(427, 257, 38, '2023-10-17', 'présent', NULL),
+(428, 91, 45, '2023-10-17', 'absent', NULL),
+(429, 91, 51, '2023-10-17', 'présent', NULL),
+(430, 91, 42, '2023-10-17', 'absent', NULL),
+(431, 91, 49, '2023-10-17', 'absent', NULL),
+(432, 91, 46, '2023-10-17', 'absent', NULL),
+(433, 91, 52, '2023-10-17', 'absent', NULL),
+(434, 42, 37, '2023-10-17', 'présent', NULL),
+(435, 42, 38, '2023-10-17', 'présent', NULL),
+(436, 23, 37, '2023-10-18', 'absent', NULL),
+(437, 23, 38, '2023-10-18', 'présent', NULL),
+(438, 23, 48, '2023-10-18', 'présent', NULL),
+(439, 213, 42, '2023-10-19', 'présent', 'présent'),
+(440, 213, 49, '2023-10-19', 'présent', NULL),
+(441, 128, 45, '2023-10-19', 'présent', 'présent'),
+(442, 128, 51, '2023-10-19', 'présent', 'présent'),
+(443, 238, 42, '2023-10-19', 'présent', 'présent'),
+(444, 179, 47, '2023-10-20', 'absent', NULL),
+(445, 179, 49, '2023-10-20', 'absent', NULL),
+(446, 179, 51, '2023-10-20', 'absent', NULL),
+(447, 179, 52, '2023-10-20', 'absent', NULL),
+(448, 105, 49, '2023-10-20', 'absent', NULL),
+(449, 105, 51, '2023-10-20', 'absent', NULL),
+(450, 105, 46, '2023-10-20', 'absent', NULL),
+(451, 105, 52, '2023-10-20', 'absent', NULL),
+(452, 244, 43, '2023-10-20', 'absent', NULL),
+(453, 245, 42, '2023-10-20', 'absent', NULL),
+(454, 246, 49, '2023-10-20', 'présent', NULL),
+(455, 247, 49, '2023-10-20', 'présent', NULL),
+(456, 233, 49, '2023-10-21', 'absent', NULL),
+(457, 195, 42, '2023-10-21', 'présent', 'présent'),
+(458, 210, 42, '2023-10-21', 'présent', 'présent'),
+(459, 193, 42, '2023-10-21', 'présent', 'présent'),
+(460, 192, 42, '2023-10-21', 'présent', 'présent'),
+(461, 193, 49, '2023-10-21', 'absent', NULL),
+(462, 192, 49, '2023-10-21', 'absent', NULL),
+(463, 169, 42, '2023-10-21', 'présent', 'absent'),
+(464, 169, 49, '2023-10-21', 'présent', NULL),
+(465, 203, 42, '2023-10-21', 'présent', 'présent'),
+(466, 203, 49, '2023-10-21', 'présent', NULL),
+(467, 204, 42, '2023-10-21', 'présent', 'présent'),
+(468, 204, 49, '2023-10-21', 'présent', NULL),
+(469, 200, 49, '2023-10-21', 'présent', NULL),
+(470, 201, 49, '2023-10-21', 'présent', NULL),
+(471, 93, 43, '2023-10-22', 'présent', 'présent'),
+(472, 243, 42, '2023-10-22', 'présent', 'présent'),
+(473, 159, 42, '2023-10-22', 'présent', 'présent'),
+(474, 165, 42, '2023-10-22', 'présent', 'présent'),
+(475, 164, 42, '2023-10-22', 'présent', 'présent'),
+(476, 212, 42, '2023-10-22', NULL, 'présent'),
+(477, 236, 42, '2023-10-22', NULL, 'présent'),
+(478, 198, 42, '2023-10-22', NULL, 'présent'),
+(479, 265, 42, '2023-10-22', NULL, 'présent'),
+(480, 190, 44, '2023-10-22', NULL, 'absent'),
+(481, 142, 44, '2023-10-22', NULL, 'absent'),
+(482, 211, 44, '2023-10-22', NULL, 'absent'),
+(483, 208, 51, '2023-10-22', NULL, 'présent'),
+(484, 191, 50, '2023-10-23', 'présent', NULL),
+(485, 30, 51, '2023-10-24', 'présent', NULL),
+(486, 18, 47, '2023-10-24', 'absent', NULL),
+(487, 18, 50, '2023-10-24', 'absent', NULL),
+(488, 18, 54, '2023-10-24', 'absent', NULL),
+(489, 18, 48, '2023-10-24', 'absent', NULL),
+(490, 166, 48, '2023-10-24', 'absent', NULL),
+(491, 202, 53, '2023-10-24', 'présent', NULL),
+(492, 258, 50, '2023-10-25', 'absent', NULL),
+(493, 258, 54, '2023-10-25', 'absent', NULL),
+(494, 24, 47, '2023-10-25', 'absent', NULL),
+(495, 24, 48, '2023-10-25', 'présent', NULL),
+(496, 24, 50, '2023-10-25', 'absent', NULL),
+(497, 24, 54, '2023-10-25', 'absent', NULL),
+(498, 215, 49, '2023-10-25', 'absent', NULL),
+(499, 216, 48, '2023-10-25', 'absent', NULL),
+(500, 250, 49, '2023-10-25', 'absent', NULL),
+(501, 257, 47, '2023-10-25', 'absent', NULL),
+(502, 257, 48, '2023-10-25', 'absent', NULL),
+(503, 174, 49, '2023-10-27', 'présent', NULL),
+(504, 173, 49, '2023-10-27', 'présent', NULL),
+(505, 174, 53, '2023-10-27', 'présent', NULL),
+(506, 174, 55, '2023-10-27', 'présent', NULL),
+(507, 173, 53, '2023-10-27', 'présent', NULL),
+(508, 213, 53, '2023-10-27', 'présent', NULL),
+(509, 184, 49, '2023-10-27', 'absent', NULL),
+(510, 184, 53, '2023-10-27', 'présent', NULL),
+(511, 185, 49, '2023-10-27', 'absent', NULL),
+(512, 185, 53, '2023-10-27', 'présent', NULL),
+(513, 186, 49, '2023-10-27', 'absent', NULL),
+(514, 186, 53, '2023-10-27', 'présent', NULL),
+(515, 186, 55, '2023-10-27', 'présent', NULL),
+(516, 161, 49, '2023-10-27', 'présent', NULL),
+(517, 207, 49, '2023-10-27', 'présent', NULL),
+(518, 208, 49, '2023-10-27', 'présent', NULL),
+(519, 208, 51, '2023-10-27', 'présent', NULL),
+(520, 161, 53, '2023-10-27', 'présent', NULL),
+(521, 161, 55, '2023-10-27', 'présent', NULL),
+(522, 207, 53, '2023-10-27', 'présent', NULL),
+(523, 207, 55, '2023-10-27', 'présent', NULL),
+(524, 208, 53, '2023-10-27', 'présent', NULL),
+(525, 208, 55, '2023-10-27', 'présent', NULL),
+(526, 164, 49, '2023-10-29', 'présent', NULL),
+(527, 165, 49, '2023-10-29', 'présent', NULL),
+(528, 159, 49, '2023-10-29', 'présent', NULL);
 
 -- --------------------------------------------------------
 
@@ -770,6 +1075,7 @@ INSERT INTO `inscription_saison` (`rider_id`, `saison_id`) VALUES
 (179, 2),
 (180, 2),
 (181, 2),
+(257, 2),
 (238, 2),
 (184, 2),
 (185, 2),
@@ -864,7 +1170,44 @@ INSERT INTO `inscription_saison` (`rider_id`, `saison_id`) VALUES
 (254, 2),
 (89, 2),
 (255, 2),
-(256, 2);
+(256, 2),
+(154, 2),
+(65, 2),
+(258, 2),
+(259, 2),
+(260, 2),
+(261, 2),
+(262, 2),
+(111, 2),
+(129, 2),
+(57, 2),
+(263, 2),
+(264, 2),
+(265, 2),
+(266, 2),
+(148, 2),
+(1, 2),
+(86, 2),
+(41, 2),
+(267, 2),
+(36, 2),
+(268, 2),
+(51, 2),
+(123, 2),
+(125, 2),
+(269, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `lien_groupe`
+--
+
+CREATE TABLE `lien_groupe` (
+  `groupe_id` int(11) NOT NULL,
+  `objet_id` int(11) NOT NULL,
+  `objet_type` varchar(20) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -886,6 +1229,107 @@ INSERT INTO `lieu` (`id`, `nom`, `adresse`) VALUES
 (1, 'Halle Gosnat', '30 Rue Amédée Huon, 94200 Ivry-sur-Seine'),
 (2, 'Gymnase Dulcie September', '8, rue Jean-Jacques Rousseau 94200 Ivry-sur-Seine'),
 (3, 'TEP Louis Braille', '24 Rue Louis Braille, 75012 Paris');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `rb_buts`
+--
+
+CREATE TABLE `rb_buts` (
+  `id` int(11) NOT NULL,
+  `buteur` int(11) DEFAULT NULL,
+  `passeur` int(11) DEFAULT NULL,
+  `equipe` int(11) NOT NULL,
+  `match_tournoi` int(11) NOT NULL,
+  `temps` varchar(10) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `rb_match`
+--
+
+CREATE TABLE `rb_match` (
+  `id` int(11) NOT NULL,
+  `equipe_1` int(11) NOT NULL,
+  `equipe_2` int(11) NOT NULL,
+  `issue` varchar(1) NOT NULL DEFAULT '0',
+  `date` date NOT NULL,
+  `lieu` int(11) NOT NULL,
+  `heure` varchar(10) NOT NULL,
+  `tour` int(11) NOT NULL,
+  `mvp_equipe_1` int(11) DEFAULT NULL,
+  `mvp_equipe_2` int(11) DEFAULT NULL,
+  `arbitre_terrain` varchar(255) NOT NULL,
+  `arbitre_chaise` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `rb_players`
+--
+
+CREATE TABLE `rb_players` (
+  `id` int(11) NOT NULL,
+  `prenom` int(11) NOT NULL,
+  `nom` varchar(255) NOT NULL,
+  `date_naissance` date DEFAULT NULL,
+  `gardien` tinyint(1) NOT NULL DEFAULT '0',
+  `sexe` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `rb_teams`
+--
+
+CREATE TABLE `rb_teams` (
+  `id` int(11) NOT NULL,
+  `nom_long` varchar(255) NOT NULL,
+  `nom_court` varchar(3) NOT NULL,
+  `couleur_1` varchar(10) NOT NULL,
+  `couleur_2` varchar(10) NOT NULL,
+  `pays` varchar(20) NOT NULL,
+  `sexe` tinyint(1) NOT NULL DEFAULT '0',
+  `paiement` tinyint(1) NOT NULL DEFAULT '0',
+  `email` varchar(100) NOT NULL,
+  `phone` varchar(100) NOT NULL,
+  `not_enough` tinyint(1) DEFAULT '0',
+  `how_many` int(11) DEFAULT NULL,
+  `contact` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `rb_teams`
+--
+
+INSERT INTO `rb_teams` (`id`, `nom_long`, `nom_court`, `couleur_1`, `couleur_2`, `pays`, `sexe`, `paiement`, `email`, `phone`, `not_enough`, `how_many`, `contact`) VALUES
+(1, 'US Ivry Roller', 'USI', '#ff0000', '#000000', 'France', 1, 0, 'jechapartegui@gmail.com', '+33669403738', 0, 0, 'J-E');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `rb_tour`
+--
+
+CREATE TABLE `rb_tour` (
+  `id` int(11) NOT NULL,
+  `sexe` tinyint(1) NOT NULL DEFAULT '0',
+  `nom` varchar(255) NOT NULL,
+  `ordre` int(11) NOT NULL,
+  `niveau` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `rb_tour`
+--
+
+INSERT INTO `rb_tour` (`id`, `sexe`, `nom`, `ordre`, `niveau`) VALUES
+(1, 0, 'Phase de poules - Groupe A / Group Stage - Pool A', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -914,7 +1358,7 @@ CREATE TABLE `riders` (
 --
 
 INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`, `adresse`, `compte`, `est_prof`, `est_admin`, `telephone`, `personne_prevenir`, `telephone_personne_prevenir`) VALUES
-(1, 'YOUCEFI', 'Nora', '1992-02-24', '0', 'débutant', '11 Rue Simone de Beauvoir 93100 Montreuil', 2, 0, 0, '0672979942', 'BRAZILLE Morgane', '0663556544  '),
+(1, 'YOUCEFI', 'Nora', '1992-02-24', '0', 'débutant', '18 Quai de la Marne   75019 Paris', 2, 0, 0, '  0672979942', '    -    ', '  -  '),
 (2, 'Faure', 'Lorraine', '1988-10-07', '0', 'débutant', '76 avenue du président Wilson 93100 Montreuil', 3, 0, 0, '0678687742', 'Colin Catherine', '0679280722  '),
 (3, 'Barnabé', 'Lise', '2014-11-20', '0', 'débutant', '40 bis rue André Visage 94400 Vitry sur Seine', 4, 0, 0, '0623554478', 'Barnabé Sabrina', '0623554478 0610809534'),
 (4, 'Barnabé', 'Sabrina', '1984-06-10', '0', 'débutant', '40 bis rue André Visage 94400 Vitry sur Seine', 4, 0, 0, '0623554478', 'Barnabé Julien', '0610809534  '),
@@ -940,21 +1384,21 @@ INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`,
 (24, 'Laporte', 'Laurie', '1997-02-27', '0', 'avancé', '16 Esplanade des frères lumière   95220 Herblay-sur-seine', 23, 1, 1, '  0640113220', '    -    ', '  -  '),
 (25, 'Elmkhanter', 'Marie', '1995-05-20', '0', 'débutant', '24 rue de l\'aubrac 75012 Paris', 24, 0, 0, '+33608743283', 'Elmkhanter Nadine', '0614730489  '),
 (26, 'lixon', 'sophie', '1977-08-02', '0', 'intermédiaire', '10 RUE LOUIS FABLET 94200 IVRY SUR SEINE', 25, 0, 0, '0603673174', 'tournaire arnaud', '0663036216  '),
-(27, 'tournaire', 'swann', '2012-08-24', '0', 'intermédiaire', '10 RUE LOUIS FABLET 94200 IVRY SUR SEINE', 25, 0, 0, '0663036216', 'Lixon Sophie', '0603673174 0663036216'),
-(28, 'tournaire', 'sasha', '2012-06-26', '0', 'débutant', '10 RUE LOUIS FABLETS 94200 IVRY SUR SEINE', 25, 0, 0, '0603673174', 'tournaire arnaud', '0663036216 0603673174'),
+(27, 'tournaire', 'swann', '2012-08-24', '0', 'intermédiaire', '7 Rue GEOFFROY SAINT HILAIRE   75005 PARIS', 25, 0, 0, '  0663036216', 'tournaire arnaud -    ', '0663036216 -  '),
+(28, 'tournaire', 'sasha', '2012-06-26', '0', 'débutant', '7 Rue GEOFFROY SAINT HILAIRE   75005 PARIS', 25, 0, 0, '  0663036216', 'TOURNAIRE ARNAUD -    ', '0663036216 -  '),
 (29, 'Zakki', 'Samy', '1998-10-14', '01', 'avancé', '1, allée des morelles 91360 Epinay sur orge', 26, 0, 0, '0633782236', 'Zakki Nour-eddine', '0673868940 0619519511'),
 (30, 'Chapartegui', 'Clémentine', '2017-11-21', '0', 'intermédiaire', '21 Rue Pasteur   94200 Ivry-sur-Seine', 27, 0, 0, '  0669403738', 'CHAPARTEGUI Jean-Emmanuel - NGUYEN PHUC Cécile', '0669403738 - 0652699085'),
 (31, 'Chapartegui', 'Jean-Emmanuel', '1986-06-26', '1', 'avancé', '21 Rue Pasteur   94200 Ivry-sur-Seine', 27, 1, 1, '  0669403738', 'NGUYEN PHUC Cécile -    ', '0652699085 -  '),
 (32, 'DJEDDA', 'Fares', '2015-02-17', '1', 'intermédiaire', '179 boulevard de stalingrad 94200 IVRY SUR SEINE', 28, 0, 0, '0782592780', 'DJEDDA Mourad DJEDDA Nora', '0618295822 0782592780'),
 (33, 'Fiel', 'Antoine', '1990-08-28', '1', 'avancé', '20 Rue Bénard 75014 PARIS 14', 29, 0, 0, '+33612621523', 'Fiel Viviane', '0685192988  '),
 (34, 'Julienne', 'Charlène', '1986-07-28', '0', 'intermédiaire', '5 Avenue De Longjumeau   91360 Villemoisson sur orge', 30, 0, 0, '  0682876704', '    -    ', '  -  '),
-(35, 'Joseph', 'Raoul', '1987-09-01', '1', 'avancé', '105 Boulevard Victor Hugo 92110 Clichy', 31, 0, 0, '+33614166018', 'Brédat Patrick', '0616134944  '),
-(36, 'Weinland', 'Liza', '1993-07-02', '0', 'débutant', '75 B2 rue Marat 94200 Ivry Sur Seine', 32, 0, 0, '0609827661', 'Thiltges Charlie', '0677656271  '),
+(35, 'Joseph', 'Raoul', '1987-09-01', '1', 'avancé', '5 bis Rue JOSEPH Raoul   92340 bourg la reine', 31, 0, 0, '0663637568 +33614166018', 'Raoul JOSEPH - Raoul JOSEPH', '+33614166018 - 0663637568'),
+(36, 'Weinland', 'Liza', '1993-07-02', '0', 'débutant', '75 Rue MARAT B2 94200 IVRY SUR SEINE', 32, 0, 0, '  0609827661', '    -    ', '  -  '),
 (37, 'LE GAC', 'Anne-Audrey', '1988-11-13', '0', 'débutant', '2C Avenue de la Chesnaie, 91230 MONTGERON', 33, 0, 0, '0761461650', 'Milesi Nicolas', '0681578472  '),
 (38, 'BEN ICHOU - LEPRINCE', 'SAUL', '2017-01-06', '1', 'avancé', '43 RUE DES FRERES BLAIS 94200 IVRY SUR SEINE', 34, 0, 0, '0626454992', 'CHLOE LEPRINCE MATHIEU BEN ICHOU', '0665523836 0626454992'),
 (39, 'BEN ICHOU - LEPRINCE', 'ISMAEL', '2013-07-31', '0', 'débutant', '43 RUE DES FRERES BLAIS 94200 IVRY SUR SEINE', 34, 0, 0, '0626454992', 'CHLOE LEPRINCE MATHIEU BEN ICHOU', '0665523836 0626454992'),
 (40, 'Soubielle-Fourie', 'Charline', '1998-11-15', '0', 'débutant', '16 rue Guyton de Morveau 75013 Paris', 35, 0, 0, '0629172773', 'Soubielle-Fourie Charline', '0617060860 0609103737'),
-(41, 'Mouliney', 'Maxime', '1991-11-04', '0', 'débutant', '12A rue des dorés 91360 Épinay-sur-Orge', 36, 0, 0, '0629748314', 'Eyang Élodie', '06 08 47 14 50  '),
+(41, 'Mouliney', 'Maxime', '1991-11-04', '1', 'débutant', '12A Rue Des Dores   91360 Epinay sur orge', 36, 0, 0, '  0629748314', '    -    ', '  -  '),
 (42, 'Kamtchueng', 'Toko', '1987-01-14', '1', 'avancé', '83 Avenue d\'Italie   75013 Paris', 37, 1, 1, '  0642010973', '    -    ', '  -  '),
 (43, 'Bounleng', 'David', '1985-06-30', '1', 'avancé', '2 Avenue Avenue Saint-Maurice du Valais   94410 Saint-maurice', 38, 0, 1, '  0612165244', '    -    ', '  -  '),
 (44, 'AUSSET', 'Margot', '2012-06-27', '0', 'débutant', '23 rue Jean-Jacques ROUSSEAU 94200 Ivry sur seine', 39, 0, 0, '0769839694', 'BENARD Yvon', '0685563266  '),
@@ -964,13 +1408,13 @@ INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`,
 (48, 'Trouvé ', 'Mélanie ', '1996-04-03', '0', 'débutant', '251 avenue Daumesnil 75012 Paris', 43, 0, 0, '0659921206', 'Azémar Léo', '0633168315  '),
 (49, 'RIFAFUD', 'CELIA', '1973-07-16', '0', 'débutant', '75 BIS AVENUE DANIELLE CASANOVA 94200 IVRY SUR SEINE', 44, 0, 0, '0608217585', 'CASTRO ANDREA', '0677133399  '),
 (50, 'Tripault', 'Fabrice', '1978-10-04', '0', 'débutant', '34 rue de Picpus 75012 PARIS', 45, 0, 0, '0662078978', 'Tripault Marie-Rose', '0612392868  '),
-(51, 'Revilloud', 'Marc', '1986-06-25', '0', 'débutant', '34 rue auguste demmler 92340 Bourg la reine', 46, 0, 0, '0689616028', 'Suissa Myriam', '0682351487  '),
+(51, 'Revilloud', 'Marc', '1986-06-25', '1', 'débutant', '34 Rue Auguste demler   92340 Bourg la reine', 46, 0, 0, '  0689616028', '    -    ', '  -  '),
 (52, 'henry', 'mary', '1986-09-29', '0', 'débutant', '40 Rue Marat 94200 Ivry Sur Seine', 47, 0, 0, '0760586746', 'henry Annick', '0660501557  '),
 (53, 'LACOMBE LAROCHE', 'Gabriel', '2013-05-10', '1', 'intermédiaire', '43 Rue Jules Lagaisse   94400 VITRY-SUR-SEINE', 48, 0, 0, '  0627949246', 'Lacombe Florian - Laroche Amandine', '0627949246 - 0627247774'),
 (54, 'Eschenauer', 'Zeli', '2012-02-08', '0', 'débutant', '20 rue Pierre Rigaud 94200 Ivry sue Seine', 49, 0, 0, '0619925885', 'Bonomo Nina', '0619925885 0607694973'),
 (55, 'Alloing', 'Marie ', '1992-01-10', '0', 'débutant', '2 bis rue de la révolution 92400 Ivry-sur-seine', 50, 0, 0, '0645048560', 'Alloing Ourdia', '0676747830  '),
 (56, 'Lemaire', 'Nicolas', '1991-08-10', '0', 'débutant', '8 rue jules Edouard Voisembert 92130 Issy Les Moulineaux', 51, 0, 0, '0782085648', 'Allain Mathilde', '0646876826  '),
-(57, 'Griveau', 'Johanna', '1988-06-15', '0', 'débutant', '9 rue Pierre et Marie curie 94200 Ivry sur seine', 52, 0, 0, '0671414589', 'Griveau Griveau', 'Griveau  '),
+(57, 'Griveau', 'Johanna', '1988-06-15', '0', 'débutant', '9 Rue Pierre et marie curie   94200 Ivry sur seine', 52, 0, 0, '  0671414589', '    -    ', '  -  '),
 (58, 'vuillerme', 'nicolas', '1994-06-06', '0', 'débutant', '8 rue marie benoist 75012 PARIS', 53, 0, 0, '0626964655', 'Gesquiere Hortense', '0667467089  '),
 (59, 'Crozat', 'Noemie', '1998-09-03', '0', 'débutant', '1 rue Léon 75018 Paris', 54, 0, 0, '0652929904', 'Dehais Etienne', '+33647553237  '),
 (60, 'Bocos', 'Sebastien ', '1981-06-15', '0', 'débutant', '107 rue Bobillot 75013 Paris', 55, 0, 0, '0786184002', 'Babeau Camille', '0664873882  '),
@@ -978,7 +1422,7 @@ INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`,
 (62, 'Caroujel', 'Clement-jeremy', '1987-06-08', '0', 'débutant', '85 Rue Carnot 92300 Levallois Perret', 57, 0, 0, '0614713208', 'BIREAUD Jennifer', '+33 6 69 27 47 24  '),
 (63, 'Rougelin', 'Angèle ', '1999-08-15', '0', 'débutant', '96 Rue de Paris 92190 Meudon', 58, 0, 0, '+33647767756', 'Ribault Mathilde', '0629553894  '),
 (64, 'Aubertin', 'Arthur', '1990-02-27', '0', 'débutant', '2 bis rue de la révolution 94200 IVRY SUR SEINE', 59, 0, 0, '0684902268', 'Alloing Marie', '06 45 04 85 60  '),
-(65, 'Petot', 'Marylou', '1993-11-14', '0', 'débutant', '5 boulevard Davout 75020 PARIS', 60, 0, 0, '+33618404987', 'Joly Clémence', '+33 6 78 92 47 57  '),
+(65, 'Petot', 'Marylou', '1993-11-14', '0', 'débutant', '5 Boulevard Davout   75020 PARIS', 60, 0, 0, '  +33618404987', '    -    ', '  -  '),
 (66, 'Le Gouez', 'Mélanie', '1996-11-22', '0', 'débutant', '186 avenue Jean Jaures 75019 Paris', 61, 0, 0, '0664748514', 'Berny Madeleine', '0678801656  '),
 (67, 'Servier', 'Marion', '1986-12-12', '0', 'débutant', '4 rue Victor Hugo 93100 Montreuil', 62, 0, 0, '0675028432', 'Grandgenevre Vincent', '0687629158  '),
 (68, 'Josse', 'Aurélien ', '1980-09-30', '0', 'débutant', '19 RUE Périer 92120 MONTROUGE', 63, 0, 0, '0628463884', 'Fourn Ornella', '0629844710  '),
@@ -999,14 +1443,14 @@ INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`,
 (83, 'Bernal', 'Eléonore', '1983-12-01', '0', 'débutant', '95 Rue Compans   75019 Paris', 75, 0, 0, '  0671601237', '    -    ', '  -  '),
 (84, 'Arghyris', 'Agathe', '1993-12-16', '0', 'débutant', '6 rue de l\'affiche rouge 94200 Ivry-sur-Seine', 76, 0, 0, '0680505890', 'Charvet Amandine', '0632025384  '),
 (85, 'Copinet', 'Yoann', '1979-04-04', '1', 'intermédiaire', '7 bis Rue du general Faidherbe   94130 Nogent sur Marne', 77, 0, 0, '  0610091131', '    -    ', '  -  '),
-(86, 'Mespoulède', 'Nolwenn', '1992-12-14', '0', 'débutant', '33 bis, avenue Augustin Dumont 92240 Malakoff', 78, 0, 0, '0601711606', 'Sebaa Ryadh (aka l\'humain)', '0666355001  '),
+(86, 'Mespoulède', 'Nolwenn', '1992-12-14', '0', 'débutant', '7 Rue du Moulin Vert   94400 Vitry-sur-seine', 78, 0, 0, '  0601711606', '    -    ', '  -  '),
 (87, 'DE CARVALHO', 'OLIVIER', '1974-09-27', '0', 'débutant', '29 rue Louise Aglaé Cretté 94400 Vitry sur seine', 79, 0, 0, '0621405988', 'TAVERNIER ELEN', '0611896861  '),
 (88, 'Cigolotti', 'Audrey', '1996-04-10', '0', 'débutant', '4 rue de Navarre 75005 Paris', 80, 0, 0, '0788406075', 'Laure Cigolotti', '0478575423  '),
 (89, 'THAI', 'Julien', '2013-05-07', '1', 'avancé', '63 Boulevard STALINGRAD APT A31 94400 Vitry sur seine', 81, 0, 0, '0145851956 0145851956', 'THAI FABRICE - THAI Xuefei', '0628350543 - 0628076135'),
 (90, 'Daguet', 'Capucine', '1994-10-26', '0', 'débutant', '7 rue Marceau 93100 Montreuil', 82, 0, 0, '0666375768', 'Granjon Guillaume', '+33676161560  '),
 (91, 'LEBLOND', 'EMILIE', '2016-03-17', '0', 'intermédiaire', '50 Rue Pierre et Marie Curie   Ivry sur Seine 94200', 83, 0, 0, '   ', 'TEA Cécile - LEBLOND Eric', '0621668592 - 0645717495'),
 (92, 'COTTO', 'Alice', '2016-07-08', '0', 'débutant', '35 RUE MARCEL LAMANT 94200 IVRY SUR SEINE', 84, 0, 0, '0663259608', 'COTTO OLIVIER', '0663259608 0620513096'),
-(93, 'alauzet', 'alexandre', '1979-01-16', '1', 'débutant', '43 Rue Camille Groult   94400 Vitry sur Seine', 85, 0, 0, '  0650281566', '    -    ', '  -  '),
+(93, 'alauzet', 'alexandre', '1979-01-16', '1', 'intermédiaire', '43 Rue Camille Groult   94400 Vitry sur Seine', 85, 0, 0, '  0650281566', '    -    ', '  -  '),
 (94, 'Bakhti', 'Dounia ines', '2014-06-17', '0', 'débutant', '4 Pl. du Général de Gaulle 94200 Ivry-sur-Seine', 86, 0, 0, '0769555188', 'bakhti sarra', '0769555188 0665978963'),
 (95, 'ye', 'jiamei', '2017-05-10', '0', 'débutant', '63 rue gabriel péri 94200 ivry sur seine', 87, 0, 0, '0667230101', 'jin juan', '0667230101  '),
 (96, 'JIN', 'JUAN', '1985-06-28', '0', 'débutant', '63 rue gabriel péri 94200 ivry sur seine', 87, 0, 0, '0667230101', 'HU YAOFANG', '0761383595  '),
@@ -1024,7 +1468,7 @@ INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`,
 (108, 'Presset', 'Ilse', '2016-08-12', '0', 'débutant', '181 Rue Marcel Hartmann   94200 Ivry sur Seine', 93, 0, 0, '  0621305417', 'Presset Francois - Huré Audrey', '0621305417 - 0603849225'),
 (109, 'Nkemba', 'Goy', '2014-10-26', '0', 'débutant', '65 boullevard  Hyppolyte Marques 94200 Ivry sur seine', 94, 0, 0, '0642434133', 'Nkemba Vivian', '0642434133  '),
 (110, 'Marchon', 'Ulysse ', '2013-09-03', '0', 'débutant', '35 rue saint just 94200 Ivry-sur-Seine', 95, 0, 0, '0609693832', 'Leroy Marie', '0609693832 +33 6 61 16 27 53'),
-(111, 'Shata', 'Salah', '2015-08-18', '0', 'débutant', '28 avenue Henri Barbusse 94200 Ivry-sur-Seine', 96, 0, 0, '0636369558', 'Lafaye Manon', '0636369558  '),
+(111, 'Shata', 'Salah', '2015-08-18', '1', 'débutant', '28 Avenue Henri Barbusse   94200 Ivry-sur-Seine', 96, 0, 0, '  0636369558', 'Lafaye Manon -    ', '0636369558 -  '),
 (112, 'Shata', 'Moustafa', '2017-05-05', '0', 'débutant', '28 avenue Henri Barbusse 94200 Ivry-sur-Seine', 96, 0, 0, '0636369558', 'Lafaye Manon', '0636369558  '),
 (113, 'Dobler Trinh Dinh', 'Helena', '2015-12-08', '0', 'intermédiaire', '77 Avenue de Verdun   94200 IVRY SUR SEINE', 97, 0, 0, '   ', 'Dobler Sandrine - Trinh Dinh Jérémie', '  -  '),
 (114, 'Dobler', 'Sandrine', '1978-05-10', '0', 'avancé', '77 Avenue de Verdun   94200 IVRY SUR SEINE', 97, 0, 0, '  0650579535', '    -    ', '  -  '),
@@ -1036,13 +1480,13 @@ INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`,
 (120, 'guichen', 'Mael', '2014-02-04', '0', 'débutant', '7 rue eugene varlin 94400 VITRY SUR SEINE', 103, 0, 0, '0669454934', 'guichen viviane', '0669454934 0650634649'),
 (121, 'Abadou ', 'Massiva', '2010-09-18', '0', 'débutant', '39, rue Camille blanc 94400 Vitry-sur-Seine', 104, 0, 0, '0651383303', 'Abadou Kahina', '0651383303  '),
 (122, 'Ducray', 'Nicolas', '1981-03-03', '1', 'intermédiaire', '40 Rue Torcy   75018 Paris', 105, 0, 0, '   ', '    -    ', '  -  '),
-(123, 'Turquier', 'Sybile', '2016-01-27', '0', 'débutant', '5 sentier des Malicots 94200 Ivry sur Seine', 106, 0, 0, '0626650611', 'Rodriguez Marie', '0688683829  '),
+(123, 'Turquier', 'Sybile', '2016-01-27', '0', 'débutant', '5 Sentier des Malicots   94200 Ivry sur Seine', 106, 0, 0, '  0626650611', 'Turquier Benjamin - Rodriguez Marie', '0626650611 - 0688683829'),
 (124, 'Turquier', 'Matilda', '2012-06-14', '0', 'débutant', '5 sentier des Malicots 94200 Ivry sur Seine', 106, 0, 0, '0626650611', 'Rodriguez Marie', '0688683829  '),
-(125, 'Turquier', 'Benjamin', '1980-02-14', '0', 'débutant', '5 sentier des Malicots 94200 Ivry sur seine', 106, 0, 0, '0626650611', 'Rodriguez Marie', '0688683829  '),
+(125, 'Turquier', 'Benjamin', '1980-02-14', '1', 'débutant', '5 Sentier des Malicots   94200 Ivry sur Seine', 106, 0, 0, '  0626650611', '    -    ', '  -  '),
 (126, 'EYANG', 'ELODIE', '1992-04-02', '0', 'débutant', '6 RUE HOCHE APT 73 91260 JUVISY SUR ORGE', 107, 0, 0, '0608471450', 'MOULINEY MAXIME', '0629748314  '),
 (127, 'Saint-André', 'Alizé', '1993-09-01', '0', 'débutant', '55 Boulevard Soult   75012 Paris', 108, 0, 0, '  0677336474', '    -    ', '  -  '),
 (128, 'Panjak', 'Liza', '2015-11-16', '0', 'intermédiaire', '6 Villa Nieuport   75013 Paris', 109, 0, 0, '  0782595539', 'Panjak Nevena - Panjak Milan', '0782595539 - 0661005660'),
-(129, 'Pelletier', 'Sophie', '1994-04-19', '0', 'débutant', '14, rue roger salengro 94270 Le kremlin bicetre', 110, 0, 0, '0678444198', 'Messalti Abel', '0765784434  '),
+(129, 'Pelletier', 'Sophie', '1994-04-19', '0', 'débutant', '14 Rue Roger Salengro   94270 Le kremlin bicetre', 110, 0, 0, '  0678444198', '    -    ', '  -  '),
 (130, 'Rappaport', 'Florian', '1989-05-07', '1', 'débutant', '10 Rue des Islettes   75018 Paris', 111, 0, 0, '  0632075959', 'Rappaport Florian -    ', '  -  '),
 (131, 'fuger', 'camille', '1975-03-25', '0', 'débutant', '101 Avenue paul Doumer   92500 rueil malmaison', 112, 0, 0, '  0610795255', '    -    ', '  -  '),
 (132, 'Guilbert', 'Gaëlle', '1997-09-10', '0', 'débutant', '43 rue marcellin berthelot 93160 noisy le grand', 113, 0, 0, '0780349131', 'Guilbert Maeva', '0611298254  '),
@@ -1061,7 +1505,7 @@ INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`,
 (145, 'Dallou', 'Axel', '1985-12-30', '0', 'débutant', '96 bis Boulevard Paul Vaillant Couturier 94200 Ivry-Sur-Seine', 123, 0, 0, '0662960116', 'Marques Priscilia', '0620428478  '),
 (146, 'Marques', 'Priscilia', '1985-01-22', '0', 'débutant', '96 bis Boulevard Paul Vaillant Couturier 94200 Ivry-sur-Seine', 123, 0, 0, '0620428478', 'Dallou Axel', '066296016  '),
 (147, 'Dallou Marques', 'Suzanne', '2016-05-29', '0', 'débutant', '96 bis Boulevard Paul Vaillant Couturier 94200 Ivry-sur-Seine', 123, 0, 0, '0662960116', 'Dallou Axel', '0662960116 0620428478'),
-(148, 'Thielleux', 'Matthieu', '1987-12-12', '0', 'débutant', '4 rue Claude Pernes 93110 Rosny Sous Bois', 124, 0, 0, '+33664179319', 'Bonnerot Laurence', '+33688317436  '),
+(148, 'Thielleux', 'Matthieu', '1987-12-12', '1', 'débutant', '2 Rue Claude Pernes   93110 Rosny sous bois', 124, 0, 0, '  0664179319', '    -    ', '  -  '),
 (149, 'Hanaizi', 'Zahir', '1990-03-19', '1', 'avancé', '70 RUE GEORGE GOSMAT\n94200 IVRY-SUR-SEINE', 125, 1, 0, 'A voir', 'A voir', '06 74 82 11 26'),
 (150, 'Boulay', 'Priam', '2000-12-22', '0', 'avancé', 'TBD', 126, 1, 0, 'TBD', 'TBD', '+33 7 83 41 01 85'),
 (151, 'Sidibe', 'Yoro', '1996-03-16', '0', 'avancé', '61 RUE DES PIROGUES DE BERCY\n75012 PARIS 12', 127, 1, 0, '06 58 17 68 96', 'TBD', '06 58 17 68 96'),
@@ -1077,7 +1521,7 @@ INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`,
 (161, 'al Chdid', 'Emma ', '2017-03-09', '0', 'débutant', '1 square Jean Thébaud 75015 Square 1 square Jean Thébaud 75015   75015 paris', 135, 0, 0, '  0636100825', '    -    ', '  -  '),
 (162, 'Paire', 'Nathalie', '1982-06-05', '0', 'intermédiaire', '36 Rue Tranchee   93100 Montreuil', 136, 0, 0, '  0673309086', '    -    ', '  -  '),
 (237, 'Trogneux', 'Wendolyn', '1997-08-12', '0', 'débutant', '36 Rue rue de picpus   75012 Paris', 182, 0, 0, '  0766555237', '    -    ', '  -  '),
-(164, 'Voeuk', 'Viesal olivier', '2014-09-19', '1', 'débutant', '38 Rue Vérollot   94200 Ivry sur seine', 134, 0, 0, '0624081990 0624081990', 'Voeuk Gerard -    ', '  -  '),
+(164, 'Voeuk', 'Viesal olivier', '2014-09-19', '1', 'intermédiaire', '38 Rue Vérollot   94200 Ivry sur seine', 134, 0, 0, '0624081990 0624081990', 'Voeuk Gerard -    ', '  -  '),
 (165, 'Voeuk', 'Rachana', '2015-10-08', '0', 'débutant', '38 Rue Vérollot   94200 Ivry sur seine', 134, 0, 0, '0624081990 0624081990', 'Voeuk Gerard - Voeuk Gerard', '  - 0624081990'),
 (166, 'Goudreau', 'Eric', '1978-11-23', '1', 'intermédiaire', '3 Quai De la Brise Appartement 2205 94000 Créteil', 137, 0, 0, '  0683414299', '    -    ', '  -  '),
 (167, 'VILAYPHONH', 'Léo', '2018-10-11', '1', 'débutant', '25 Rue BAUDIN   94200 IVRY-SUR-SEINE', 138, 0, 0, '  0659605819', 'VILAYPHONH Anne-Claire - VILAYPHONH MARC', '0659605819 - 0659870520'),
@@ -1088,13 +1532,14 @@ INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`,
 (172, 'ZEGHMI', 'Lizia', '2013-12-17', '0', 'débutant', '20 bis Impasse Tellier   94200 Ivry-sur-seine', 142, 0, 0, '  0667357719', 'Zeghmi Hakim - Smadja Laetitia', '0667357719 - 0628067929'),
 (173, 'Tremor ', 'Jahna', '2018-10-16', '0', 'débutant', '36 Avenue Henri barbusse   94200 Ivry-sur-Seine', 143, 0, 0, '  0677595553', 'Tremor Joemia - Tremor Joevin', '0677595553 - 0782192420'),
 (174, 'Tremor ', 'Jahyla ', '2014-07-26', '0', 'débutant', '36 Avenue Henri barbusse   94200 Ivry sur seine', 143, 0, 0, '  0677595553', 'Tremor Joemia - Tremor Joevin', '0677595553 - 0782192420'),
-(257, 'Mamadou', 'Badji', '1988-03-18', '1', 'avancé', '40 avenue Victor Hugo chez Alima Touré  \nMontfermeil 93370 ', 196, 1, 0, '0755201460', '', ''),
+(257, 'Badji', 'Mamadou', '1988-03-18', '1', 'avancé', '40 avenue Victor Hugo chez Alima Touré  \nMontfermeil 93370 ', 196, 1, 0, '0755201460', '', ''),
 (176, 'Prefumo', 'Adele', '2018-03-07', '0', 'débutant', '173 rue marcel hartmann Rue Fouzia Prefumo Bat 4 94200 Ivry sur seine', 145, 0, 0, '0699659959 0699659959', 'Prefumo Fouzia -    ', '  -  '),
 (177, 'Rispal Tord', 'William', '2015-08-18', '1', 'débutant', '8 Rue Mozart   94200 Ivry sur Seine', 146, 0, 0, '  0675735942', 'Tord Romain - Rispal Jessica', '0675735942 - 0677761167'),
 (178, 'Miranda-Ségor', 'Teeyah ', '2016-01-03', '0', 'débutant', '70 Avenue Georges gosnat Bâtiment i 94200 Ivry sur Seine', 147, 0, 0, '  0673288066', 'SEGOR Elodie -    ', '0673288066 -  '),
 (179, 'Grivel', 'Abigaïl', '2010-01-26', '0', 'intermédiaire', '175 Rue Marcel Hartmann   94200 IVRY SUR SEINE', 91, 0, 0, '+33146718894 +33681223435', 'Grivel Mathilde - Grivel Gaëtan', '+33681223435 - +33607668189'),
-(180, 'Haidara', 'Rokia ', '2016-09-15', '0', 'débutant', '17 Rue Émile blin Apt A13 94200 Ivry-sur-Seine', 148, 0, 0, '  0613054437', 'Haidara Aminata - Haidara Mariama', '0613054437 - 0618380332'),
-(181, 'Haidara', 'Kadia ', '2016-09-15', '0', 'débutant', '17 Rue Émile blin Apt A13 94200 Ivry-sur-Seine', 148, 0, 0, '0033170253833 0613054437', 'Haidara Aminata - Haidara Mariama', '0613054437 - 0618380332'),
+(180, 'Haidara', 'Rokia ', '2016-09-15', '0', 'intermédiaire', '17 Rue Émile blin Apt A13 94200 Ivry-sur-Seine', 148, 0, 0, '  0613054437', 'Haidara Aminata - Haidara Mariama', '0613054437 - 0618380332'),
+(181, 'Haidara', 'Kadia ', '2016-09-15', '0', 'intermédiaire', '17 Rue Émile blin Apt A13 94200 Ivry-sur-Seine', 148, 0, 0, '0033170253833 0613054437', 'Haidara Aminata - Haidara Mariama', '0613054437 - 0618380332'),
+(258, 'Princet', 'Adrien', '1993-11-30', '1', 'débutant', '100 Rue Jean legallleu   94200 Ivry-sur-Seine', 197, 0, 0, '  0683469003', '    -    ', '  -  '),
 (238, 'RAKROUKI', 'Maryam', '2015-11-25', '0', 'débutant', '203 Avenue Maurice thore   94200 Ivry sur seine', 183, 0, 0, '0612167848 0612167848', 'Rakrouki Beatrice - Rakrouki Yahya', '0612167848 -  '),
 (184, 'COULIBALY ', 'Mahdi', '2019-01-31', '1', 'débutant', '36 Avenue Henri Barbusse   94200 Ivry-sur-Seine', 149, 0, 0, '0619975426 0619975426', 'Coulibaly Marion - Coulibaly Namouri', '0619975426 - 0614665688'),
 (185, 'Coulibaly', 'Malik', '2016-05-12', '1', 'débutant', '36 Avenue Henri Barbusse   94200 Ivry-sur-Seine', 149, 0, 0, '0619975426 0619975426', 'Coulibaly Marion - Coulibaly Namouri', '0619975426 - 0614665688'),
@@ -1112,15 +1557,15 @@ INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`,
 (197, 'CEFERINO CASTANO ', 'Leandro', '2013-06-16', '1', 'débutant', '50 Rue Molière   94200 IVRY SUR SEINE', 157, 0, 0, '  0610661197', 'CEFERINO RAMIREZ Felipe - CASTANO TABARES Nathalia', '0627374028 - 0610661197'),
 (198, 'CEFERINO CASTANO ', 'Alexander', '2015-09-08', '1', 'débutant', '50 Rue Molière   94200 IVRY SUR SEINE', 157, 0, 0, '  0610661197', 'CEFERINO RAMIREZ Felipe - CASTANO TABARES Nathalia', '0627374028 - 0610661197'),
 (199, 'CEFERINO RAMIREZ ', 'Felipe ', '1985-10-29', '1', 'débutant', '50 Rue Molière   94200 IVRY SUR SEINE', 158, 0, 0, '  0627374028', '    -    ', '  -  '),
-(200, 'Ekra', 'Inaya', '2014-12-27', '0', 'débutant', '39 Rue Ampère   94200 Ivry sur seine', 159, 0, 0, '  0768585624', 'Moutsita Mankou Orestie - Ekra Mothie herve', '0768585624 - 0616595622'),
-(201, 'Ekra', 'Layana ', '2016-03-03', '0', 'débutant', '39 Rue Ampère   94200 Ivry sur seine', 159, 0, 0, '  0768585624', 'Moutsita Mankou Orestie - Ekra Mothie herve', '0768585624 - 0616595622'),
+(200, 'Ekra', 'Inaya', '2014-12-27', '0', 'intermédiaire', '39 Rue Ampère   94200 Ivry sur seine', 159, 0, 0, '  0768585624', 'Moutsita Mankou Orestie - Ekra Mothie herve', '0768585624 - 0616595622'),
+(201, 'Ekra', 'Layana ', '2016-03-03', '0', 'intermédiaire', '39 Rue Ampère   94200 Ivry sur seine', 159, 0, 0, '  0768585624', 'Moutsita Mankou Orestie - Ekra Mothie herve', '0768585624 - 0616595622'),
 (202, 'ADELAIDE', 'NATHAN', '2014-08-27', '1', 'débutant', '37 Rue QUARTIER PARISIEN BAT6 PORTE 301 94200 IVRY SUR SEINE', 160, 0, 0, '  0658405053', 'ADELAIDE SABRINA -    ', '0658405053 -  '),
 (203, 'BONNET', 'Kays', '2018-07-19', '1', 'débutant', '9 Rue Robespierre   94200 Ivry-sur-Seine', 161, 0, 0, '  0635221482', 'BONNET Bruno - BONNET Asmaa', '0685078333 - 0635221482'),
 (204, 'BONNET', 'Kenzy', '2016-07-21', '1', 'débutant', '9 Rue Robespierre   94200 Ivry-sur-Seine', 161, 0, 0, '  0635221482', 'BONNET Bruno - BONNET Asmaa', '0685078333 - 0635221482'),
 (205, 'BEN ICHOU LEPRINCE', 'Saül', '2017-01-07', '1', 'intermédiaire', '43 Rue DES FRERES BLAIS   94200 IVRY SUR SEINE', 34, 0, 0, '0626454992 0626454992', 'BEN ICHOU Mathieu - LEPRINCE CHLOE', '0626454992 - 0665523836'),
 (206, 'BEN ICHOU LEPRINCE', 'Ismaël', '2013-08-01', '1', 'intermédiaire', '43 Rue DES FRERES BLAIS   94200 IVRY SUR SEINE', 34, 0, 0, '0626454992 0626454992', 'BEN ICHOU Mathieu - LEPRINCE CHLOE', '0626454992 - 0665523836'),
 (207, 'kullab', 'perla', '2017-07-10', '0', 'débutant', '33 Rue ledru rollin   94200 Ivry-sur-Seine', 135, 0, 0, '  0636100825', '    -    ', '  -  '),
-(208, 'kullab', 'almas', '2015-08-10', '0', 'débutant', '33 Rue ledru rollin   94200 Ivry sur seine', 135, 0, 0, '  0636100825', 'kullab ezzaldeen -    ', '  -  '),
+(208, 'kullab', 'almas', '2015-08-10', '0', 'intermédiaire', '33 Rue ledru rollin   94200 Ivry sur seine', 135, 0, 0, '  0636100825', 'kullab ezzaldeen -    ', '  -  '),
 (209, 'Mahadevan ', 'Sara', '2017-08-31', '0', 'débutant', '100 Rue Hoche   94200 Ivry-sur-Seine', 162, 0, 0, '  0139079011', 'Mahadevan Mangayatkarasi - Mahadevan Karunakaran', '0766364766 - 0651337139'),
 (210, 'Touré', 'Joane ', '2015-04-28', '0', 'débutant', '33 Rue Marceau   94200 Ivry sur seine', 155, 0, 0, '0662521841 0662521841', 'Tichet Anne Laure - Touré Charles André', '0662521841 - 0681470910'),
 (211, 'SISOURAT', 'Charlie', '2012-08-08', '0', 'intermédiaire', '57 Rue Jean Le Galleu   94200 Ivry Sur Seine', 163, 0, 0, '  0688497919', '    -    ', '  -  '),
@@ -1162,7 +1607,18 @@ INSERT INTO `riders` (`id`, `nom`, `prenom`, `date_naissance`, `sexe`, `niveau`,
 (253, 'Meghiref ', 'Acyl', '2015-03-19', '1', 'débutant', '162 Rue Marcel Hartmann   94200 Ivry-sur-Seine', 193, 0, 0, '  0649869801', 'Meghiref Karima - Meghiref Oussama', '0649869801 - 0649829733'),
 (254, 'Quehan', 'Margot', '2011-10-31', '0', 'avancé', '65 Boulevard Hippolyte Marques Batiment 16 94200 Ivry-sur-Seine', 194, 0, 0, '  0623570346', 'HERISSON Isabelle -    ', '0623570346 -  '),
 (255, 'Melliti ', 'Safiyah', '2014-11-28', '0', 'débutant', '92 Rue Jules lagaisse   94400 Vitry sur seine', 195, 0, 0, '  0984461808', 'Guerfi Cherifa - Guerfi Chérifa', '0651356135 - 0651838089'),
-(256, 'Melliti ', 'Adam', '2017-02-18', '1', 'débutant', '92 Rue Jules lagaisse   94400 Vitry sur seine', 195, 0, 0, '  0984461808', 'Guerfi Chérifa - Guerfi Fatma', '0651356135 - 0651838089');
+(256, 'Melliti ', 'Adam', '2017-02-18', '1', 'débutant', '92 Rue Jules lagaisse   94400 Vitry sur seine', 195, 0, 0, '  0984461808', 'Guerfi Chérifa - Guerfi Fatma', '0651356135 - 0651838089'),
+(259, 'Morice', 'Erika', '1991-04-26', '0', 'débutant', '8 Avenue Gambetta   94600 Choisy Le Roi', 198, 0, 0, '  0686715319', '    -    ', '  -  '),
+(260, 'Noémie', 'CROZAT', '1998-09-04', '0', 'débutant', '1 Rue Léon   75018 Paris', 54, 0, 0, '  0652909904', '    -    ', '  -  '),
+(261, 'Lafaye ', 'Manon', '1991-03-17', '0', 'débutant', '28 Avenue Henri Barbusse   94200 Ivry-sur-Seine', 96, 0, 0, '  0636369558', '    -    ', '  -  '),
+(262, 'Shata', 'Moustafa ', '2017-05-06', '1', 'débutant', '28 Avenue Henri Barbusse   94200 Ivry-sur-Seine', 96, 0, 0, '  0636369558', 'Lafaye Manon -    ', '0636369558 -  '),
+(263, 'Mezzina', 'Greta', '1993-12-16', '0', 'débutant', '22 Rue Pierre Brossolette   94200 Ivry sur seiene', 199, 0, 0, '  0601924771', '    -    ', '  -  '),
+(264, 'Josserand', 'Sarah', '1992-04-03', '0', 'débutant', '40 Avenue Pierre Brossolette   92240 Malakoff', 200, 0, 0, '  0771811844', '    -    ', '  -  '),
+(265, 'Pereira Pinto', 'Maeva', '2012-06-11', '0', 'intermédiaire', '10 Rue Gaston Monmousseau   94200 Ivry-sur-Seine', 201, 0, 0, '  0664857053', 'Pereira Pinto Antonio -    ', '0664857053 -  '),
+(266, 'Nlandu ', 'Khloé-eliana ', '2016-08-09', '0', 'débutant', '11 Promenade Promenée du liegat B702 94200 IVRY SUR SEINE', 202, 0, 0, '+33610312889 +33610312889', 'NLandu Laurese -    ', '0610312889 -  '),
+(267, 'Bocos', 'Sébastien', '1981-06-16', '1', 'débutant', '107 Rue Bobillot   75013 Paris', 55, 0, 0, '  0786184002', '    -    ', '  -  '),
+(268, 'Lepetit', 'Orianne', '1997-04-15', '0', 'débutant', '11 Rue Jeanne d\'Arc   75013 Paris', 203, 0, 0, '  01 45 86 68 88', '    -    ', '  -  '),
+(269, 'lixon', 'sophie', '1977-08-03', '0', 'débutant', '7 Rue GEOFFROY SAINT HILAIRE   75005 PARIS', 204, 0, 0, '  0603673174', '    -    ', '  -  ');
 
 -- --------------------------------------------------------
 
@@ -1205,60 +1661,72 @@ CREATE TABLE `seance` (
   `place_maximum` int(11) DEFAULT NULL,
   `essai_possible` tinyint(1) NOT NULL DEFAULT '0',
   `notes` longtext NOT NULL,
-  `info_seance` longtext NOT NULL
+  `info_seance` longtext NOT NULL,
+  `convocation_nominative` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `seance`
 --
 
-INSERT INTO `seance` (`seance_id`, `cours`, `libelle`, `date_seance`, `heure_debut`, `duree_cours`, `lieu_id`, `statut`, `age_requis`, `age_maximum`, `niveau_requis`, `place_maximum`, `essai_possible`, `notes`, `info_seance`) VALUES
-(1, 1, NULL, '2023-08-12', '15:34', 90, 1, 'prévue', 0, 0, 'débutant', NULL, 0, '', ''),
-(2, 1, NULL, '2023-08-12', '14:39', 90, 2, 'prévue', 0, 0, 'débutant', NULL, 0, '', ''),
-(3, 1, 'Adultes - RollerSoccer', '2023-08-25', '19:00', 90, 2, 'prévue', 14, 99, 'intermédiaire', NULL, 0, '', ''),
-(4, 3, NULL, '2023-08-17', '15:50', 75, 1, 'prévue', 4, 0, 'débutant', NULL, 0, '', ''),
-(5, 3, NULL, '2023-08-25', '15:50', 75, 1, 'prévue', 4, 0, 'débutant', NULL, 0, '', ''),
-(6, 8, 'Adultes - RollBall', '2023-09-13', '20:30', 90, 2, 'prévue', 14, 99, 'intermédiaire', NULL, 0, '', ''),
-(7, 1, 'Adultes - RollerSoccer', '2023-09-13', '19:00', 90, 2, 'prévue', 14, 99, 'intermédiaire', NULL, 0, '', ''),
-(8, 16, 'Adultes - Roller Derby', '2023-09-11', '20:00', 120, 2, 'réalisée', 18, 99, 'intermédiaire', NULL, 0, '', ''),
-(9, 9, 'Adultes - RollerSoccer', '2023-09-13', '19:00', 90, 2, 'réalisée', 13, 99, 'intermédiaire,avancé', NULL, 0, '+ essai', ''),
-(10, 15, 'Adultes - RollBall', '2023-09-13', '20:30', 90, 2, 'réalisée', 14, 99, 'intermédiaire,avancé', NULL, 0, '', ''),
-(11, 17, 'Adultes - Roller Derby - Jeudi', '2023-09-14', '20:00', 150, 3, 'réalisée', 18, 99, 'intermédiaire', NULL, 0, '', ''),
-(12, 10, 'Enfants - Initiation', '2023-09-17', '14:00', 80, 1, 'réalisée', 4, 18, 'débutant', NULL, 0, '', ''),
-(13, 14, 'Enfants - Roller Street', '2023-09-17', '15:30', 90, 1, 'réalisée', 8, 18, 'intermédiaire,avancé', NULL, 0, '', ''),
-(14, 11, 'Enfants - Activités : Multiglisse', '2023-09-17', '16:00', 80, 1, 'réalisée', 8, 18, 'intermédiaire,avancé', NULL, 0, '', ''),
-(15, 12, 'Adultes - Rollers', '2023-09-17', '14:30', 90, 1, 'réalisée', 16, 99, 'débutant,intermédiaire,avancé', NULL, 0, '', ''),
-(16, 13, 'Enfants - RollerSoccer', '2023-09-17', '17:00', 90, 1, 'réalisée', 8, 18, 'intermédiaire', NULL, 0, '', ''),
-(17, 9, 'Adultes - RollerSoccer', '2023-09-06', '20:00', 120, 2, 'réalisée', 8, 99, 'intermédiaire', NULL, 0, '', ''),
-(18, 9, 'Adultes - RollerSoccer', '2023-09-20', '19:00', 90, 2, 'réalisée', 13, 99, 'intermédiaire,avancé', NULL, 0, '', ''),
-(19, 15, 'Adultes - RollBall', '2023-09-20', '20:30', 90, 2, 'réalisée', 14, 99, 'intermédiaire,avancé', NULL, 0, '', ''),
-(20, 17, 'Adultes - Roller Derby - Jeudi', '2023-09-21', '20:00', 150, 3, 'réalisée', 18, 99, 'intermédiaire', NULL, 0, '', ''),
-(21, 18, 'Adultes - Roller Derby Samedi', '2023-09-23', '10:00', 120, 3, 'réalisée', 18, 99, 'intermédiaire', NULL, 0, '', ''),
-(22, 10, 'Enfants - Initiation', '2023-09-24', '14:00', 80, 1, 'réalisée', 4, 99, 'débutant,intermédiaire', NULL, 0, '', ''),
-(23, 12, 'Adultes - Rollers', '2023-09-24', '14:30', 90, 1, 'réalisée', 16, 99, 'débutant,intermédiaire,avancé', NULL, 0, '', ''),
-(24, 11, 'Enfants - Activités : Multiglisse', '2023-09-24', '16:00', 80, 1, 'réalisée', 8, 99, 'intermédiaire,avancé', NULL, 0, '', ''),
-(25, 14, 'Enfants - Roller Street', '2023-09-24', '15:30', 90, 1, 'réalisée', 8, 99, 'intermédiaire,avancé', NULL, 0, '', ''),
-(26, 13, 'Enfants - RollerSoccer', '2023-09-24', '17:00', 90, 1, 'réalisée', 8, 99, 'intermédiaire,avancé', NULL, 0, '', ''),
-(27, 10, 'Enfants - Initiation', '2023-10-08', '14:00', 80, 1, 'réalisée', 3, 14, 'débutant,intermédiaire', NULL, 0, '', ''),
-(28, 11, 'Enfants - Activités : Multiglisse ROLLBALL', '2023-10-08', '16:00', 80, 1, 'réalisée', 5, 18, 'débutant,intermédiaire,avancé', NULL, 0, '', 'Séance RollBall'),
-(29, 14, 'Enfants - Roller Street', '2023-10-08', '15:30', 90, 1, 'réalisée', 8, 18, 'intermédiaire,avancé', NULL, 0, '', 'Semaine prochaine c\'est sortie en skate park'),
-(30, 13, 'Enfants - RollerSoccer', '2023-10-08', '17:00', 90, 1, 'réalisée', 8, 18, 'intermédiaire,avancé', NULL, 0, '', ''),
-(31, 9, 'Adultes - RollerSoccer', '2023-10-11', '19:00', 90, 2, 'prévue', 13, 99, 'intermédiaire,avancé', NULL, 1, '', ''),
-(32, 15, 'Adultes - RollBall', '2023-10-11', '20:30', 90, 2, 'prévue', 14, 99, 'intermédiaire,avancé', NULL, 1, '', ''),
-(33, 10, 'Enfants - Initiation', '2023-10-15', '14:00', 80, 1, 'prévue', 3, 18, 'débutant,intermédiaire', NULL, 0, '', ''),
-(34, 11, 'Enfants - Activités : Multiglisse', '2023-10-15', '16:00', 80, 1, 'prévue', 5, 18, 'intermédiaire,avancé', NULL, 0, '', 'Programme à définir'),
-(35, 14, 'Roller Street', '2023-10-15', '15:30', 90, 1, 'prévue', 8, 18, 'intermédiaire,avancé', 15, 0, '', 'Sortie au skate park de Vitry,  n\'hésitez pas à venir nous accompagner!'),
-(36, 13, 'Enfants - RollerSoccer', '2023-10-15', '17:00', 90, 1, 'prévue', 8, 18, 'intermédiaire,avancé', NULL, 0, '', 'Possible retard suite à la séance en skate park'),
-(37, 9, 'Adultes - RollerSoccer', '2023-10-18', '19:00', 90, 2, 'prévue', 13, 99, 'intermédiaire,avancé', NULL, 0, '', ''),
-(38, 15, 'Adultes - RollBall', '2023-10-18', '20:30', 90, 2, 'prévue', 14, 99, 'intermédiaire,avancé', NULL, 1, '', ''),
-(39, 12, 'Adultes - Rollers', '2023-10-08', '14:30', 90, 1, 'réalisée', 15, 99, 'débutant,intermédiaire,avancé', NULL, 0, '+ essai Pauline / Adrien', ''),
-(40, 12, 'Adultes - Rollers', '2023-10-15', '14:30', 90, 1, 'prévue', 15, 99, 'débutant,intermédiaire,avancé', NULL, 0, '', ''),
-(41, 12, 'Adultes - Rollers', '2023-10-01', '14:30', 90, 1, 'réalisée', 15, 99, 'débutant,intermédiaire,avancé', NULL, 0, '', ''),
-(42, 10, 'Enfants - Initiation', '2023-10-22', '14:00', 80, 1, 'prévue', 3, 15, 'débutant,intermédiaire', NULL, 0, '', ''),
-(43, 12, 'Adultes - Rollers', '2023-10-22', '14:30', 90, 1, 'prévue', 15, 99, 'débutant,intermédiaire,avancé', NULL, 0, '', ''),
-(44, 14, 'Enfants - Roller Street', '2023-10-22', '15:30', 90, 1, 'prévue', 8, 99, 'intermédiaire,avancé', NULL, 0, '', ''),
-(45, 11, 'Enfants - Activités : Multiglisse', '2023-10-22', '16:00', 80, 1, 'prévue', 6, 99, 'intermédiaire,avancé', NULL, 0, '', ''),
-(46, 13, 'Enfants - RollerSoccer', '2023-10-22', '17:00', 90, 1, 'prévue', 8, 99, 'intermédiaire,avancé', NULL, 0, '', '');
+INSERT INTO `seance` (`seance_id`, `cours`, `libelle`, `date_seance`, `heure_debut`, `duree_cours`, `lieu_id`, `statut`, `age_requis`, `age_maximum`, `niveau_requis`, `place_maximum`, `essai_possible`, `notes`, `info_seance`, `convocation_nominative`) VALUES
+(1, 1, NULL, '2023-08-12', '15:34', 90, 1, 'prévue', 0, 0, 'débutant', NULL, 0, '', '', 0),
+(2, 1, NULL, '2023-08-12', '14:39', 90, 2, 'prévue', 0, 0, 'débutant', NULL, 0, '', '', 0),
+(3, 1, 'Adultes - RollerSoccer', '2023-08-25', '19:00', 90, 2, 'prévue', 14, 99, 'intermédiaire', NULL, 0, '', '', 0),
+(4, 3, NULL, '2023-08-17', '15:50', 75, 1, 'prévue', 4, 0, 'débutant', NULL, 0, '', '', 0),
+(5, 3, NULL, '2023-08-25', '15:50', 75, 1, 'prévue', 4, 0, 'débutant', NULL, 0, '', '', 0),
+(6, 8, 'Adultes - RollBall', '2023-09-13', '20:30', 90, 2, 'prévue', 14, 99, 'intermédiaire', NULL, 0, '', '', 0),
+(7, 1, 'Adultes - RollerSoccer', '2023-09-13', '19:00', 90, 2, 'prévue', 14, 99, 'intermédiaire', NULL, 0, '', '', 0),
+(8, 16, 'Adultes - Roller Derby', '2023-09-11', '20:00', 120, 2, 'réalisée', 18, 99, 'intermédiaire', NULL, 0, '', '', 0),
+(9, 9, 'Adultes - RollerSoccer', '2023-09-13', '19:00', 90, 2, 'réalisée', 13, 99, 'intermédiaire,avancé', NULL, 0, '+ essai', '', 0),
+(10, 15, 'Adultes - RollBall', '2023-09-13', '20:30', 90, 2, 'réalisée', 14, 99, 'intermédiaire,avancé', NULL, 0, '', '', 0),
+(11, 17, 'Adultes - Roller Derby - Jeudi', '2023-09-14', '20:00', 150, 3, 'réalisée', 18, 99, 'intermédiaire', NULL, 0, '', '', 0),
+(12, 10, 'Enfants - Initiation', '2023-09-17', '14:00', 80, 1, 'réalisée', 4, 18, 'débutant', NULL, 0, '', '', 0),
+(13, 14, 'Enfants - Roller Street', '2023-09-17', '15:30', 90, 1, 'réalisée', 8, 18, 'intermédiaire,avancé', NULL, 0, '', '', 0),
+(14, 11, 'Enfants - Activités : Multiglisse', '2023-09-17', '16:00', 80, 1, 'réalisée', 8, 18, 'intermédiaire,avancé', NULL, 0, '', '', 0),
+(15, 12, 'Adultes - Rollers', '2023-09-17', '14:30', 90, 1, 'réalisée', 16, 99, 'débutant,intermédiaire,avancé', NULL, 0, '', '', 0),
+(16, 13, 'Enfants - RollerSoccer', '2023-09-17', '17:00', 90, 1, 'réalisée', 8, 18, 'intermédiaire', NULL, 0, '', '', 0),
+(17, 9, 'Adultes - RollerSoccer', '2023-09-06', '20:00', 120, 2, 'réalisée', 8, 99, 'intermédiaire', NULL, 0, '', '', 0),
+(18, 9, 'Adultes - RollerSoccer', '2023-09-20', '19:00', 90, 2, 'réalisée', 13, 99, 'intermédiaire,avancé', NULL, 0, '', '', 0),
+(19, 15, 'Adultes - RollBall', '2023-09-20', '20:30', 90, 2, 'réalisée', 14, 99, 'intermédiaire,avancé', NULL, 0, '', '', 0),
+(20, 17, 'Adultes - Roller Derby - Jeudi', '2023-09-21', '20:00', 150, 3, 'réalisée', 18, 99, 'intermédiaire', NULL, 0, '', '', 0),
+(21, 18, 'Adultes - Roller Derby Samedi', '2023-09-23', '10:00', 120, 3, 'réalisée', 18, 99, 'intermédiaire', NULL, 0, '', '', 0),
+(22, 10, 'Enfants - Initiation', '2023-09-24', '14:00', 80, 1, 'réalisée', 4, 99, 'débutant,intermédiaire', NULL, 0, '', '', 0),
+(23, 12, 'Adultes - Rollers', '2023-09-24', '14:30', 90, 1, 'réalisée', 16, 99, 'débutant,intermédiaire,avancé', NULL, 0, '', '', 0),
+(24, 11, 'Enfants - Activités : Multiglisse', '2023-09-24', '16:00', 80, 1, 'réalisée', 8, 99, 'intermédiaire,avancé', NULL, 0, '', '', 0),
+(25, 14, 'Enfants - Roller Street', '2023-09-24', '15:30', 90, 1, 'réalisée', 8, 99, 'intermédiaire,avancé', NULL, 0, '', '', 0),
+(26, 13, 'Enfants - RollerSoccer', '2023-09-24', '17:00', 90, 1, 'réalisée', 8, 99, 'intermédiaire,avancé', NULL, 0, '', '', 0),
+(27, 10, 'Enfants - Initiation', '2023-10-08', '14:00', 80, 1, 'réalisée', 3, 14, 'débutant,intermédiaire', NULL, 0, '', '', 0),
+(28, 11, 'Enfants - Activités : Multiglisse ROLLBALL', '2023-10-08', '16:00', 80, 1, 'réalisée', 5, 18, 'débutant,intermédiaire,avancé', NULL, 0, '', 'Séance RollBall', 0),
+(29, 14, 'Enfants - Roller Street', '2023-10-08', '15:30', 90, 1, 'réalisée', 8, 18, 'intermédiaire,avancé', NULL, 0, '', 'Semaine prochaine c\'est sortie en skate park', 0),
+(30, 13, 'Enfants - RollerSoccer', '2023-10-08', '17:00', 90, 1, 'réalisée', 8, 18, 'intermédiaire,avancé', NULL, 0, '', '', 0),
+(31, 9, 'Adultes - RollerSoccer', '2023-10-11', '19:00', 90, 2, 'réalisée', 13, 99, 'intermédiaire,avancé', NULL, 1, '', '', 0),
+(32, 15, 'Adultes - RollBall', '2023-10-11', '20:30', 90, 2, 'réalisée', 14, 99, 'intermédiaire,avancé', NULL, 1, '', '', 0),
+(33, 10, 'Enfants - Initiation', '2023-10-15', '14:00', 80, 1, 'réalisée', 3, 18, 'débutant,intermédiaire', NULL, 0, 'Blessure Aden (fracture du pouce)', '', 0),
+(34, 11, 'Enfants - Activités : Multiglisse', '2023-10-15', '16:00', 80, 1, 'réalisée', 5, 18, 'intermédiaire,avancé', NULL, 0, 'Jayla perla emma layana kadia rokia enaya ekra swaann', 'Programme à définir', 0),
+(35, 14, 'Roller Street', '2023-10-15', '15:30', 90, 1, 'réalisée', 8, 18, 'intermédiaire,avancé', 15, 0, 'essai (voir Yoro)', 'Sortie au skate park de Vitry,  n\'hésitez pas à venir nous accompagner!', 0),
+(36, 13, 'Enfants - RollerSoccer', '2023-10-15', '17:00', 90, 1, 'réalisée', 5, 18, 'intermédiaire,avancé', NULL, 0, '+ essai Amel', '', 0),
+(37, 9, 'Adultes - RollerSoccer', '2023-10-18', '19:00', 90, 2, 'réalisée', 13, 99, 'intermédiaire,avancé', NULL, 1, '', '', 0),
+(38, 15, 'Adultes - RollBall', '2023-10-18', '20:30', 90, 2, 'réalisée', 14, 99, 'intermédiaire,avancé', NULL, 1, '', '', 0),
+(39, 12, 'Adultes - Rollers', '2023-10-08', '14:30', 90, 1, 'réalisée', 15, 99, 'débutant,intermédiaire,avancé', NULL, 0, '+ essai Pauline / Adrien', '', 0),
+(40, 12, 'Adultes - Rollers', '2023-10-15', '14:30', 90, 1, 'réalisée', 15, 99, 'débutant,intermédiaire,avancé', NULL, 0, '', '', 0),
+(41, 12, 'Adultes - Rollers', '2023-10-01', '14:30', 90, 1, 'réalisée', 15, 99, 'débutant,intermédiaire,avancé', NULL, 0, '', '', 0),
+(42, 10, 'Enfants - Initiation', '2023-10-22', '14:00', 80, 1, 'réalisée', 3, 15, 'débutant,intermédiaire', NULL, 0, '', '', 0),
+(43, 12, 'Adultes - Rollers', '2023-10-22', '14:30', 90, 1, 'réalisée', 15, 99, 'débutant,intermédiaire,avancé', NULL, 0, '', '', 0),
+(44, 14, 'Enfants - Roller Street', '2023-10-22', '15:30', 90, 1, 'prévue', 8, 18, 'intermédiaire,avancé', NULL, 0, '', '', 0),
+(45, 11, 'Enfants - Activités : Multiglisse', '2023-10-22', '16:00', 80, 1, 'prévue', 5, 18, 'intermédiaire,avancé', NULL, 0, '', '', 0),
+(46, 13, 'Enfants - RollerSoccer (risque annulation car possible match)', '2023-10-22', '17:00', 90, 1, 'annulée', 5, 18, 'intermédiaire,avancé', NULL, 0, '', '', 0),
+(47, 9, 'Adultes - RollerSoccer', '2023-10-25', '19:00', 90, 2, 'prévue', 13, 99, 'intermédiaire,avancé', NULL, 1, '', '', 0),
+(48, 15, 'Adultes - RollBall', '2023-10-25', '20:30', 90, 2, 'prévue', 14, 99, 'intermédiaire,avancé', NULL, 1, '', '', 0),
+(49, 10, 'Enfants - Initiation', '2023-10-29', '14:00', 80, 1, 'prévue', 3, 15, 'débutant,intermédiaire', NULL, 0, '', '', 0),
+(50, 12, 'Adultes - Rollers', '2023-10-29', '14:30', 90, 1, 'prévue', 15, 99, 'débutant,intermédiaire,avancé', NULL, 0, '', '', 0),
+(51, 11, 'Enfants - Activités : Multiglisse', '2023-10-29', '16:00', 80, 1, 'prévue', 5, 18, 'intermédiaire,avancé', NULL, 0, '', '', 0),
+(52, 13, 'Enfants - RollerSoccer', '2023-10-29', '17:00', 90, 1, 'prévue', 5, 16, 'intermédiaire,avancé', NULL, 0, '', '', 0),
+(53, 10, 'Enfants - Initiation', '2023-11-05', '14:00', 80, 1, 'prévue', 3, 15, 'débutant,intermédiaire', NULL, 0, '', '', 0),
+(54, 12, 'Adultes - Rollers', '2023-11-05', '14:30', 90, 1, 'prévue', 15, 99, 'débutant,intermédiaire,avancé', NULL, 0, '', '', 0),
+(55, 11, 'Enfants - Activités : Multiglisse', '2023-11-05', '16:00', 80, 1, 'prévue', 5, 18, 'débutant,intermédiaire,avancé', NULL, 0, '', '', 0),
+(56, 14, 'Enfants - Roller Street', '2023-11-05', '15:30', 90, 1, 'prévue', 8, 18, 'intermédiaire,avancé', NULL, 0, '', '', 0),
+(57, 13, 'Enfants - RollerSoccer', '2023-11-05', '17:00', 90, 1, 'prévue', 5, 16, 'intermédiaire,avancé', NULL, 0, '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -1329,26 +1797,48 @@ INSERT INTO `seance_professeur` (`seance_id`, `professeur_id`) VALUES
 (32, 24),
 (32, 154),
 (33, 151),
-(33, 149),
+(47, 42),
 (34, 150),
 (35, 151),
-(35, 149),
+(47, 31),
 (36, 151),
 (36, 31),
 (37, 31),
 (37, 42),
 (38, 154),
-(38, 24),
+(53, 149),
 (39, 150),
 (40, 150),
 (42, 151),
 (42, 149),
 (44, 151),
-(44, 149),
+(44, 257),
 (45, 150),
 (45, 257),
 (46, 151),
-(46, 31);
+(46, 31),
+(43, 150),
+(33, 257),
+(34, 257),
+(48, 24),
+(48, 155),
+(48, 154),
+(49, 149),
+(49, 151),
+(49, 257),
+(50, 150),
+(51, 150),
+(51, 257),
+(52, 151),
+(53, 257),
+(53, 151),
+(54, 150),
+(55, 257),
+(55, 150),
+(56, 149),
+(56, 151),
+(57, 151),
+(57, 31);
 
 --
 -- Index pour les tables déchargées
@@ -1368,6 +1858,12 @@ ALTER TABLE `cours`
   ADD KEY `prof_principal_id` (`prof_principal_id`);
 
 --
+-- Index pour la table `groupes`
+--
+ALTER TABLE `groupes`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `inscription`
 --
 ALTER TABLE `inscription`
@@ -1379,6 +1875,36 @@ ALTER TABLE `inscription`
 -- Index pour la table `lieu`
 --
 ALTER TABLE `lieu`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `rb_buts`
+--
+ALTER TABLE `rb_buts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `rb_match`
+--
+ALTER TABLE `rb_match`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `rb_players`
+--
+ALTER TABLE `rb_players`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `rb_teams`
+--
+ALTER TABLE `rb_teams`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `rb_tour`
+--
+ALTER TABLE `rb_tour`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1408,7 +1934,7 @@ ALTER TABLE `seance`
 -- AUTO_INCREMENT pour la table `compte`
 --
 ALTER TABLE `compte`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
 
 --
 -- AUTO_INCREMENT pour la table `cours`
@@ -1417,10 +1943,16 @@ ALTER TABLE `cours`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
+-- AUTO_INCREMENT pour la table `groupes`
+--
+ALTER TABLE `groupes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT pour la table `inscription`
 --
 ALTER TABLE `inscription`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=252;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=529;
 
 --
 -- AUTO_INCREMENT pour la table `lieu`
@@ -1429,10 +1961,40 @@ ALTER TABLE `lieu`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT pour la table `rb_buts`
+--
+ALTER TABLE `rb_buts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `rb_match`
+--
+ALTER TABLE `rb_match`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `rb_players`
+--
+ALTER TABLE `rb_players`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `rb_teams`
+--
+ALTER TABLE `rb_teams`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT pour la table `rb_tour`
+--
+ALTER TABLE `rb_tour`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT pour la table `riders`
 --
 ALTER TABLE `riders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=258;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=270;
 
 --
 -- AUTO_INCREMENT pour la table `saison`
@@ -1444,7 +2006,7 @@ ALTER TABLE `saison`
 -- AUTO_INCREMENT pour la table `seance`
 --
 ALTER TABLE `seance`
-  MODIFY `seance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `seance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

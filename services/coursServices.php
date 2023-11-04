@@ -8,7 +8,16 @@
     public function ToCours($data){
         $cours = new Cours();
         foreach ($data as $attribut => $valeur) {           
-                $cours->$attribut = $valeur;
+                $cours->$attribut = $valeur;  
+                if($attribut == "place_maximum" && $valeur == ""){
+                    $cours->$attribut = -1;
+                }            
+                if($attribut == "age_maximum" && $valeur == ""){
+                    $cours->$attribut = 99;
+                }         
+                if($attribut == "convocation_nominative" && $valeur == ""){
+                    $cours->$attribut = 0;
+                }          
         }      
         return $cours;
     }
@@ -20,7 +29,7 @@
         }
         $cours = $this->ToCours($cours);       
         $sql = "INSERT INTO cours (nom, jour_semaine, heure, duree, prof_principal_id, lieu_id, age_requis, age_maximum, saison_id, place_maximum, convocation_nominative) 
-        VALUES ('$cours->nom', '$cours->jour_semaine', '$cours->heure', $cours->duree, $cours->prof_principal_id, $cours->lieu_id, $cours->age_requis, $cours->age_requis, $cours->age_maximum, $cours->saison_id, $cours->place_maximum, $cours->convocation_nominative)";
+        VALUES ('$cours->nom', '$cours->jour_semaine', '$cours->heure', $cours->duree, $cours->prof_principal_id, $cours->lieu_id, $cours->age_requis, $cours->age_maximum, $cours->saison_id, $cours->place_maximum, $cours->convocation_nominative)";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         $cours->id = $this->db->lastInsertId();
@@ -31,7 +40,7 @@
     public function update($cours) {
         $cours = $this->ToCours($cours);       
         $sql = "UPDATE cours SET nom='$cours->nom',jour_semaine='$cours->jour_semaine',heure='$cours->heure',duree='$cours->duree',prof_principal_id=$cours->prof_principal_id,
-        lieu_id=$cours->lieu_id,age_requis=$cours->age_requis,age_maximum=$cours->age_maximum,saison_id=$cours->saison_id,place_maximum=$cours->place_maximum,convocation_nominative='$cours->convocation_nominative' WHERE id=$cours->id";
+        lieu_id=$cours->lieu_id,age_requis=$cours->age_requis,age_maximum=$cours->age_maximum,saison_id=$cours->saison_id,place_maximum=$cours->place_maximum,convocation_nominative=$cours->convocation_nominative WHERE id=$cours->id";
         $stmt = $this->db->prepare($sql);
          $stmt->execute();
          return $cours->id;
