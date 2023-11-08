@@ -258,7 +258,7 @@ switch ($command) {
         foreach ($result as $rd) {
             $rd->groupes = $groupeServices->get_lien_objet_id($rd->id, 'rider');
         }
-
+        
         break;
     case 'get_all_light':
         $this_season = $season_id;
@@ -311,5 +311,4 @@ switch ($command) {
         }
         break;
 }
-
 print json_encode($result);

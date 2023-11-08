@@ -65,22 +65,49 @@ if (is_string($riders)){
     exit;
 }
 foreach ($riders as $rd) {
+	$rd->groupes = $groupeServices->get_lien_objet_id($rd->id,'rider');
 	$rd->inscriptions = $rider->getInscriptions($rd->id,$season_id);
 	$rd->seances = $rider->getSeances($rd, true,$season_id);
 	if($rd->est_prof){
 		$rd->seances_prof = $rider->getSeancesProf($rd->id,$season_id);
 	}
 	if(isset($rd->inscriptions)) {
+		$inscriptions = array();
 		foreach ($rd->inscriptions as $inscr) {
 			$inscr->groupes = $groupeServices->get_lien_objet_id($inscr->seance_id,'séance');
+			$exist = false;
+			foreach ($inscr->groupes as $group_seance) {
+				foreach ($rd->groupes as $group_rider) {
+					if($group_rider->id == $group_seance->id){
+						$exist = true;
+					}
+				}
+			}
+			if($exist){
+				array_push($inscriptions, $inscr);
+			}
 		}
+		$rd->inscriptions = $inscriptions;
 	}
 	if(isset($rd->seances)) {
-		foreach ($rd->seances as $sss) {
-			$sss->groupes = $groupeServices->get_lien_objet_id($sss->seance_id,'séance');
+		$seances = array();
+		foreach ($rd->seances as $sz) {
+			$sz->groupes = $groupeServices->get_lien_objet_id($sz->seance_id,'séance');
+			$exist = false;
+			foreach ($sz->groupes as $group_seance) {
+				foreach ($rd->groupes as $group_rider) {
+					if($group_rider->id == $group_seance->id){
+						$exist = true;
+					}
+				}
+			}
+			if($exist){
+				array_push($seances, $sz);
+			}
 		}
+		$rd->seances = $seances;
 	}	
-	$rd->groupes = $groupeServices->get_lien_objet_id($rd->id,'rider');
+	
 }
 
 

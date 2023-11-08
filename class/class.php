@@ -207,3 +207,9 @@ class Compte{
     public $registration_date;
     public $mail_active;
 }
+
+class MailObjet{
+    public $subject;
+    public $to;
+    public $content;
+}

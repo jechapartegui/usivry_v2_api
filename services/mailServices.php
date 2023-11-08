@@ -4,6 +4,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 include_once("config/params.php");
+include_once("class/class.php");
 require 'phpmailer/src/Exception.php';
 require 'phpmailer/src/PHPMailer.php';
 require 'phpmailer/src/SMTP.php';
@@ -31,6 +32,15 @@ class MailService
         $this->mail->From       =  'contact@usivryroller.fr';                //L'email à afficher pour l'envoi
         $this->mail->FromName   = 'Contact USI Roller';             //L'alias à afficher pour l'envoi
 
+    }
+
+    public function ToMail($data)
+    {
+        $mail = new MailObjet();
+        foreach ($data as $attribut => $valeur) {
+            $mail->$attribut = $valeur;
+        }
+        return $mail;
     }
     public function SendMail()
     {
@@ -75,7 +85,7 @@ class MailService
             $this->mail->WordWrap   = 200;                     //Préciser qu'il faut utiliser le texte brut
             $login = $inscrit['login'];
             $this->mail->MsgHTML("<div>Bonjour $login,<br/>
-        La séance " .$seance->libelle ." ( ". $seance->lieu ." ) - le ". $seance->date_seance->format('l j F Y') . "- à " . $seance->heure_debut ." est annulée pour le motif suivant : <br/>
+        La séance " . $seance->libelle . " ( " . $seance->lieu . " ) - le " . $seance->date_seance->format('l j F Y') . "- à " . $seance->heure_debut . " est annulée pour le motif suivant : <br/>
         $message <br/>Veuillez nous en excuser<br/>Sportivement,<br/>US Ivry Roller</div>");                         //Le contenu au format HTML
             $this->mail->IsHTML(true);
             $this->mail->AddAddress($login);
@@ -83,6 +93,27 @@ class MailService
                 echo $this->mail->ErrorInfo;
             }
         }
+    }
+
+    public function SendMail_Multiple($mails)
+    {
+        $retour = array();
+        foreach ($mails as $mail) {
+            $mailobject = $this->ToMail($mail);
+            $this->mail->Subject    =  $mailobject->subject;                      //Le sujet du mail
+            $this->mail->WordWrap   = 200;
+            $this->mail->MsgHTML($mailobject->content);                         //Le contenu au format HTML
+            $this->mail->IsHTML(true);
+            $this->mail->clearAllRecipients();
+            $this->mail->AddAddress($mailobject->to);
+            if (!$this->mail->send()) {
+                $issue =  "Envoi " . $mailobject->to . "OK\n";
+            } else {
+                $issue =  "Envoi " . $mailobject->to . "non OK : " . $this->mail->ErrorInfo . "\n";
+            }
+            array_push($retour, $issue);
+        }
+
     }
 
     public function MailDispo($comptes)
@@ -99,7 +130,7 @@ class MailService
                     if (count($rider->seances) > 0) {
                         $str = $str . "Pour " . $rider->prenom . " " . $rider->nom . ", voici les séances disponibles :<br/><ul>";
                         foreach ($rider->seances as $seance) {
-                            $newDate = date("d-m-Y", strtotime($seance->date_seance));  
+                            $newDate = date("d-m-Y", strtotime($seance->date_seance));
                             $str = $str . "<li>" . $seance->libelle . " (" . $seance->lieu . ")  le  " . $newDate . "  à " . $seance->heure_debut . " - Durée : " . $seance->duree_cours . " minutes</li>";
                         }
                         $str = $str . "</ul><br/>";
@@ -107,7 +138,7 @@ class MailService
                     if (count($rider->inscriptions) > 0) {
                         $str = $str . "Pour " . $rider->prenom . " " . $rider->nom . ", il existe une inscription / absence prévue sur :<br/><ul>";
                         foreach ($rider->inscriptions as $seance) {
-                            $newDate = date("d-m-Y", strtotime($seance->date_seance));  
+                            $newDate = date("d-m-Y", strtotime($seance->date_seance));
                             $str = $str . "<li>" . $seance->statut . " : " . $seance->libelle . " (" . $seance->lieu . ")  le  " . $newDate . "  à " . $seance->heure_debut . " - Durée : " . $seance->duree_cours . " minutes</li>";
                         }
                         $str = $str . "</ul><br/>";
@@ -125,17 +156,68 @@ class MailService
             $this->mail->clearAllRecipients();
             $this->mail->AddAddress($compte->login);
             if (!$this->mail->send()) {
-               $retour = $retour . "Envoi " . $compte->login . "OK\n";
-            } else {                
-                $retour = $retour . "Envoi " . $compte->login . "non OK : ". $this->mail->ErrorInfo ."\n";
+                $retour = $retour . "Envoi " . $compte->login . "OK\n";
+            } else {
+                $retour = $retour . "Envoi " . $compte->login . "non OK : " . $this->mail->ErrorInfo . "\n";
             }
         }
         return $retour;
     }
 
-    public function EnvoyerAdmin($essai, $listprof){
-        $this->mail->Subject    =  "Ajout d'un essai - RollerDay";    
-       
+    public function SimulerMailDispo($comptes)
+    {
+        $retour = array();
+        foreach ($comptes as $compte) {
+            $mailObject = new MailObjet();
+            $mailObject->subject    =  'Cours de roller disponibles et mise à jour du site web';                      //Le sujet du mail
+            //Préciser qu'il faut utiliser le texte brut
+            $str = "<div>Bonjour,<br/>
+
+            Tout d'abord nous espérons que vous avez passé de belles vacances. Certains ont même eu le plaisir de rouler avec nous, nous sommes ravis d'avoir pu maintenir les cours durant la Toussaint.<br/>
+            Nous avons apporté quelques évolutions sur l'application (encore désolé pour les quelques petits spams) afin de rendre tout cela plus simple et plus sûr. <br/>
+            Fini les niveaux, nous passons sur une logique de groupes : chaque adhérent sera positionné dans un ou plusieurs groupes en fonction de sa pratique. Par exemple en adultes, nous avons le groupe Roller-Adultes, le groupe RollerSoccer-Adultes et le groupe RollBall-Adultes.<br/>
+            Rien ne vous empêche de faire parti des trois groupes, mais chaque séance sera ouverte uniquement aux groupes concernés, ce qui vous évitera d'avoir de nombreuses séances disponibles auxquelles vous ne participez jamais.<br/>
+            Si quelqu'un veut être ajouté à un groupe, demandez-nous ou demandez à vos profs et ce sera fait tant qu'on estime que l'adhérent peut suivre les séances auquel le groupe prend part.<br/>
+            <br/>
+            Autre changement majeur : de nouvelles mesures de sécurité ont été ajoutées sur le site afin d'éviter tous risques. Il sera toujours recommandé de se connecter avec un lien sécurisé HTTPS : <a href='https://www.usivryroller.fr/login'>https://www.usivryroller.fr/login</a><br/>
+            Enfin comme d'habitude, vous trouverez ci-dessous les séances disponibles au sein de l'US Ivry Roller pour les adhérents associés au compte " . $compte->login . "<br/>";
+            foreach ($compte->riders as $rider) {
+                if (count($rider->seances) > 0 || count($rider->inscriptions) > 0) {
+
+                    if (count($rider->seances) > 0) {
+                        $str = $str . "Pour " . $rider->prenom . " " . $rider->nom . ", voici les séances disponibles :<br/><ul>";
+                        foreach ($rider->seances as $seance) {
+                            $newDate = date("d-m-Y", strtotime($seance->date_seance));
+                            $str = $str . "<li>" . $seance->libelle . " (" . $seance->lieu . ")  le  " . $newDate . "  à " . $seance->heure_debut . " - Durée : " . $seance->duree_cours . " minutes</li>";
+                        }
+                        $str = $str . "</ul><br/>";
+                    }
+                    if (count($rider->inscriptions) > 0) {
+                        $str = $str . "Pour " . $rider->prenom . " " . $rider->nom . ", il existe une inscription / absence prévue sur :<br/><ul>";
+                        foreach ($rider->inscriptions as $seance) {
+                            $newDate = date("d-m-Y", strtotime($seance->date_seance));
+                            $str = $str . "<li>" . $seance->statut . " : " . $seance->libelle . " (" . $seance->lieu . ")  le  " . $newDate . "  à " . $seance->heure_debut . " - Durée : " . $seance->duree_cours . " minutes</li>";
+                        }
+                        $str = $str . "</ul><br/>";
+                    }
+                } else {
+                    $str = $str . "Pour " . $rider->prenom . " " . $rider->nom . ", pas de séance disponible ces prochains jours.<br/>";
+                }
+            }
+            $str  = $str . "Pour vous inscrire ou désinscrire à une séance, connectez-vous sur votre espace : <a href='https://www.usivryroller.fr/login'>https://www.usivryroller.fr/login</a>. Pour rappel votre login est cette adresse email.<br/>
+            Merci d'avance pour vos retours, cela nous permettra de vous proposer une offre toujours plus adaptée.<br/>
+            Sportivement<br/>
+            La team USI Roller<br/>";
+            $mailObject->content = $str;
+            $mailObject->to = $compte->login;
+            array_push($retour, $mailObject);
+        }
+        return $retour;
+    }
+    public function EnvoyerAdmin($essai, $listprof)
+    {
+        $this->mail->Subject    =  "Ajout d'un essai - RollerDay";
+
         $newDate = date("d-m-Y", strtotime($essai->seance->date_seance));                    //Le sujet du mail
         $this->mail->WordWrap   = 200;                     //Préciser qu'il faut utiliser le texte brut
 
@@ -164,12 +246,13 @@ class MailService
             echo $this->mail->ErrorInfo;
         }
     }
-    public function ConfirmerEssai($essai){
+    public function ConfirmerEssai($essai)
+    {
         $prof = "";
-        
+
         $this->mail->Subject    =  "Confirmation du cours d'essai";                      //Le sujet du mail
-        $this->mail->WordWrap   = 200;   
-                          //Préciser qu'il faut utiliser le texte brut
+        $this->mail->WordWrap   = 200;
+        //Préciser qu'il faut utiliser le texte brut
 
         $this->mail->MsgHTML('<div>Bonjour <br/>
         Voici le récapitulatif pour la séance  : <br/>
@@ -195,13 +278,14 @@ class MailService
         }
     }
 
-    public function ConfirmRollBall($team){
-                
+    public function ConfirmRollBall($team)
+    {
+
         $this->mail->Subject    =  "Welcome to Anywhere Anytime series in Paris";                      //Le sujet du mail
-        $this->mail->WordWrap   = 200;   
-        $this->mail->FromName   = 'RollBall US Ivry';  
-                          //Préciser qu'il faut utiliser le texte brut
-        if($team->sexe == 0){
+        $this->mail->WordWrap   = 200;
+        $this->mail->FromName   = 'RollBall US Ivry';
+        //Préciser qu'il faut utiliser le texte brut
+        if ($team->sexe == 0) {
             $sexe = "Women tournament";
         } else {
             $sexe = "Men tournament";
@@ -239,16 +323,16 @@ class MailService
         if (!$this->mail->send()) {
             echo $this->mail->ErrorInfo;
         }
-        
     }
 
-    public function MailTest($comptes){
+    public function MailTest($comptes)
+    {
         $this->mail->Subject    =  'Cours de roller disponibles';                      //Le sujet du mail
-        $this->mail->WordWrap   = 200;    
+        $this->mail->WordWrap   = 200;
         $str = "";
         foreach ($comptes as $compte) {
-                 //Préciser qu'il faut utiliser le texte brut
-            $str = $str. "<div>Bonjour,<br/>
+            //Préciser qu'il faut utiliser le texte brut
+            $str = $str . "<div>Bonjour,<br/>
             Vous trouverez ci-dessous les séances disponibles au sein de l'US Ivry Roller pour les adhérents associés au compte " . $compte->login . "<br/>";
             foreach ($compte->riders as $rider) {
                 if (count($rider->seances) > 0 || count($rider->inscriptions) > 0) {
@@ -256,7 +340,7 @@ class MailService
                     if (count($rider->seances) > 0) {
                         $str = $str . "Pour " . $rider->prenom . " " . $rider->nom . ", voici les séances disponibles :<br/><ul>";
                         foreach ($rider->seances as $seance) {
-                            $newDate = date("d-m-Y", strtotime($seance->date_seance));  
+                            $newDate = date("d-m-Y", strtotime($seance->date_seance));
                             $str = $str . "<li>" . $seance->libelle . " (" . $seance->lieu . ") le " . $newDate . " à " . $seance->heure_debut . " - Durée : " . $seance->duree_cours . " minutes</li>";
                         }
                         $str = $str . "</ul><br/>";
@@ -264,7 +348,7 @@ class MailService
                     if (count($rider->inscriptions) > 0) {
                         $str = $str . "Pour " . $rider->prenom . " " . $rider->nom . ", il existe une inscription / absence prévue sur :<br/><ul>";
                         foreach ($rider->inscriptions as $seance) {
-                            $newDate = date("d-m-Y", strtotime($seance->date_seance));  
+                            $newDate = date("d-m-Y", strtotime($seance->date_seance));
                             $str = $str . "<li>" . $seance->statut . " : " . $seance->libelle . " (" . $seance->lieu . ") - le " . $newDate . " à " . $seance->heure_debut . " - Durée : " . $seance->duree_cours . " minutes</li>";
                         }
                         $str = $str . "</ul><br/>";
@@ -277,7 +361,6 @@ class MailService
             Merci d'avance pour vos retours, cela nous permettra de vous proposer une offre toujours plus adaptée.<br/>
             Sportivement<br/>
             La team USI Roller<br/>";
-          
         }
         $this->mail->MsgHTML($str);                         //Le contenu au format HTML
         $this->mail->IsHTML(true);
@@ -285,21 +368,22 @@ class MailService
         $this->mail->AddAddress('usivry.roller@gmail.com');
         if (!$this->mail->send()) {
             return "Envoi " . $compte->login . "OK\n";
-        } else {                
-            return "Envoi " . $compte->login . "non OK : ". $this->mail->ErrorInfo ."\n";
+        } else {
+            return "Envoi " . $compte->login . "non OK : " . $this->mail->ErrorInfo . "\n";
         }
     }
-    public function MailTestVide(){
+    public function MailTestVide()
+    {
         $this->mail->Subject    =  'Cours de roller disponibles';                      //Le sujet du mail
-        $this->mail->WordWrap   = 200;    
+        $this->mail->WordWrap   = 200;
         $str = "Voici un mail test";
         $this->mail->MsgHTML($str);                         //Le contenu au format HTML
         $this->mail->IsHTML(true);
         $this->mail->AddAddress('usivry.roller@gmail.com');
         if (!$this->mail->send()) {
             return "Envoi  OK\n";
-        } else {                
-            return "Envoi non OK : ". $this->mail->ErrorInfo ."\n";
+        } else {
+            return "Envoi non OK : " . $this->mail->ErrorInfo . "\n";
         }
     }
 }

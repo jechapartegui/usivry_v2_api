@@ -119,10 +119,27 @@ switch ($command) {
         $groupeServices->update_lien($LG);
 
         break;
+    case 'simuler_mail_relance':
+        $riders = $seanceServices->get_relance();
+        $mailServices = new MailService();
+        $result = $mailServices->SimulerMailDispo($riders);
+
+        break;
+    case 'mail_multiple':
+            if (!isset($data['mails'])) {
+                $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
+                exit;
+            }
+            $mailServices = new MailService();
+            $result = $mailServices->SendMail_Multiple($data['mails']);    
+            break;
+
     case 'mail_relance':
         $riders = $seanceServices->get_relance();
         $mailServices = new MailService();
         $result = $mailServices->MailDispo($riders);
+
+        break;
     case 'mail_test':
         $mailServices = new MailService();
         $riders = $seanceServices->get_relance();
@@ -206,7 +223,7 @@ switch ($command) {
             $server->getHttpStatusMessage(401, "UNAUTHORIZED");
             exit;
         } else {
-            $result = $seanceServices->delete($data['id']);  
+            $result = $seanceServices->delete($data['id']);
             $groupeServices->delete_lien_objet($data['id'], 'séance');
         }
         break;

@@ -160,7 +160,7 @@ class SeanceService
     {
 
         $date_min = date('Y-m-d'); // Date de référence (jour J) 
-        $date_max = date('Y-m-d', strtotime("+10 days", strtotime($date_min)));
+        $date_max = date('Y-m-d', strtotime("+15 days", strtotime($date_min)));
         $sql = "select distinct c.id, c.login 
         from compte c 
         inner join riders r on r.compte=c.id 

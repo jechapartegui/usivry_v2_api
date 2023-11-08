@@ -25,6 +25,16 @@ class RiderService
         if ($rider->sexe == FALSE) {
             $rider->sexe = 0;
         }
+        if ($rider->est_admin == TRUE) {
+            $rider->est_admin = 1;
+        } else {
+            $rider->est_admin = 0;
+        }
+        if ($rider->est_prof == TRUE) {
+            $rider->est_prof = 1;
+        } else {
+            $rider->est_prof = 0;
+        }
 
         return $rider;
     }
@@ -36,7 +46,7 @@ class RiderService
             return $compte;
         }
         //sans update du mot de passe
-        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
         return $this->db->lastInsertId();
@@ -49,7 +59,7 @@ class RiderService
             return $compte;
         }
         //sans update du mot de passe
-        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?,  ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?,  ?, ?,  ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
         $id = $this->db->lastInsertId();
@@ -244,16 +254,17 @@ class RiderService
 
     public function add_or_update($rider){
         if ($rider->id == 0) {
-            $compte = $this->ReturnOrInsertAccount($rider->email, $rider->mot_de_passe);             
+            $compte = $this->ReturnOrInsertAccount($rider->email, $rider->mot_de_passe);  
             //sans update du mot de passe
-            $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?,   ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir)
+             VALUES (?,?,'$rider->date_naissance',$rider->sexe,$rider->est_prof,$rider->est_admin,$compte,?, '$rider->telephone',?, '$rider->telephone_personne_prevenir')";
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
-            $rider->id =  $this->db->lastInsertId();
+            $stmt->execute([$rider->nom,$rider->prenom, $rider->adresse,$rider->personne_prevenir]);
+            return $this->db->lastInsertId();
         } else{
-            $sql = "UPDATE riders SET  sexe=?, adresse=?, telephone=?, personne_prevenir=?, telephone_personne_prevenir=? WHERE id=?";
+            $sql = "UPDATE riders SET  sexe=$rider->sexe, adresse=?, telephone='$rider->telephone', personne_prevenir=?, telephone_personne_prevenir='$rider->telephone_personne_prevenir' WHERE id=$rider->id";
             $stmt = $this->db->prepare($sql);
-             $stmt->execute([$rider->sexe, $rider->adresse,  $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir, $rider->id]);
+            $stmt->execute([$rider->adresse,$rider->personne_prevenir]);
              return $rider->id;
         }
     }
