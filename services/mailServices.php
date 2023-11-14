@@ -169,18 +169,11 @@ class MailService
         $retour = array();
         foreach ($comptes as $compte) {
             $mailObject = new MailObjet();
-            $mailObject->subject    =  'Cours de roller disponibles et mise à jour du site web';                      //Le sujet du mail
+            $mailObject->subject    =  'Cours de roller disponibles';                      //Le sujet du mail
             //Préciser qu'il faut utiliser le texte brut
             $str = "<div>Bonjour,<br/>
 
-            Tout d'abord nous espérons que vous avez passé de belles vacances. Certains ont même eu le plaisir de rouler avec nous, nous sommes ravis d'avoir pu maintenir les cours durant la Toussaint.<br/>
-            Nous avons apporté quelques évolutions sur l'application (encore désolé pour les quelques petits spams) afin de rendre tout cela plus simple et plus sûr. <br/>
-            Fini les niveaux, nous passons sur une logique de groupes : chaque adhérent sera positionné dans un ou plusieurs groupes en fonction de sa pratique. Par exemple en adultes, nous avons le groupe Roller-Adultes, le groupe RollerSoccer-Adultes et le groupe RollBall-Adultes.<br/>
-            Rien ne vous empêche de faire parti des trois groupes, mais chaque séance sera ouverte uniquement aux groupes concernés, ce qui vous évitera d'avoir de nombreuses séances disponibles auxquelles vous ne participez jamais.<br/>
-            Si quelqu'un veut être ajouté à un groupe, demandez-nous ou demandez à vos profs et ce sera fait tant qu'on estime que l'adhérent peut suivre les séances auquel le groupe prend part.<br/>
-            <br/>
-            Autre changement majeur : de nouvelles mesures de sécurité ont été ajoutées sur le site afin d'éviter tous risques. Il sera toujours recommandé de se connecter avec un lien sécurisé HTTPS : <a href='https://www.usivryroller.fr/login'>https://www.usivryroller.fr/login</a><br/>
-            Enfin comme d'habitude, vous trouverez ci-dessous les séances disponibles au sein de l'US Ivry Roller pour les adhérents associés au compte " . $compte->login . "<br/>";
+            Vous trouverez ci-dessous les séances disponibles au sein de l'US Ivry Roller pour les adhérents associés au compte " . $compte->login . "<br/>";
             foreach ($compte->riders as $rider) {
                 if (count($rider->seances) > 0 || count($rider->inscriptions) > 0) {
 
