@@ -233,12 +233,49 @@ switch ($command) {
         }
         $result = $RiderService->get($data['id'], $season_id);
         foreach ($result as $rd) {
-            $rd->inscriptions = $RiderService->getInscriptions($rd->id, $season_id);
-            $rd->seances = $RiderService->getSeances($rd, true, $season_id);
-            if ($rd->est_prof) {
-                $rd->seances_prof = $RiderService->getSeancesProf($rd->id, $season_id);
+            $rd->groupes = $groupeServices->get_lien_objet_id($rd->id,'rider');
+            $rd->inscriptions = $RiderService->getInscriptions($rd->id,$season_id);
+            $rd->seances = $RiderService->getSeances($rd, true,$season_id);
+            if($rd->est_prof){
+                $rd->seances_prof = $RiderService->getSeancesProf($rd->id,$season_id);
             }
-            $rd->groupes = $groupeServices->get_lien_objet_id($rd->id, 'rider');
+            if(isset($rd->inscriptions)) {
+                $inscriptions = array();
+                foreach ($rd->inscriptions as $inscr) {
+                    $inscr->groupes = $groupeServices->get_lien_objet_id($inscr->seance_id,'séance');
+                    $exist = false;
+                    foreach ($inscr->groupes as $group_seance) {
+                        foreach ($rd->groupes as $group_rider) {
+                            if($group_rider->id == $group_seance->id){
+                                $exist = true;
+                            }
+                        }
+                    }
+                    if($exist){
+                        array_push($inscriptions, $inscr);
+                    }
+                }
+                $rd->inscriptions = $inscriptions;
+            }
+            if(isset($rd->seances)) {
+                $seances = array();
+                foreach ($rd->seances as $sz) {
+                    $sz->groupes = $groupeServices->get_lien_objet_id($sz->seance_id,'séance');
+                    $exist = false;
+                    foreach ($sz->groupes as $group_seance) {
+                        foreach ($rd->groupes as $group_rider) {
+                            if($group_rider->id == $group_seance->id){
+                                $exist = true;
+                            }
+                        }
+                    }
+                    if($exist){
+                        array_push($seances, $sz);
+                    }
+                }
+                $rd->seances = $seances;
+            }	
+            
         }
         break;
     case 'get_all':
