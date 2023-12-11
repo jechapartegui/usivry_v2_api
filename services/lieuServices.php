@@ -4,6 +4,14 @@
     public function __construct($db) {
         $this->db = $db;
     }
+    public function ToLieu($data)
+    {
+        $lieu = new Lieu();
+        foreach ($data as $attribut => $valeur) {
+            $lieu->$attribut = $valeur;
+        }
+        return $lieu;
+    }
 
     public function add($lieu) {
         $sql = "INSERT INTO lieu (nom, adresse) VALUES (?, ?)";

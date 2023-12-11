@@ -206,6 +206,8 @@ class Compte{
     public $login;
     public $registration_date;
     public $mail_active;
+    public $password;
+    public $riders;
 }
 
 class MailObjet{

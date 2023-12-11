@@ -6,7 +6,6 @@ include_once("config/params.php");
 require_once("class/class.php");
 require_once("services/ridersServices.php");
 require_once("services/saisonServices.php");
-require_once("services/lieuServices.php");
 
 
 // Connect to database
@@ -47,7 +46,6 @@ if ($pwd_peppered != $password) {
     exit;
 }
 $RiderService = new RiderService($con);
-$lieuservice = new LieuService($con);
 $s = new SaisonService($con);
 if ($user_id > 0) {
     $logged = true;
@@ -58,8 +56,8 @@ if ($user_id > 0) {
 }
 $season_id = $s->getActive();
 switch ($command) {
-    case 'add':       
-        if (!isset($data['lieu'])) {
+    case 'add':
+        if (!isset($data['compte'])) {
             $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
             exit;
         }
@@ -67,23 +65,12 @@ switch ($command) {
             $server->getHttpStatusMessage(401, "UNAUTHORIZED");
             exit;
         } else {
-            $lieu = $lieuservice->ToLieu($data['lieu']);
-            $result = $lieuservice->add($lieu);
+            $compte = $RiderService->ToCompte($data['compte']);
+            $compte = $RiderService->checkAndInsertAccount($compte->login, $compte->password);
+            $result = $compte->id;
         }
         break;
-    case 'update':      
-        if (!isset($data['lieu'])) {
-            $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
-            exit;
-        }
-        if (!$admin) {
-            $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-            exit;
-        } else {
-            $lieu = $lieuservice->ToLieu($data['lieu']);
-            $result = $lieuservice->update($lieu);
-        }
-        break;
+   
 
     case 'get':
         if (!isset($data['id'])) {
@@ -94,16 +81,40 @@ switch ($command) {
             $server->getHttpStatusMessage(401, "UNAUTHORIZED");
             exit;
         } else {
-            $result = $lieuservice->get($data['id']);
+            $result = $RiderService->get_account($data['compte_id']);
         }
         break;
     case 'get_all':
-        $result = $lieuservice->getAll();
+        $result = $RiderService->get_all_account($season_id);
         break;
-    case 'get_all_light':
-        $result = $lieuservice->getAllLight();
+    case 'update_mail_relance':
+        if (!isset($data['compte_id'])) {
+            $server->getHttpStatusMessage(401, "NO_ID_FOUND");
+            exit;
+        } else {
+            $compte = $RiderService->get_account($data['compte_id']);
+            $ma = 1;
+            if ($compte->mail_active == 1) {
+                $ma = 0;
+            }
+            $result = $RiderService->update_mail_active($compte->id, $ma);
+        }
+
         break;
-    case 'delete':        
+    case 'attacher':
+        if (!$admin && !$prof) {
+            $server->getHttpStatusMessage(401, "UNAUTHORIZED");
+            exit;
+        }
+        if (!isset($data['compte_id']) || !isset($data['rider_id'])) {
+            $server->getHttpStatusMessage(401, "NO_ID_FOUND");
+            exit;
+        }
+        $rider = $RiderService->getRidersbyid($data['rider_id']);
+        $rider->compte = $data['compte_id'];
+        $result = $RiderService->update($rider);
+        break;
+    case 'delete':
         if (!isset($data['id'])) {
             $server->getHttpStatusMessage(401, "NO_ID_FOUND");
             exit;
@@ -111,8 +122,13 @@ switch ($command) {
         if (!$admin) {
             $server->getHttpStatusMessage(401, "UNAUTHORIZED");
             exit;
-        } else {
-            $result = $lieuservice->delete($data['id']);
+        } else {            
+            $riders = $rider->getUserByLogin($login,$psw,$season_id );
+            foreach ($riders as $r) {
+                $r->compte = 0;
+               $RiderService->update($r);
+            }
+            $result = $RiderService->delete_account($data['id']);
         }
         break;
 }

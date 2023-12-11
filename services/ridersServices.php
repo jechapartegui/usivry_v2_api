@@ -39,10 +39,36 @@ class RiderService
         return $rider;
     }
 
+    public function ToCompte($data)
+    {
+        $compte = new Compte();
+        foreach ($data as $attribut => $valeur) {
+            $compte->$attribut = $valeur;
+        }       
+        if ($compte->mail_active == TRUE) {
+            $compte->mail_active = 1;
+        }
+        if ($compte->mail_active == FALSE) {
+            $compte->mail_active = 0;
+        }
+      
+
+        return $compte;
+    }
+    public function add_account($compte)
+    {
+        //sans update du mot de passe
+        $sql = " INSERT INTO `compte`(`login`, `password`, `registration_date`, `mail_active`) VALUES (?,?,NOW(),?)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$compte->login, $compte->password, $compte->mail_active]);
+        return $this->db->lastInsertId();
+    }
+   
+
     public function addrider_new_account($rider)
     {
         $compte = $this->checkAndInsertAccount($rider->email, $rider->mot_de_passe);
-        if(!is_numeric($compte)){
+        if (!is_numeric($compte)) {
             return $compte;
         }
         //sans update du mot de passe
@@ -54,8 +80,8 @@ class RiderService
     public function addrider_existingaccount($rider)
     {
 
-        $compte = $this->CheckLogin($rider->email, $rider->mot_de_passe);        
-        if(!is_numeric($compte)){
+        $compte = $this->CheckLogin($rider->email, $rider->mot_de_passe);
+        if (!is_numeric($compte)) {
             return $compte;
         }
         //sans update du mot de passe
@@ -113,29 +139,30 @@ class RiderService
         }
     }
 
-    public function GetEmailProf($professeurs){
+    public function GetEmailProf($professeurs)
+    {
         $mailprof = array();
         foreach ($professeurs as $prof) {
-           $sql = "Select c.login from riders r inner join compte c on r.compte = c.id where r.id = " . $prof['key'];
-           $stmt = $this->db->prepare($sql);
-           $stmt->execute();
-           $login =  $stmt->fetch();
-           array_push($mailprof, $login['login']);
+            $sql = "Select c.login from riders r inner join compte c on r.compte = c.id where r.id = " . $prof['key'];
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            $login =  $stmt->fetch();
+            array_push($mailprof, $login['login']);
         }
         return $mailprof;
-
     }
 
-    public function search($search, $season_id, $all, $this_season){
-        if($all==true){
+    public function search($search, $season_id, $all, $this_season)
+    {
+        if ($all == true) {
             $sql = "SELECT r.*, c.login as email,  
              CASE 
                 WHEN i1.rider_id IS NOT NULL THEN true 
                 ELSE false 
             END as est_inscrit
             FROM riders r inner join compte c on c.id = r.compte             
-            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = ". $this_season ."
-            WHERE `nom` LIKE '%". $search ."%' or prenom like '%". $search ."%' order by r.nom asc";
+            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = " . $this_season . "
+            WHERE `nom` LIKE '%" . $search . "%' or prenom like '%" . $search . "%' order by r.nom asc";
         } else {
             $sql = "SELECT r.*, c.login as email,  
             CASE 
@@ -144,23 +171,24 @@ class RiderService
             END as est_inscrit
             FROM riders r inner join compte c on c.id = r.compte 
             inner join inscription_saison i on i.rider_id = r.id 
-            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = ". $this_season ."
-            WHERE (r.`nom` LIKE '%". $search ."%' or prenom like '%". $search ."%') and i.saison_id = ". $season_id . " order by r.nom asc";
+            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = " . $this_season . "
+            WHERE (r.`nom` LIKE '%" . $search . "%' or prenom like '%" . $search . "%') and i.saison_id = " . $season_id . " order by r.nom asc";
         }
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Rider');
         return $stmt->fetchAll();
     }
-    public function get_all($season_id, $all, $this_season){
-        if($all==true){
+    public function get_all($season_id, $all, $this_season)
+    {
+        if ($all == true) {
             $sql = "SELECT r.*, c.login as email,  
             CASE 
                WHEN i1.rider_id IS NOT NULL THEN true 
                ELSE false 
            END as est_inscrit
            FROM riders r inner join compte c on c.id = r.compte 
-            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id =". $this_season ."
+            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id =" . $this_season . "
            order by r.nom asc";
         } else {
             $sql = "SELECT r.*, true as 'est_inscrit', c.login as email,  
@@ -170,8 +198,8 @@ class RiderService
            END as est_inscrit
            FROM riders r inner join compte c on c.id = r.compte 
            inner join inscription_saison i on i.rider_id = r.id 
-            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = ". $this_season ."
-           WHERE  i.saison_id = ". $season_id ." order by r.nom asc";
+            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = " . $this_season . "
+           WHERE  i.saison_id = " . $season_id . " order by r.nom asc";
         }
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
@@ -179,36 +207,38 @@ class RiderService
         return $stmt->fetchAll();
     }
 
-    public function search_light($search, $season_id, $all, $this_season){
-        if($all==true){
+    public function search_light($search, $season_id, $all, $this_season)
+    {
+        if ($all == true) {
             $sql = "SELECT r.id as 'key', CONCAT(r.prenom, ' ',r.nom) as 'value'
             FROM riders r inner join compte c on c.id = r.compte             
-            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = ". $this_season ."
-            WHERE `nom` LIKE '%". $search ."%' or prenom like '%". $search ."%' order by r.nom asc";
+            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = " . $this_season . "
+            WHERE `nom` LIKE '%" . $search . "%' or prenom like '%" . $search . "%' order by r.nom asc";
         } else {
             $sql = "SELECT r.id as 'key', CONCAT(r.prenom, ' ',r.nom) as 'value'
             FROM riders r inner join compte c on c.id = r.compte 
             inner join inscription_saison i on i.rider_id = r.id 
-            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = ". $this_season ."
-            WHERE (r.`nom` LIKE '%". $search ."%' or prenom like '%". $search ."%') and i.saison_id = ". $season_id . " order by r.nom asc";
+            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = " . $this_season . "
+            WHERE (r.`nom` LIKE '%" . $search . "%' or prenom like '%" . $search . "%') and i.saison_id = " . $season_id . " order by r.nom asc";
         }
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'KeyValuePair');
         return $stmt->fetchAll();
     }
-    public function get_all_light($season_id, $all, $this_season){
-        if($all==true){
+    public function get_all_light($season_id, $all, $this_season)
+    {
+        if ($all == true) {
             $sql = "SELECT r.id as 'key', CONCAT(r.prenom, ' ',r.nom) as 'value'
            FROM riders r inner join compte c on c.id = r.compte 
-            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id =". $this_season ."
+            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id =" . $this_season . "
            order by r.nom asc";
         } else {
             $sql = "SELECT r.id as 'key', CONCAT(r.prenom, ' ',r.nom) as 'value'
            FROM riders r inner join compte c on c.id = r.compte 
            inner join inscription_saison i on i.rider_id = r.id 
-            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = ". $this_season ."
-           WHERE  i.saison_id = ". $season_id ." order by r.nom asc";
+            LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = " . $this_season . "
+           WHERE  i.saison_id = " . $season_id . " order by r.nom asc";
         }
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
@@ -216,18 +246,19 @@ class RiderService
         return $stmt->fetchAll();
     }
 
-    public function generateRandomString($length = 8) {
+    public function generateRandomString($length = 8)
+    {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $randomString = '';
         $charLength = strlen($characters);
-    
+
         for ($i = 0; $i < $length; $i++) {
             $randomString .= $characters[rand(0, $charLength - 1)];
         }
-    
+
         return $randomString;
     }
-    
+
 
 
     public function add_range($riders)
@@ -237,13 +268,13 @@ class RiderService
             $rider = $this->ToRider($rider__);
             $rider->id  = $this->exist($rider);
             if ($rider->id == 0) {
-                $compte = $this->ReturnOrInsertAccount($rider->email, $rider->mot_de_passe);             
+                $compte = $this->ReturnOrInsertAccount($rider->email, $rider->mot_de_passe);
                 //sans update du mot de passe
                 $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir) VALUES (?,?,?,?,?,?,   ?, ?, ?, ?, ?, ?)";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute([$rider->nom, $rider->prenom, $rider->date_naissance, $rider->sexe, $rider->est_prof, $rider->est_admin, $compte, $rider->adresse, $rider->telephone, $rider->personne_prevenir, $rider->telephone_personne_prevenir]);
                 $rider->id =  $this->db->lastInsertId();
-            } else{
+            } else {
                 $this->update_addrange($rider);
             }
             array_push($liste_id, $rider->id);
@@ -252,27 +283,29 @@ class RiderService
         return $liste_id;
     }
 
-    public function add_or_update($rider){
+    public function add_or_update($rider)
+    {
         if ($rider->id == 0) {
-            $compte = $this->ReturnOrInsertAccount($rider->email, $rider->mot_de_passe);  
+            $compte = $this->ReturnOrInsertAccount($rider->email, $rider->mot_de_passe);
             //sans update du mot de passe
             $sql = "INSERT INTO riders (nom, prenom, date_naissance, sexe, est_prof, est_admin, compte, adresse, telephone, personne_prevenir, telephone_personne_prevenir)
              VALUES (?,?,'$rider->date_naissance',$rider->sexe,$rider->est_prof,$rider->est_admin,$compte,?, '$rider->telephone',?, '$rider->telephone_personne_prevenir')";
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([$rider->nom,$rider->prenom, $rider->adresse,$rider->personne_prevenir]);
+            $stmt->execute([$rider->nom, $rider->prenom, $rider->adresse, $rider->personne_prevenir]);
             return $this->db->lastInsertId();
-        } else{
+        } else {
             $sql = "UPDATE riders SET  sexe=$rider->sexe, adresse=?, telephone='$rider->telephone', personne_prevenir=?, telephone_personne_prevenir='$rider->telephone_personne_prevenir' WHERE id=$rider->id";
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([$rider->adresse,$rider->personne_prevenir]);
-             return $rider->id;
+            $stmt->execute([$rider->adresse, $rider->personne_prevenir]);
+            return $rider->id;
         }
     }
 
-    public function getSeances($rider, $remove_inscription,$this_season)   {
+    public function getSeances($rider, $remove_inscription, $this_season)
+    {
         $p = new params();
         $date_min = date('Y-m-d'); // Date de référence (jour J)
-            $age = $p->calculerAge($rider->date_naissance);
+        $age = $p->calculerAge($rider->date_naissance);
         $date_max = date('Y-m-d', strtotime("+30 days", strtotime($date_min)));
         $sql = "SELECT  s.seance_id as seance_id, c.id as cours, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis,  s.age_requis as age_maximum, s.info_seance as info_seance
         FROM seance s 
@@ -285,19 +318,18 @@ class RiderService
         $stmt->execute();
         $ss = $stmt->fetchAll();
         $seances = array();
-        if($remove_inscription){
+        if ($remove_inscription) {
             foreach ($ss as $s) {
                 # code...
                 $est_seance = false;
                 foreach ($rider->inscriptions as $i) {
-                    if($i->seance_id == $s->seance_id){
+                    if ($i->seance_id == $s->seance_id) {
                         $est_seance = true;
                     }
                 }
-                if($est_seance == false){
-                    array_push($seances,$s);
+                if ($est_seance == false) {
+                    array_push($seances, $s);
                 }
-    
             }
         } else {
             $seances = $ss;
@@ -308,10 +340,10 @@ class RiderService
         }
         return $seances;
     }
-    public function getInscriptions($id,$this_season)
+    public function getInscriptions($id, $this_season)
     {
         $sql = "SELECT i.id as id, s.seance_id as seance_id, c.id as cours, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, i.statut as statut, s.age_requis as age_requis, s.age_maximum as age_maximum, s.info_seance as info_seance
-        FROM inscription i inner join seance s on i.seance_id = s.seance_id inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE i.rider_id = ? AND i.statut IS NOT NULL AND s.date_seance > DATE_SUB(CURDATE(), INTERVAL 1 DAY) AND c.saison_id = " . $this_season ." and s.statut = 'prévue'";
+        FROM inscription i inner join seance s on i.seance_id = s.seance_id inner join cours c on s.cours = c.id inner join lieu l on s.lieu_id = l.id WHERE i.rider_id = ? AND i.statut IS NOT NULL AND s.date_seance > DATE_SUB(CURDATE(), INTERVAL 1 DAY) AND c.saison_id = " . $this_season . " and s.statut = 'prévue'";
         $stmt = $this->db->prepare($sql);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
         $stmt->execute([$id]);
@@ -321,7 +353,8 @@ class RiderService
         }
         return $inscriptions;
     }
-    public function get_prof_seance($seance_id){
+    public function get_prof_seance($seance_id)
+    {
         $sql = "SELECT s.professeur_id as 'key', concat(r.prenom,' ', r.nom) as 'value' from seance_professeur s inner join riders r on r.id = s.professeur_id inner join seance se on se.seance_id = s.seance_id where s.seance_id=$seance_id and se.statut = 'prévue'";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
@@ -329,7 +362,8 @@ class RiderService
         return $stmt->fetchAll();
     }
 
-    public function getSeancesProf($rider_id,$this_season){
+    public function getSeancesProf($rider_id, $this_season)
+    {
         $referenceDate = date('Y-m-d'); // Date de référence (jour J)     
         $dateref = date('Y-m-d', strtotime("-5 days", strtotime($referenceDate)));
         $sql = "SELECT  s.seance_id as seance_id, c.id as cours, s.libelle as libelle, s.date_seance as date_seance, s.heure_debut as heure_debut, s.duree_cours as duree_cours, l.id as lieu_id, l.nom as lieu, s.statut as statut, s.age_requis as age_requis, s.age_maximum as age_maximum, s.info_seance as info_seance
@@ -340,14 +374,14 @@ class RiderService
         WHERE sp.professeur_id = ? AND c.saison_id = " . $this_season . " AND s.date_seance >= ? ";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');      
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
         $stmt->execute([$rider_id, $dateref]);
         $seances = $stmt->fetchAll();
         foreach ($seances as $seance) {
             $seance->professeurs = $this->get_prof_seance($seance->seance_id);
             //Get groupe
         }
-        
+
         return $seances;
     }
 
@@ -358,7 +392,7 @@ class RiderService
         $stmt->execute([strtolower($rider->prenom), strtolower($rider->nom), strtolower($rider->email)]);
         $rowCount = $stmt->rowCount();
         if ($rowCount > 0) {
-            $res = $stmt->fetch(); 
+            $res = $stmt->fetch();
             return $res['id'];
         } else {
             return 0;
@@ -366,7 +400,8 @@ class RiderService
     }
 
 
-    public function get_login($id){
+    public function get_login($id)
+    {
         $sql = "SELECT login FROM compte WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
@@ -375,7 +410,7 @@ class RiderService
 
     public function update_mail($_id, $mail)
     {
-      
+
         $stmt = $this->db->prepare('UPDATE compte set 
             login = ?
             where id = ?
@@ -389,7 +424,7 @@ class RiderService
 
     public function update_mail_active($_id, $mail_active)
     {
-      
+
         $stmt = $this->db->prepare('UPDATE compte set 
             mail_active = ?
             where id = ?
@@ -400,13 +435,28 @@ class RiderService
         ]);
         return true;
     }
+
+    public function get_all_account($saison_id)
+    {
+        $stmt = $this->db->prepare("SELECT distinct c.* FROM `compte` c inner join riders r on r.compte = c.id inner join inscription_saison i on i.rider_id = r.id where i.saison_id = $saison_id");
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Compte');
+        $stmt->execute();
+        $comptes = $stmt->fetchAll();
+        foreach ($comptes as $compte) {
+            $stmt = $this->db->prepare("select r.* from riders r inner join inscription_saison i on i.rider_id = r.id where compte= $compte->id and i.saison_id = $saison_id");
+            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Rider');
+            $stmt->execute();
+            $compte->riders = $stmt->fetchAll();
+        }
+        return $comptes;
+    }
     public function get_account($_id)
     {
-      
-        $stmt = $this->db->prepare('select login, mail_active from compte where id = ?');
+
+        $stmt = $this->db->prepare('select id, login, mail_active from compte where id = ?');
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Compte');
         $stmt->execute([$_id]);
-        $res = $stmt->fetch(); 
-        return $res;
+        return $stmt->fetch();
     }
 
     public function update_psw($_id, $_psw)
@@ -450,7 +500,7 @@ class RiderService
         END as est_inscrit
         FROM riders r 
         inner join compte c on c.id = r.compte            
-        LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = ". $this_season ."
+        LEFT JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = " . $this_season . "
         WHERE r.compte = ? order by r.nom asc";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
@@ -526,6 +576,14 @@ class RiderService
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$id]);
     }
+    
+    public function delete_account($id)
+    {
+        $sql = "DELETE FROM compte WHERE id = ?";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$id]);
+
+    }
 
     public function getRidersbyid($id)
     {
@@ -554,7 +612,7 @@ class RiderService
             $users = $stmt->fetch();
             if ($users) {
                 if ($this->verifyCurrentPassword($users['id'], $password) == 1) {
-                   return $users['id'];
+                    return $users['id'];
                 } else {
                     return "INCORRECT_PASSWORD";
                 }
@@ -566,9 +624,9 @@ class RiderService
             return "NO_VALUE_SET";
         }
     }
-    public function getUserByLogin($login, $password,$saison_id)
+    public function getUserByLogin($login, $password, $saison_id)
     {
-        
+
         // function to check login/pwd
         if (!empty($login) && !empty($password)) {
             $stmt = $this->db->prepare('select * from compte where login=?');
@@ -579,7 +637,7 @@ class RiderService
                     $sql = "SELECT r.*, c.login as email,  
                     true as est_inscrit
                    FROM riders r inner join compte c on c.id = r.compte 
-                    inner JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = ". $saison_id ."
+                    inner JOIN inscription_saison i1 ON i1.rider_id = r.id AND i1.saison_id = " . $saison_id . "
                    
                     WHERE r.compte=? order by r.nom asc";
                     $stmt = $this->db->prepare($sql);
