@@ -92,7 +92,7 @@ class Seance
     public $libelle;
     public $date_seance;
     public $heure_debut;
-    public $duree_cours;
+    public $duree_seance;
     public $lieu_id;
     public $lieu;
     public $statut;
