@@ -9,6 +9,12 @@ require 'phpmailer/src/Exception.php';
 require 'phpmailer/src/PHPMailer.php';
 require 'phpmailer/src/SMTP.php';
 // Destinataire
+function convertListToString($list) {
+    return implode(',', $list);
+  }
+  function convertStringToList($inputString) {
+    return explode(',', $inputString);
+  }
 class MailService
 {
     public $mail;

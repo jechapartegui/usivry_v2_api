@@ -7,6 +7,14 @@ class SaisonService {
     public function __construct($db) {
         $this->db = $db;
     }
+    public function ToSaison($data)
+    {
+        $saison = new Saison();
+        foreach ($data as $attribut => $valeur) {
+            $saison->$attribut = $valeur;
+        }
+        return $saison;
+    }
 
     public function add($saison) {
 
@@ -54,7 +62,7 @@ class SaisonService {
         return $stmt->execute([$saison->nom, $saison->active,$saison->id]);
     }
 
-    public function deleteRider($id) {
+    public function delete($id) {
         $sql = "DELETE FROM saison WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$id]);
