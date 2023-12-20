@@ -93,7 +93,7 @@ class InscriptionService
         $age_max = $res['age_maximum'] * 365 +10;
         $sql = "SELECT groupe_id FROM lien_groupe WHERE objet_id = $id and objet_type = 'séance'";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([$id]);
+        $stmt->execute();
         $groupes =  $stmt->fetchAll();
         $list_rider = array();
         if ($stmt->rowCount() > 0) {
