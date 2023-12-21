@@ -626,7 +626,6 @@ class RiderService
     }
     public function getUserByLogin($login, $password, $saison_id)
     {
-
         // function to check login/pwd
         if (!empty($login) && !empty($password)) {
             $stmt = $this->db->prepare('select * from compte where login=?');

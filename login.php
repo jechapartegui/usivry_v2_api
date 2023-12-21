@@ -59,6 +59,7 @@ if ( !$con ) {
 	exit;
 }
 
+
 $riders = $rider->getUserByLogin($login,$psw,$season_id );
 if (is_string($riders)){
     $server->getHttpStatusMessage(401,$riders);
