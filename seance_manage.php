@@ -119,33 +119,7 @@ switch ($command) {
         $groupeServices->update_lien($LG);
 
         break;
-    case 'simuler_mail_relance':
-        $riders = $seanceServices->get_relance();
-        $mailServices = new MailService();
-        $result = $mailServices->SimulerMailDispo($riders);
-
-        break;
-    case 'mail_multiple':
-            if (!isset($data['mails'])) {
-                $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
-                exit;
-            }
-            $mailServices = new MailService();
-            $result = $mailServices->SendMail_Multiple($data['mails']);    
-            break;
-
-    case 'mail_relance':
-        $riders = $seanceServices->get_relance();
-        $mailServices = new MailService();
-        $result = $mailServices->MailDispo($riders);
-
-        break;
-    case 'mail_test':
-        $mailServices = new MailService();
-        $riders = $seanceServices->get_relance();
-        $result = $mailServices->MailTest($riders);
-
-        break;
+   
     case 'get':
         if (!isset($data['id'])) {
             $server->getHttpStatusMessage(401, "NO_ID_FOUND");
@@ -172,36 +146,7 @@ switch ($command) {
             $item->groupes = $groupeServices->get_lien_objet_id($item->seance_id, 'séance');
         }
         break;
-    case 'notifier_annulation':
-        if (!isset($data['seance_id'])) {
-            $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-            exit;
-        }
-        if (!isset($data['message'])) {
-            $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-            exit;
-        } else {
-            $inscrits = $seanceServices->get_Inscrits($data['seance_id']);
-            $seance = $seanceServices->get($data['seance_id']);
-            $mailServices = new MailService();
-            $mailServices->NotifierAnnulation($seance, $data['message'], $inscrits);
-            $result = true;
-        }
-    case 'reserver_essai':
-        if (!isset($data['essai'])) {
-            $server->getHttpStatusMessage(401, "UNAUTHORIZED");
-            exit;
-        } else {
-            $mailServices = new MailService();
-            $essai = new stdClass();
-            $essai->rider = $RiderService->ToRider($data['essai']['rider']);
-            $essai->seance = $seanceServices->ToSeance($data['essai']['seance']);
-            $list = $RiderService->GetEmailProf($essai->seance->professeurs);
-            $mailServices->EnvoyerAdmin($essai, $list);
-            $mailServices->ConfirmerEssai($essai);
-            $result = true;
-        }
-        break;
+  
     case 'get_seanceprevue':
         $result = $seanceServices->get_seanceprevue($season_id);
         foreach ($result as $item) {

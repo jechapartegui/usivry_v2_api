@@ -6,6 +6,7 @@ include_once("config/params.php");
 require_once("class/class.php");
 require_once("services/ridersServices.php");
 require_once("services/saisonServices.php");
+require_once("services/mailsServices.php");
 
 
 // Connect to database
@@ -47,6 +48,7 @@ if ($pwd_peppered != $password) {
 }
 $RiderService = new RiderService($con);
 $saisonservice = new SaisonService($con);
+$mailServices = new MailService($con);
 if ($user_id > 0) {
     $logged = true;
     $admin = $RiderService->est_admin_compte($user_id);
@@ -56,7 +58,7 @@ if ($user_id > 0) {
 }
 $season_id = $saisonservice->getActive();
 switch ($command) {
-    case 'sen':       
+    case 'send':       
         if (!isset($data['mail'])) {
             $server->getHttpStatusMessage(401, "NO_OBJECT_FOUND");
             exit;
@@ -83,7 +85,7 @@ switch ($command) {
         }
         break;
 
-    case 'get':
+    case 'load':
         if (!isset($data['id'])) {
             $server->getHttpStatusMessage(401, "NO_ID_FOUND");
             exit;
@@ -96,9 +98,6 @@ switch ($command) {
         }
         break;
     case 'get_all':
-        $result = $saisonservice->getAll();
-        break;
-    case 'get_all_light':
         $result = $saisonservice->getAllLight();
         break;
     case 'delete':        

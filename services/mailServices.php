@@ -15,7 +15,25 @@ function convertListToString($list) {
   function convertStringToList($inputString) {
     return explode(',', $inputString);
   }
-class MailService
+
+class MailService{
+    private $db;
+
+    public function __construct($db) {
+        $this->db = $db;
+    }
+    public function ToMailData($data)
+    {
+        $maildata = new MailData();
+        foreach ($data as $attribut => $valeur) {
+            $maildata->$attribut = $valeur;
+        }
+        return $maildata;
+    }
+
+    
+}
+class MailEnvoi
 {
     public $mail;
     public $to;
@@ -40,14 +58,6 @@ class MailService
 
     }
 
-    public function ToMail($data)
-    {
-        $mail = new MailObjet();
-        foreach ($data as $attribut => $valeur) {
-            $mail->$attribut = $valeur;
-        }
-        return $mail;
-    }
     public function SendMail()
     {
         // Créez une nouvelle instance de PHPMailer
@@ -61,7 +71,7 @@ class MailService
 
         $list_emails_to = array('jechapartegui@gmail.com', 'usivry.roller@gmail.com');
         foreach ($list_emails_to  as $key => $email) {
-            $this->mail->AddAddress($email);
+            $this->mail->AddAddress("jechapartegui@yahoo.fr");
         }
         if (!$this->mail->send()) {
             echo $this->mail->ErrorInfo;
@@ -78,7 +88,7 @@ class MailService
 
         $this->mail->MsgHTML('<div>Bonjour,<br/>Votre mot de passe a été réinitialisé avec la valeur ' . $password . ' pour le login ' . $login . '<br/>Sportivement,<br/>US Ivry Roller</div>');                         //Le contenu au format HTML
         $this->mail->IsHTML(true);
-        $this->mail->AddAddress($login);
+        $this->mail->AddAddress("jechapartegui@yahoo.fr");
         if (!$this->mail->send()) {
             echo $this->mail->ErrorInfo;
         }
@@ -94,7 +104,7 @@ class MailService
         La séance " . $seance->libelle . " ( " . $seance->lieu . " ) - le " . $seance->date_seance->format('l j F Y') . "- à " . $seance->heure_debut . " est annulée pour le motif suivant : <br/>
         $message <br/>Veuillez nous en excuser<br/>Sportivement,<br/>US Ivry Roller</div>");                         //Le contenu au format HTML
             $this->mail->IsHTML(true);
-            $this->mail->AddAddress($login);
+            $this->mail->AddAddress("jechapartegui@yahoo.fr");
             if (!$this->mail->send()) {
                 echo $this->mail->ErrorInfo;
             }
@@ -104,14 +114,13 @@ class MailService
     public function SendMail_Multiple($mails)
     {
         $retour = array();
-        foreach ($mails as $mail) {
-            $mailobject = $this->ToMail($mail);
+        foreach ($mails as $mailobject) {
             $this->mail->Subject    =  $mailobject->subject;                      //Le sujet du mail
             $this->mail->WordWrap   = 200;
             $this->mail->MsgHTML($mailobject->content);                         //Le contenu au format HTML
             $this->mail->IsHTML(true);
             $this->mail->clearAllRecipients();
-            $this->mail->AddAddress($mailobject->to);
+            $this->mail->AddAddress("jechapartegui@yahoo.fr");
             if (!$this->mail->send()) {
                 $issue =  "Envoi " . $mailobject->to . "OK\n";
             } else {
@@ -160,7 +169,7 @@ class MailService
             $this->mail->MsgHTML($str);                         //Le contenu au format HTML
             $this->mail->IsHTML(true);
             $this->mail->clearAllRecipients();
-            $this->mail->AddAddress($compte->login);
+            $this->mail->AddAddress("jechapartegui@yahoo.fr");
             if (!$this->mail->send()) {
                 $retour = $retour . "Envoi " . $compte->login . "OK\n";
             } else {
@@ -174,7 +183,7 @@ class MailService
     {
         $retour = array();
         foreach ($comptes as $compte) {
-            $mailObject = new MailObjet();
+            $mailObject = new MailData();
             $mailObject->subject    =  'Cours de roller disponibles';                      //Le sujet du mail
             //Préciser qu'il faut utiliser le texte brut
             $str = "<div>Bonjour,<br/>
@@ -239,7 +248,7 @@ class MailService
 
         $this->mail->AddAddress("usivry.roller@gmail.com");
         foreach ($listprof as $prrrof) {
-            $this->mail->AddAddress($prrrof);
+            $this->mail->AddAddress("jechapartegui@yahoo.fr");
         }
         if (!$this->mail->send()) {
             echo $this->mail->ErrorInfo;
@@ -271,7 +280,7 @@ class MailService
     </ul> 
        <br/>Sportivement,<br/>US Ivry Roller</div>');                         //Le contenu au format HTML
         $this->mail->IsHTML(true);
-        $this->mail->AddAddress($essai->rider->email);
+        $this->mail->AddAddress("jechapartegui@yahoo.fr");
         if (!$this->mail->send()) {
             echo $this->mail->ErrorInfo;
         }

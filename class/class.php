@@ -210,7 +210,7 @@ class Compte{
     public $riders;
 }
 
-class MailObjet{
+class MailData{
     public $subject;
     public $to;
     public $content;
