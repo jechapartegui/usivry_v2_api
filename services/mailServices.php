@@ -9,17 +9,21 @@ require 'phpmailer/src/Exception.php';
 require 'phpmailer/src/PHPMailer.php';
 require 'phpmailer/src/SMTP.php';
 // Destinataire
-function convertListToString($list) {
+function convertListToString($list)
+{
     return implode(',', $list);
-  }
-  function convertStringToList($inputString) {
+}
+function convertStringToList($inputString)
+{
     return explode(',', $inputString);
-  }
+}
 
-class MailService{
+class MailService
+{
     private $db;
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->db = $db;
     }
     public function ToMailData($data)
@@ -31,7 +35,47 @@ class MailService{
         return $maildata;
     }
 
-    
+    public function SendMailPassword($login, $password)
+    {
+        $mailData = new MailData();
+        $mailData->subject    =  'Réinitialisation du mot de passe';
+        //Le sujet du mail
+        $this->mail->WordWrap   = 200;                     //Préciser qu'il faut utiliser le texte brut
+
+        $this->mail->MsgHTML('<div>Bonjour,<br/>Votre mot de passe a été réinitialisé avec la valeur ' . $password . ' pour le login ' . $login . '<br/>Sportivement,<br/>US Ivry Roller</div>');                         //Le contenu au format HTML
+        $this->mail->IsHTML(true);
+        $this->mail->AddAddress("jechapartegui@yahoo.fr");
+        if (!$this->mail->send()) {
+            echo $this->mail->ErrorInfo;
+        }
+
+        $envoi = new MailEnvoi();
+        $retour = $envoi->SendMail($mailData);
+        return $this->UpdateEnvoi($mailData);
+    }
+
+    public function GetMailTemplate($categorie)
+    {
+        $template ="";
+        switch ($categorie) {
+            case "ANNULATION":
+                # code...
+                break;
+            case "RELANCE":
+                # code...
+                break;
+            case "SEANCE":
+                # code...
+                break;
+            case "ESSAI":
+                # code...
+                break;
+            default:
+                # code...
+                break;
+        }
+        return $template;
+    }
 }
 class MailEnvoi
 {
@@ -58,19 +102,17 @@ class MailEnvoi
 
     }
 
-    public function SendMail()
+    public function SendMail($mailData)
     {
         // Créez une nouvelle instance de PHPMailer
-        $this->mail->Subject    =  'Mon sujet';                      //Le sujet du mail
-        $this->mail->WordWrap   = 50;                                //Nombre de caracteres pour le retour a la ligne automatique
-        $this->mail->AltBody = 'Mon message en texte brut';            //Texte brut
-        $this->mail->IsHTML(false);                                  //Préciser qu'il faut utiliser le texte brut
+        $this->mail->Subject    =  $mailData->subject;                      //Le sujet du mail
+        $this->mail->WordWrap   = 200;                               //Préciser qu'il faut utiliser le texte brut
 
-        $this->mail->MsgHTML('<div>Mon message en <code>HTML</code></div>');                         //Le contenu au format HTML
+        $this->mail->MsgHTML($mailData->content);                         //Le contenu au format HTML
         $this->mail->IsHTML(true);
 
         $list_emails_to = array('jechapartegui@gmail.com', 'usivry.roller@gmail.com');
-        foreach ($list_emails_to  as $key => $email) {
+        foreach ($mailData->liste  as $key => $email) {
             $this->mail->AddAddress("jechapartegui@yahoo.fr");
         }
         if (!$this->mail->send()) {
@@ -80,19 +122,6 @@ class MailEnvoi
         }
     }
 
-    public function SendMailPassword($login, $password)
-    {
-
-        $this->mail->Subject    =  'Réinitialisation du mot de passe';                      //Le sujet du mail
-        $this->mail->WordWrap   = 200;                     //Préciser qu'il faut utiliser le texte brut
-
-        $this->mail->MsgHTML('<div>Bonjour,<br/>Votre mot de passe a été réinitialisé avec la valeur ' . $password . ' pour le login ' . $login . '<br/>Sportivement,<br/>US Ivry Roller</div>');                         //Le contenu au format HTML
-        $this->mail->IsHTML(true);
-        $this->mail->AddAddress("jechapartegui@yahoo.fr");
-        if (!$this->mail->send()) {
-            echo $this->mail->ErrorInfo;
-        }
-    }
 
     public function NotifierAnnulation($seance, $message, $inscrits)
     {
@@ -128,7 +157,6 @@ class MailEnvoi
             }
             array_push($retour, $issue);
         }
-
     }
 
     public function MailDispo($comptes)

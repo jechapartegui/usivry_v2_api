@@ -16,7 +16,7 @@ $ss = new SaisonService($con);
 $season_id = $ss->getActive();
 $rider=new RiderService($con);
 $groupeServices=new GroupeService($con);
-$mail=new MailService();
+$mail=new MailService($con);
 if (isset($data['logout'])){
 	session_unset();
 	exit;

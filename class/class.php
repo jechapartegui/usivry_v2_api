@@ -119,11 +119,11 @@ class Seance
         } else {
             $this->convocation_nominative = true;
         }
-        
     }
 }
 
-class Team{
+class Team
+{
     public $nom_long;
     public $nom_court;
     public $contact;
@@ -138,7 +138,7 @@ class Team{
     public $how_many;
     public function __construct()
     {
-      
+
         if ($this->not_enough == 0) {
             $this->not_enough = false;
         } else {
@@ -201,7 +201,8 @@ class Lien_Groupe
 }
 
 
-class Compte{
+class Compte
+{
     public $id;
     public $login;
     public $registration_date;
@@ -210,8 +211,19 @@ class Compte{
     public $riders;
 }
 
-class MailData{
+class MailData
+{
     public $subject;
     public $to;
     public $content;
+
+    public $id;
+    public $liste_to;
+    public $envoye;
+    public $date_envoi;
+    public $plusieurs_destinataire;
+    public $envoi_OK;
+    public $groupes;
+    public $params;
+    public $categorie;
 }
