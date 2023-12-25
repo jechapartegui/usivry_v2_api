@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : xnydyfvjecha.mysql.db
--- Généré le : mar. 19 déc. 2023 à 09:12
+-- Généré le : lun. 25 déc. 2023 à 22:22
 -- Version du serveur : 5.7.42-log
 -- Version de PHP : 8.1.23
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `xnydyfvjecha`
 --
-CREATE DATABASE IF NOT EXISTS `xnydyfvjecha` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `xnydyfvjecha`;
 
 -- --------------------------------------------------------
 
@@ -1704,21 +1702,21 @@ INSERT INTO `inscription` (`id`, `rider_id`, `seance_id`, `date_inscription`, `s
 (1362, 31, 104, '2023-12-12', 'présent', NULL),
 (1363, 31, 105, '2023-12-12', 'présent', NULL),
 (1364, 30, 101, '2023-12-12', 'présent', 'présent'),
-(1365, 30, 103, '2023-12-12', 'présent', NULL),
+(1365, 30, 103, '2023-12-12', 'présent', 'présent'),
 (1366, 202, 99, '2023-12-12', 'présent', 'présent'),
 (1367, 202, 101, '2023-12-12', 'présent', 'présent'),
 (1368, 209, 99, '2023-12-12', 'présent', 'présent'),
 (1369, 169, 99, '2023-12-12', 'présent', 'présent'),
 (1370, 169, 101, '2023-12-12', 'présent', 'présent'),
 (1371, 104, 101, '2023-12-12', 'présent', 'présent'),
-(1372, 104, 103, '2023-12-12', 'présent', NULL),
+(1372, 104, 103, '2023-12-12', 'présent', 'présent'),
 (1373, 14, 100, '2023-12-12', 'présent', 'présent'),
 (1374, 234, 99, '2023-12-12', 'présent', 'présent'),
 (1375, 177, 99, '2023-12-12', 'présent', 'présent'),
 (1376, 166, 105, '2023-12-12', 'présent', NULL),
 (1377, 249, 99, '2023-12-12', 'présent', 'présent'),
 (1378, 15, 98, '2023-12-12', 'présent', NULL),
-(1379, 15, 105, '2023-12-12', 'présent', NULL),
+(1379, 15, 105, '2023-12-12', 'absent', NULL),
 (1380, 18, 105, '2023-12-12', 'présent', NULL),
 (1381, 18, 104, '2023-12-12', 'absent', NULL),
 (1382, 18, 100, '2023-12-12', 'absent', NULL),
@@ -1749,7 +1747,7 @@ INSERT INTO `inscription` (`id`, `rider_id`, `seance_id`, `date_inscription`, `s
 (1407, 253, 99, '2023-12-16', 'présent', 'présent'),
 (1408, 213, 99, '2023-12-16', 'présent', 'présent'),
 (1409, 223, 102, '2023-12-16', 'présent', NULL),
-(1410, 223, 103, '2023-12-16', 'présent', NULL),
+(1410, 223, 103, '2023-12-16', 'présent', 'présent'),
 (1411, 167, 99, '2023-12-16', 'présent', 'présent'),
 (1412, 168, 99, '2023-12-16', 'présent', 'présent'),
 (1413, 201, 99, '2023-12-17', 'présent', 'présent'),
@@ -1759,11 +1757,11 @@ INSERT INTO `inscription` (`id`, `rider_id`, `seance_id`, `date_inscription`, `s
 (1417, 215, 99, '2023-12-17', 'présent', 'présent'),
 (1418, 250, 99, '2023-12-17', 'absent', 'absent'),
 (1419, 250, 101, '2023-12-17', 'absent', 'absent'),
-(1420, 216, 105, '2023-12-17', 'présent', NULL),
+(1420, 216, 105, '2023-12-17', 'absent', NULL),
 (1421, 261, 100, '2023-12-17', 'présent', 'présent'),
 (1422, 187, 99, '2023-12-17', 'présent', 'présent'),
 (1423, 106, 100, '2023-12-17', 'présent', 'présent'),
-(1424, 179, 103, '2023-12-17', 'absent', NULL),
+(1424, 179, 103, '2023-12-17', 'absent', 'absent'),
 (1425, 179, 102, '2023-12-17', 'présent', NULL),
 (1426, 105, 101, '2023-12-17', 'présent', 'présent'),
 (1427, 265, 99, '2023-12-17', 'présent', 'présent'),
@@ -1780,7 +1778,7 @@ INSERT INTO `inscription` (`id`, `rider_id`, `seance_id`, `date_inscription`, `s
 (1438, 100, 100, '2023-12-17', 'absent', NULL),
 (1439, 98, 101, '2023-12-17', 'présent', 'présent'),
 (1440, 99, 102, '2023-12-17', 'présent', NULL),
-(1441, 99, 103, '2023-12-17', 'présent', NULL),
+(1441, 99, 103, '2023-12-17', 'présent', 'présent'),
 (1442, 101, 100, '2023-12-17', 'absent', NULL),
 (1443, 231, 101, '2023-12-17', NULL, 'présent'),
 (1444, 91, 101, '2023-12-17', NULL, 'présent'),
@@ -1791,7 +1789,21 @@ INSERT INTO `inscription` (`id`, `rider_id`, `seance_id`, `date_inscription`, `s
 (1449, 207, 101, '2023-12-17', NULL, 'présent'),
 (1450, 205, 101, '2023-12-17', NULL, 'présent'),
 (1451, 91, 101, '2023-12-17', 'présent', 'présent'),
-(1452, 254, 103, '2023-12-17', 'absent', NULL);
+(1452, 254, 103, '2023-12-17', 'absent', 'absent'),
+(1453, 141, 103, '2023-12-20', NULL, 'présent'),
+(1454, 211, 103, '2023-12-20', NULL, 'absent'),
+(1455, 142, 103, '2023-12-20', NULL, 'présent'),
+(1456, 190, 103, '2023-12-20', NULL, 'présent'),
+(1457, 32, 103, '2023-12-20', NULL, 'présent'),
+(1458, 53, 103, '2023-12-20', NULL, 'présent'),
+(1459, 220, 103, '2023-12-20', NULL, 'présent'),
+(1460, 206, 103, '2023-12-20', NULL, 'présent'),
+(1461, 89, 103, '2023-12-20', NULL, 'présent'),
+(1462, 143, 103, '2023-12-20', NULL, 'présent'),
+(1463, 172, 103, '2023-12-20', NULL, 'absent'),
+(1464, 133, 103, '2023-12-20', NULL, 'présent'),
+(1465, 275, 103, '2023-12-20', NULL, 'présent'),
+(1466, 205, 103, '2023-12-20', NULL, 'présent');
 
 -- --------------------------------------------------------
 
@@ -2515,7 +2527,9 @@ INSERT INTO `lien_groupe` (`groupe_id`, `objet_id`, `objet_type`) VALUES
 (5, 102, 'séance'),
 (6, 103, 'séance'),
 (2, 104, 'séance'),
-(8, 105, 'séance');
+(8, 105, 'séance'),
+(6, 208, 'rider'),
+(6, 161, 'rider');
 
 -- --------------------------------------------------------
 
@@ -2559,15 +2573,30 @@ CREATE TABLE `mail` (
 
 CREATE TABLE `project` (
   `id` int(11) NOT NULL,
-  `nom` varchar(50) NOT NULL
+  `nom` varchar(50) NOT NULL,
+  `date_debut` date NOT NULL,
+  `actif` tinyint(1) NOT NULL DEFAULT '1',
+  `mail_relance` longtext NOT NULL,
+  `mail_annulation` longtext NOT NULL,
+  `mail_convocation` longtext NOT NULL,
+  `sujet_annulation` varchar(255) NOT NULL,
+  `sujet_relance` varchar(255) NOT NULL,
+  `sujet_convocation` varchar(255) NOT NULL,
+  `prix` double NOT NULL DEFAULT '0',
+  `date_fin` date DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `contact` varchar(255) NOT NULL,
+  `adresse_facturation` text NOT NULL,
+  `libelle_facturation` varchar(255) NOT NULL,
+  `activite` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `project`
 --
 
-INSERT INTO `project` (`id`, `nom`) VALUES
-(1, 'US Ivry Roller');
+INSERT INTO `project` (`id`, `nom`, `date_debut`, `actif`, `mail_relance`, `mail_annulation`, `mail_convocation`, `sujet_annulation`, `sujet_relance`, `sujet_convocation`, `prix`, `date_fin`, `password`, `contact`, `adresse_facturation`, `libelle_facturation`, `activite`) VALUES
+(1, 'US Ivry Roller', '2023-09-01', 1, '', '<div>Bonjour,<br/> La séance {{LIBELLE}}  ({{LIEU}}) - le {{DATE}}- à {{HEURE}} est annulée. {{MOTIF}}<br/>Veuillez nous en excuser<br/>Sportivement,<br/>US Ivry Roller</div>', '', 'Annulation de la séance : {{LIBELLE}}', '', '', 0, NULL, '1d3dc74dffb44ef6576a771af32d3b3b99ac9c554b1bf698b86a3c0fbf7d8619', 'usivry.roller@gmail.com', '21 rue Pasteur 94200 Ivry-sur-Seine', 'US Ivry Roller', 'Roller');
 
 -- --------------------------------------------------------
 
@@ -3458,7 +3487,7 @@ ALTER TABLE `groupes`
 -- AUTO_INCREMENT pour la table `inscription`
 --
 ALTER TABLE `inscription`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1453;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1467;
 
 --
 -- AUTO_INCREMENT pour la table `lieu`
@@ -3471,12 +3500,6 @@ ALTER TABLE `lieu`
 --
 ALTER TABLE `mail`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `project`
---
-ALTER TABLE `project`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `rb_buts`

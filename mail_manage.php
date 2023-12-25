@@ -6,7 +6,7 @@ include_once("config/params.php");
 require_once("class/class.php");
 require_once("services/ridersServices.php");
 require_once("services/saisonServices.php");
-require_once("services/mailsServices.php");
+require_once("services/mailServices.php");
 
 
 // Connect to database
@@ -24,11 +24,14 @@ if (!isset($data['command'])) {
 
 $season_id = 1;
 $user_id = -1;
-$est_admin = false;
-$est_prof = false;
+$admin = false;
+$prof = false;
 foreach (getallheaders() as $name => $value) {
     if (strtolower($name) == "password") {
         $password = $value;
+    }
+    if (strtolower($name) == "project") {
+        $project = $value;
     }
     if (strtolower($name) == "dateref") {
         $date_ref = $value;
@@ -86,15 +89,16 @@ switch ($command) {
         break;
 
     case 'load':
-        if (!isset($data['id'])) {
-            $server->getHttpStatusMessage(401, "NO_ID_FOUND");
+        if (!isset($data['mail'])) {
+            $server->getHttpStatusMessage(401, "NO_MAIL_FOUND");
             exit;
         }
-        if (!$admin) {
+        if (!$prof && !$admin) {
             $server->getHttpStatusMessage(401, "UNAUTHORIZED");
             exit;
         } else {
-            $result = $saisonservice->get($data['id']);
+            $mail = $mailServices->ToMailData($data['mail']);
+            $result = $mailServices->Load($mail,$project);
         }
         break;
     case 'get_all':
@@ -105,7 +109,7 @@ switch ($command) {
             $server->getHttpStatusMessage(401, "NO_ID_FOUND");
             exit;
         }
-        if (!$admin) {
+        if (!$est_prof && !$est_admin) {
             $server->getHttpStatusMessage(401, "UNAUTHORIZED");
             exit;
         } else {

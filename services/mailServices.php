@@ -35,6 +35,96 @@ class MailService
         return $maildata;
     }
 
+    public function Load($mail, $project)
+    {
+        switch ($mail->categorie) {
+            case "ANNULATION":
+                $sql = "SELECT sujet_annulation, mail_annulation FROM project WHERE id=$project";
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute();
+                $res = $stmt->fetch();
+                $mail->subject = $res['sujet_annulation'];
+                $mail->content = $res['mail_annulation'];
+                $motif = "";
+                $rider_id = -1;
+                //seance
+                foreach ($mail->params as $item) {
+                    if ($item['value'] == "seance_id") {
+                        $seance_id = $item['key'];
+                    }
+                    if ($item['value'] == "rider_id") {
+                        $rider_id = $item['key'];
+                    }
+                    if ($item['key'] == -1) {
+                        $motif = $item['value'];
+                    }
+                }
+                $sql = "SELECT s.*, l.nom as lieu FROM seance s inner join lieu l on l.id =s.lieu_id WHERE seance_id=$seance_id";
+                $stmt = $this->db->prepare($sql);
+                $stmt->setFetchMode(PDO::FETCH_CLASS, 'Seance');
+                $stmt->execute();
+                $seance = $stmt->fetch();
+                $replacement = [
+                    "{{STATUT}}" => $seance->statut,
+                    "{{LIBELLE}}" => $seance->libelle,
+                    "{{LIEU}}" => $seance->lieu,
+                    "{{DATE}}" => date("d-m-Y", strtotime($seance->date_seance)),
+                    "{{HEURE}}" => $seance->heure_debut,
+                    "{{DUREE}}" => $seance->duree_cours,
+                    "{{MOTIF}}" => $motif,
+                ];
+                $mail->subject = str_replace(array_keys($replacement), array_values($replacement), $mail->subject);
+                $mail->content = str_replace(array_keys($replacement), array_values($replacement), $mail->content);
+                if ($rider_id < 0) {
+                    $mail->liste_to = $this->GroupeToMail($mail->groupes);
+                } else {
+                    $mail->liste_to = $this->RiderToMail($rider_id);
+                }
+                return $mail;
+            case "RELANCE":
+                # code...
+                break;
+            case "SEANCE":
+                # code...
+                break;
+            case "ESSAI":
+                # code...
+                break;
+            default:
+                # code...
+                break;
+        }
+    }
+
+    public function RiderToMail($rider_id)
+    {
+        $liste = array();
+        $sql = "SELECT c.login FROM riders r inner join compte c on c.id = r.compte  WHERE r.id = $rider_id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $liste_mail = $stmt->fetch();
+        array_push($liste,$liste_mail["login"]);
+        return $liste;
+
+    }
+
+    public function GroupeToMail($groupes)
+    {
+        $liste = array();
+
+        foreach ($groupes as $item_groupe) {
+            $id = $item_groupe['id'];
+            $sql = "SELECT c.login FROM groupes g inner join lien_groupe lg on lg.groupe_id = g.id inner join riders r on r.id = lg.objet_id inner join compte c on c.id = r.compte  WHERE lg.objet_type = 'rider' and g.id = $id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            $liste_mail = $stmt->fetchAll();
+
+            // Ajouter les adresses mail qui n'existent pas déjà dans $liste
+            $liste = array_unique(array_merge($liste, array_column($liste_mail, 'login')));
+        }
+        return $liste;
+    }
+
     public function SendMailPassword($login, $password)
     {
         $mailData = new MailData();
@@ -54,26 +144,10 @@ class MailService
         return $this->UpdateEnvoi($mailData);
     }
 
-    public function GetMailTemplate($categorie)
+    public function GetMailTemplate($categorie, $projet)
     {
-        $template ="";
-        switch ($categorie) {
-            case "ANNULATION":
-                # code...
-                break;
-            case "RELANCE":
-                # code...
-                break;
-            case "SEANCE":
-                # code...
-                break;
-            case "ESSAI":
-                # code...
-                break;
-            default:
-                # code...
-                break;
-        }
+        $template = "";
+
         return $template;
     }
 }
