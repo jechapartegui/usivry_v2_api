@@ -70,7 +70,7 @@ switch ($command) {
             $result = $compte->id;
         }
         break;
-   
+
 
     case 'get':
         if (!isset($data['id'])) {
@@ -82,6 +82,14 @@ switch ($command) {
             exit;
         } else {
             $result = $RiderService->get_account($data['compte_id']);
+        }
+        break;
+    case 'exist':
+        if (!isset($data['login'])) {
+            $server->getHttpStatusMessage(401, "NO_LOGIN_FOUND");
+            exit;
+        } else {
+            $result = $RiderService->ExistAccount($data['login']);
         }
         break;
     case 'get_all':
@@ -122,11 +130,11 @@ switch ($command) {
         if (!$admin) {
             $server->getHttpStatusMessage(401, "UNAUTHORIZED");
             exit;
-        } else {            
-            $riders = $rider->getUserByLogin($login,$psw,$season_id );
+        } else {
+            $riders = $rider->getUserByLogin($login, $psw, $season_id);
             foreach ($riders as $r) {
                 $r->compte = 0;
-               $RiderService->update($r);
+                $RiderService->update($r);
             }
             $result = $RiderService->delete_account($data['id']);
         }

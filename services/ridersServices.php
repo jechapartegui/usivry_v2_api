@@ -602,7 +602,23 @@ class RiderService
         $users = $stmt->fetchAll();
         return $users;
     }
+    public function ExistAccount($login)
+    {
+        // function to check login/pwd
+        if (!empty($login) ) {
+            $stmt = $this->db->prepare('select * from compte where login=?');
+            $stmt->execute([$login]);
+            $users = $stmt->fetch();
+            if ($users) {
+                return true;
+            } else {
 
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
     public function CheckLogin($login, $password)
     {
         // function to check login/pwd
